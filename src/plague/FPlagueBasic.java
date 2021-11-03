@@ -313,7 +313,7 @@ public class FPlagueBasic extends Plugin {
         	
         	// cus these are here anyway the reason for chosenteamnumber being increased by 5 is because recessive and me following wtf he did for some reason
         	float distanceaway = 80;
-        	if((chosenteamnumber - 5) >= 1 && (chosenteamnumber - 5) <= 200) {
+        	if((chosenteamnumber - 5) >= 1 && (chosenteamnumber - 5) <= 8) {
         	
         	if(player.team() != Team.crux) {
         	
