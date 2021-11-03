@@ -214,7 +214,7 @@ public class PlagueTime {
         	FPlagueBasic.Have120SecondsPassed = true; 
         	Groups.player.each(p -> {
         		if(p.team() == Team.sharded) {
-        			p.team(Team.crux);
+        			p.team(Team.purple);
         			Call.setRules(p.con, FPlagueBasic.plagueBanned);
         			//FPlagueBasic.randomGen(Vars.world.width(), Vars.world.height());
         		}

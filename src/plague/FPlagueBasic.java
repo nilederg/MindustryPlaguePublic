@@ -51,8 +51,7 @@ public class FPlagueBasic extends Plugin {
 	boolean blueJoinable = true;
 	boolean greenJoinable = true;
 	boolean greenItemsAdded = false;
-	boolean purpleJoinable = true;
-	boolean purpleItemsAdded = false;
+	
 	
 	static boolean Have45MinsPassed = false;
 	static boolean Have120SecondsPassed = false;
@@ -98,7 +97,7 @@ public class FPlagueBasic extends Plugin {
 		netServer.admins.addActionFilter((action) ->{ 
 			int playerx = Math.round(action.player.getX());
 			int playery = Math.round(action.player.getY());
-			if(action.block != null && action.type == ActionType.placeBlock && action.player.team() != Team.crux && closestCore(playerx, playery, Team.crux) < 100){
+			if(action.block != null && action.type == ActionType.placeBlock && action.player.team() != Team.purple && closestCore(playerx, playery, Team.purple) < 100){
                 return false;
             }
 			return true;
@@ -117,7 +116,7 @@ public class FPlagueBasic extends Plugin {
 		
 		// Make core from vault using 480 thorium 
 		Events.on(DepositEvent.class, event -> {
-	          if(event.tile.block == Blocks.vault && event.tile.items().has(Items.thorium, 480) && event.player.team() != Team.crux) {
+	          if(event.tile.block == Blocks.vault && event.tile.items().has(Items.thorium, 480) && event.player.team() != Team.purple) {
 	        	  Vars.world.tile(event.tile.tileX(), event.tile.tileY()).setNet(Blocks.coreShard, Team.all[event.player.team().id], 0);  
 	          }
 	        });
@@ -126,7 +125,7 @@ public class FPlagueBasic extends Plugin {
 		// Makes you plague if you join too late 
 		Events.on(PlayerJoin.class, event -> {
 	          if(Have120SecondsPassed == true) {
-	        	 event.player.team(Team.crux); 	  
+	        	 event.player.team(Team.purple); 	  
 	        	 Call.setRules(event.player.con, plagueBanned);
 	          }
 	        }); 
@@ -136,7 +135,7 @@ public class FPlagueBasic extends Plugin {
 		
 		// Flare becomes mono duh but only for plague cus surv flares have damage disabled
 		Events.on(UnitCreateEvent.class, event -> {
-	          if(event.unit.type == UnitTypes.flare && event.unit.team == Team.crux) {
+	          if(event.unit.type == UnitTypes.flare && event.unit.team == Team.purple) {
 	        	 
 	        	  event.unit.setType(UnitTypes.mono);
 	        	  
@@ -150,8 +149,6 @@ public class FPlagueBasic extends Plugin {
 			blueItemsAdded = false;
 			greenJoinable = true;
 			greenItemsAdded = false;
-			purpleJoinable = true;
-			purpleItemsAdded = false;
 			Have120SecondsPassed = false;
 			Have45MinsPassed = false;
 			gameTime = System.currentTimeMillis();
@@ -193,7 +190,7 @@ public class FPlagueBasic extends Plugin {
     public void registerClientCommands(CommandHandler handler){
         handler.<Player>register("infect", "You become [red]INFECTED", (args, player) -> {
         	Call.setRules(player.con, plagueBanned);
-        	player.team(Team.crux);  	
+        	player.team(Team.purple);  	
         	
         	
         	
@@ -205,7 +202,7 @@ public class FPlagueBasic extends Plugin {
         // Makes you join blue duh 
         handler.<Player>register("blue", "You become [blue]BLUE", (args, player) -> {
         	
-        	if(blueJoinable == true && player.team() != Team.crux) {
+        	if(blueJoinable == true && player.team() != Team.purple) {
         	player.team(Team.blue);  
         	Call.setRules(player.con, survivorBanned);
         	
@@ -226,7 +223,7 @@ public class FPlagueBasic extends Plugin {
         // green
         handler.<Player>register("green", "You become [green]GREEN", (args, player) -> {
         	
-        	if(greenJoinable == true && player.team() != Team.crux) {
+        	if(greenJoinable == true && player.team() != Team.purple) {
         	player.team(Team.green);
         	Call.setRules(player.con, survivorBanned);
         	
@@ -245,33 +242,12 @@ public class FPlagueBasic extends Plugin {
         	}
         });
         
-        // Purple 
-        handler.<Player>register("purple", "You become [purple]PURPLE", (args, player) -> {
-        	
-        	if(purpleJoinable == true && player.team() != Team.crux) {
-        	player.team(Team.purple); 
-        	Call.setRules(player.con, survivorBanned);
-        	
-        	if(purpleItemsAdded == false) {
-        		CoreBlock.CoreBuild nearestCoreTeamPurple = Vars.state.teams.closestCore(player.getX() / 8, player.getY() / 8, Team.purple);
-        		for(ItemStack stack : rules.loadout) {
-    				Call.setItem(nearestCoreTeamPurple, stack.item, stack.amount);  
-    				purpleItemsAdded = true;
-    			}
-        	}
-        	
-        	} else {
-        		player.sendMessage("Team is locked or you are infected");
-        	}
-        });
+       
         
         
         // Locks a team
         handler.<Player>register("lockteam", "Lock current team", (args, player) -> {
-        	if(player.team() == Team.purple) {
-        	purpleJoinable = false;	
-        	player.sendMessage("[purple]PURPLE team was locked");
-        	} else if(player.team() == Team.green) {
+        	if(player.team() == Team.green) {
         		greenJoinable = false;
         		player.sendMessage("[green]GREEN team was locked");
         	} else if(player.team() == Team.blue) {
@@ -315,7 +291,7 @@ public class FPlagueBasic extends Plugin {
         	float distanceaway = 80;
         	if((chosenteamnumber - 5) >= 1 && (chosenteamnumber - 5) <= 8) {
         	
-        	if(player.team() != Team.crux) {
+        	if(player.team() != Team.purple) {
         	
         		
         		
@@ -357,7 +333,7 @@ public class FPlagueBasic extends Plugin {
         });
         
         handler.<Player>register("setteampass", "<Password>", "Put a team password and allows people to join using it -[red]Custom Teams Only", (args, player) -> {
-        	if(args.length == 1 && player.team() != Team.blue && player.team() != Team.green && player.team() != Team.purple && player.team() != Team.sharded && player.team() != Team.crux) {
+        	if(args.length == 1 && player.team() != Team.blue && player.team() != Team.green && player.team() != Team.purple && player.team() != Team.sharded && player.team() != Team.purple) {
         	
         	TeamNPass teampass = new TeamNPass(player.team().id, args[0]);
         	
@@ -368,7 +344,7 @@ public class FPlagueBasic extends Plugin {
         });
         
         handler.<Player>register("joincustomteam", "<Password> <TeamNumber>", "Join a custom team -[red] Custom Teams Only", (args, player) -> {
-        	if(args.length == 2 && args[1].matches("[0-9]+") && player.team() != Team.crux) {
+        	if(args.length == 2 && args[1].matches("[0-9]+") && player.team() != Team.purple) {
         		int chosenteamnumber = Integer.parseInt(args[1]) + 5;
             	
      	
