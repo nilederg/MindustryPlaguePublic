@@ -20,6 +20,7 @@ import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.content.UnitTypes;
 import mindustry.game.EventType.BlockDestroyEvent;
+import mindustry.game.EventType.BuildSelectEvent;
 import mindustry.game.EventType.DepositEvent;
 import mindustry.game.EventType.GameOverEvent;
 import mindustry.game.EventType.PlayerJoin;
@@ -78,7 +79,12 @@ public class FPlagueBasic extends Plugin {
 		// Start all plague unit multipliers in x seconds and time before all teamless are turned to plague
 		new PlagueTime(120);
 		
-        
+		rules.canGameOver = false; //I have my own way to game over
+		rules.reactorExplosions = false; // I wonder,nah plague op
+		rules.buildSpeedMultiplier = 2; // game goes faster brr
+		rules.fire = false; // Obvious
+		rules.logicUnitBuild = false; // You know why
+		rules.damageExplosions = false; // NO NO NO
 		
 		   
 		init_rules();
@@ -148,7 +154,58 @@ public class FPlagueBasic extends Plugin {
 			}
 	        }); 
 		
-	
+		// Create core with block placement
+		Events.on(BuildSelectEvent.class, event -> {
+        	if(event.builder.team == Team.sharded && !Have120SecondsPassed) {
+        	int randomTeamNumber = (int) Math.floor((Math.random() * 200) + 6);
+        	Team chosenteam = Team.all[randomTeamNumber];
+        	ArrayList<String> teamcores = new ArrayList<String>();
+        	ArrayList<Float> closestcores = new ArrayList<Float>();
+        	float distanceaway = 80;
+        	
+        	
+        	
+        	for(int x = 0; x < Vars.world.width(); x++){
+                for(int y = 0; y < Vars.world.height(); y++){
+                    
+                    if(Vars.world.tile(x, y).block() == Blocks.coreFoundation && Vars.world.tile(x, y).isCenter() && Vars.world.tile(x, y).build.team == chosenteam){
+                        teamcores.add("hascorelol");
+                    }
+                }
+            }		
+        	
+        	if(teamcores.isEmpty() == true) {
+            	for(Team t : Team.all) {
+            		if (t != chosenteam) {
+            			CoreBlock.CoreBuild nearestEnemyCore = Vars.state.teams.closestCore(event.builder.getPlayer().x / 8, event.builder.getPlayer().y / 8, t);
+            			
+            			if(nearestEnemyCore != null) {
+            				if(cartesianDistance(event.builder.getPlayer().x / 8, event.builder.getPlayer().y / 8, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()) < distanceaway) {
+            			closestcores.add(cartesianDistance(event.builder.getPlayer().x, event.builder.getPlayer().y, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()));
+            			
+            				}
+            				}
+            		}
+            	}
+            	
+            	
+            	if(closestcores.isEmpty() == true) {
+            		event.builder.getPlayer().team(chosenteam);
+            		Call.setRules(event.builder.getPlayer().con, survivorBanned);
+            		event.tile.setNet(Blocks.coreFoundation, Team.all[randomTeamNumber], 0);
+        			event.builder.getPlayer().sendMessage("Your team number is: [green]" + randomTeamNumber);
+            		for(ItemStack stack : rules.loadout) {
+        				Call.setItem(event.tile.build, stack.item, stack.amount);    			
+        			}
+            		
+            		
+            		
+            	}
+            	}
+        	teamcores.clear();
+        	closestcores.clear();
+        	}
+        });
 		
 		// Flare becomes mono duh but only for plague cus surv flares have damage disabled
 		Events.on(UnitCreateEvent.class, event -> {
@@ -350,71 +407,8 @@ public class FPlagueBasic extends Plugin {
         });
         
         
-        //Peak of unefficient after all the timers god help
-        handler.<Player>register("newcustomteam", "<number(1-8)>", "You can choose a team number between 1 and 200 idk", (args, player) -> {
-        	if(args.length == 1 && args[0].matches("[0-9]+") && Have120SecondsPassed == false) {
-        	ArrayList<Float> closestcores = new ArrayList<Float>();
-        	int chosenteamnumber = Integer.parseInt(args[0]) + 5;
-        	Team chosenteam = Team.all[chosenteamnumber];
-        	ArrayList<String> teamcores = new ArrayList<String>();
-        	
-        	
-        	// adds all team cores to teamcores to check if there is cores since mindustry hascore is broken
-        	for(int x = 0; x < Vars.world.width(); x++){
-                for(int y = 0; y < Vars.world.height(); y++){
-                    
-                    if(Vars.world.tile(x, y).block() == Blocks.coreFoundation && Vars.world.tile(x, y).isCenter() && Vars.world.tile(x, y).build.team == chosenteam){
-                        teamcores.add("hascorelol");
-                        System.out.println("teamcore added");
-                    }
-                }
-            }
-        	
-        	
-        	// cus these are here anyway the reason for chosenteamnumber being increased by 5 is because recessive and me following wtf he did for some reason
-        	float distanceaway = 80;
-        	if((chosenteamnumber - 5) >= 1 && (chosenteamnumber - 5) <= 8) {
-        	
-        	if(player.team() != Team.purple) {
-        	
-        		
-        		
-        	if(teamcores.isEmpty() == true) {
-        	for(Team t : Team.all) {
-        		if (t != chosenteam) {
-        			CoreBlock.CoreBuild nearestEnemyCore = Vars.state.teams.closestCore(player.x / 8, player.y / 8, t);
-        			
-        			if(nearestEnemyCore != null) {
-        				System.out.println(cartesianDistance(player.x / 8, player.y / 8, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()));
-        				if(cartesianDistance(player.x / 8, player.y / 8, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()) < distanceaway) {
-        			closestcores.add(cartesianDistance(player.x, player.y, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()));
-        			System.out.println("bruh");
-        				}
-        				}
-        		}
-        	}
-        	
-        	
-        	if(closestcores.isEmpty() == true) {
-        		player.team(chosenteam);
-        		Call.setRules(player.con, survivorBanned);
-        		Vars.world.tile(Math.round(player.getX()) / 8, Math.round(player.getY()) / 8).setNet(Blocks.coreFoundation, Team.all[chosenteamnumber], 0);
-    			
-        		for(ItemStack stack : rules.loadout) {
-    				Call.setItem(Vars.world.tile(Math.round(player.getX()) / 8, Math.round(player.getY()) / 8).build, stack.item, stack.amount);    			
-    			}
-        		
-        		
-        		
-        	}
-        	}
-        	}
-        	}
-        	teamcores.clear();
-        	closestcores.clear();
-        	}
-        	
-        });
+        
+        
         
         handler.<Player>register("setteampass", "<Password>", "Put a team password and allows people to join using it - [red]Custom Teams Only", (args, player) -> {
         	if(args.length == 1 && player.team() != Team.blue && player.team() != Team.green && player.team() != Team.purple && player.team() != Team.sharded && player.team() != Team.purple) {
@@ -429,7 +423,7 @@ public class FPlagueBasic extends Plugin {
         
         handler.<Player>register("joincustomteam", "<Password> <TeamNumber>", "Join a custom team -[red] Custom Teams Only", (args, player) -> {
         	if(args.length == 2 && args[1].matches("[0-9]+") && player.team() != Team.purple) {
-        		int chosenteamnumber = Integer.parseInt(args[1]) + 5;
+        		int chosenteamnumber = Integer.parseInt(args[1]);
             	
      	
         	
@@ -464,19 +458,14 @@ public class FPlagueBasic extends Plugin {
 	
 	//this thing has more than rules as you can see lmao
 	void init_rules(){
-		rules.canGameOver = false; //I have my own way to game over
-		rules.reactorExplosions = false; // I wonder,nah plague op
-		rules.buildSpeedMultiplier = 2; // game goes faster brr
-		rules.fire = false; // Obvious
-		rules.logicUnitBuild = false; // You know why
-		rules.damageExplosions = false; // NO NO NO
+		
 		
 				
         survivorBanned = rules.copy();
         survivorBanned.bannedBlocks.addAll(Blocks.groundFactory, Blocks.navalFactory);
 
         plagueBanned = rules.copy();
-        plagueBanned.bannedBlocks.addAll(Blocks.battery, Blocks.batteryLarge, Blocks.steamGenerator, Blocks.combustionGenerator, Blocks.differentialGenerator, Blocks.rtgGenerator, Blocks.thermalGenerator, Blocks.impactReactor, Blocks.duo, Blocks.scatter, Blocks.scorch, Blocks.hail, Blocks.wave, Blocks.lancer, Blocks.arc, Blocks.parallax, Blocks.swarmer, Blocks.salvo, Blocks.segment, Blocks.tsunami, Blocks.fuse, Blocks.ripple, Blocks.cyclone, Blocks.foreshadow, Blocks.spectre, Blocks.meltdown, Blocks.navalFactory, Blocks.copperWall, Blocks.copperWallLarge, Blocks.titaniumWall, Blocks.titaniumWallLarge, Blocks.plastaniumWall, Blocks.plastaniumWallLarge, Blocks.thoriumWall, Blocks.thoriumWallLarge, Blocks.phaseWall, Blocks.phaseWallLarge, Blocks.surgeWall, Blocks.surgeWallLarge, Blocks.door, Blocks.doorLarge); // Can't be trusted
+        plagueBanned.bannedBlocks.addAll(Blocks.battery, Blocks.batteryLarge, Blocks.steamGenerator, Blocks.combustionGenerator, Blocks.differentialGenerator, Blocks.rtgGenerator, Blocks.thermalGenerator, Blocks.impactReactor, Blocks.duo, Blocks.scatter, Blocks.scorch, Blocks.hail, Blocks.wave, Blocks.lancer, Blocks.arc, Blocks.parallax, Blocks.swarmer, Blocks.salvo, Blocks.segment, Blocks.tsunami, Blocks.fuse, Blocks.ripple, Blocks.cyclone, Blocks.foreshadow, Blocks.spectre, Blocks.meltdown, Blocks.navalFactory, Blocks.copperWall, Blocks.copperWallLarge, Blocks.titaniumWall, Blocks.titaniumWallLarge, Blocks.plastaniumWall, Blocks.plastaniumWallLarge, Blocks.thoriumWall, Blocks.thoriumWallLarge, Blocks.phaseWall, Blocks.phaseWallLarge, Blocks.surgeWall, Blocks.surgeWallLarge, Blocks.door, Blocks.doorLarge, Blocks.thoriumReactor, Blocks.solarPanel, Blocks.largeSolarPanel); // Can't be trusted
         
        
         
@@ -530,30 +519,7 @@ public class FPlagueBasic extends Plugin {
 	
 	
 	
-	// Incomplete generation will fix later unused
-	public static void randomGen(int width,int height) {
-		for(int x = 0; x < width; x++) {
-			for(int y = 0; y < width; y++) {
-				@SuppressWarnings("unused")
-				double randOre = Math.floor(Math.random() * 6);
-				double oreLuck = Math.random();
-				if(Vars.world.tile(x, y).floor() == Blocks.sand || Vars.world.tile(x, y).floor() == Blocks.darksand){
-				if (oreLuck < 0.001) {
-					
-					Vars.world.tile(x, y).setFloorNet(Vars.world.tile(x, y).floor(), Blocks.oreCoal);
-					
-					
-					
-					
-					
-				}
-				}
-				
-				
-			}
-		}
-		
-	}
+	
 	
 	
 	
