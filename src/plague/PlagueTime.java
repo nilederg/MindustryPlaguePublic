@@ -491,7 +491,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -621,7 +621,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -751,7 +751,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -881,7 +881,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -1011,7 +1011,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -1141,7 +1141,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -1271,7 +1271,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -1401,7 +1401,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -1531,7 +1531,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -1661,7 +1661,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -1791,7 +1791,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -1921,7 +1921,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -2051,7 +2051,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -2181,7 +2181,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -2311,7 +2311,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -2441,7 +2441,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
      		 p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifier + "x");
         	});
@@ -2571,7 +2571,7 @@ public class PlagueTime {
       	   //Corvus
       	  UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * modifier;
       	   UnitTypes.corvus.health = defaultcorvushealth * modifier;
-     	   System.out.println("it worked");
+     	   
      	  Groups.player.each(p -> {
         		p.sendMessage("[red]Plague multiplier 5.5");
         	});

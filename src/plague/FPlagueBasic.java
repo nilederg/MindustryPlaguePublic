@@ -5,6 +5,8 @@ import static mindustry.Vars.netServer;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import arc.Events;
 
@@ -17,12 +19,11 @@ import mindustry.content.Blocks;
 
 import mindustry.content.Items;
 import mindustry.content.UnitTypes;
-import mindustry.game.EventType;
-import mindustry.game.EventType.BlockBuildBeginEvent;
+import mindustry.game.EventType.BlockDestroyEvent;
 import mindustry.game.EventType.DepositEvent;
 import mindustry.game.EventType.GameOverEvent;
 import mindustry.game.EventType.PlayerJoin;
-
+import mindustry.game.EventType.PlayerLeave;
 import mindustry.game.EventType.UnitCreateEvent;
 
 
@@ -32,7 +33,7 @@ import mindustry.game.Team;
 import mindustry.gen.Call;
 
 import mindustry.gen.Player;
-
+import mindustry.gen.Unit;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration.ActionType;
 
@@ -67,6 +68,7 @@ public class FPlagueBasic extends Plugin {
 	    private Rules survivorBanned = new Rules();
 	    public static Rules plagueBanned = new Rules();
 	    ArrayList<TeamNPass> lockedCustomTeams = new ArrayList<TeamNPass>();
+	    Map<String, Team> relogTeam = new HashMap<String, Team>();
 	    
 	    
 	   
@@ -97,6 +99,7 @@ public class FPlagueBasic extends Plugin {
 		netServer.admins.addActionFilter((action) ->{ 
 			int playerx = Math.round(action.player.getX());
 			int playery = Math.round(action.player.getY());
+			
 			if(action.block != null && action.type == ActionType.placeBlock && action.player.team() != Team.purple && closestCore(playerx, playery, Team.purple) < 100){
                 return false;
             }
@@ -122,14 +125,28 @@ public class FPlagueBasic extends Plugin {
 	        });
 		
 		
-		// Makes you plague if you join too late 
+		// Makes you plague if you join too late also if rejoin put back on team
 		Events.on(PlayerJoin.class, event -> {
-	          if(Have120SecondsPassed == true) {
+			Unit spawnunit = UnitTypes.alpha.spawn(Team.purple, 500, 500);
+			event.player.unit(spawnunit);
+			
+			if(relogTeam.containsKey(event.player.uuid())) {
+	          event.player.team(relogTeam.get(event.player.uuid()));
+			  Call.setRules(event.player.con, survivorBanned);
+			} else if (Have120SecondsPassed == true) {
 	        	 event.player.team(Team.purple); 	  
 	        	 Call.setRules(event.player.con, plagueBanned);
-	          }
-	        }); 
+	          }	
+			    
+			
+			
+		}); 
 
+		Events.on(PlayerLeave.class, event -> {
+			if(event.player.team() != Team.purple && event.player.team() != Team.sharded) {
+			relogTeam.put(event.player.uuid(), event.player.team());
+			}
+	        }); 
 		
 	
 		
@@ -142,6 +159,34 @@ public class FPlagueBasic extends Plugin {
 	          }
 	        }); 
 		
+		// When a core is destroyed check for all surv cores
+		Events.on(BlockDestroyEvent.class, event -> {
+			
+			if(event.tile.block() != null) {
+				ArrayList<String> cores = new ArrayList<String>();
+			if(event.tile.block() == Blocks.coreShard || event.tile.block() == Blocks.coreFoundation || event.tile.block() == Blocks.coreNucleus) {
+				
+				for(int x = 0; x < Vars.world.width(); x++) {
+					for(int y = 0; y < Vars.world.height(); y++) {
+						if(Vars.world.tile(x, y).block() == Blocks.coreShard || Vars.world.tile(x, y).block() == Blocks.coreFoundation || Vars.world.tile(x, y).block() == Blocks.coreNucleus) {
+						if(Vars.world.tile(x, y).build.team != Team.purple) {
+							cores.add("There is a surv core");
+						}
+						}
+						
+					}
+				}
+				
+			}
+			if(cores.isEmpty() && !Vars.state.gameOver && Have120SecondsPassed) {
+				Events.fire(new GameOverEvent(Team.purple));
+			}
+			System.out.println(cores);
+			cores.clear();
+			}
+		});
+		
+		
 		// Hell no no ono
 		Events.on(GameOverEvent.class, event -> {
 			
@@ -153,6 +198,7 @@ public class FPlagueBasic extends Plugin {
 			Have45MinsPassed = false;
 			gameTime = System.currentTimeMillis();
 			this.lockedCustomTeams.clear();
+			relogTeam.clear();
 			PlagueTime.timer.cancel();
 			PlagueTime.unitcontroltimer.cancel();
 			PlagueTime.multiplier1.cancel();
@@ -188,7 +234,7 @@ public class FPlagueBasic extends Plugin {
 	// Turns you infected
 	@Override
     public void registerClientCommands(CommandHandler handler){
-        handler.<Player>register("infect", "You become [red]INFECTED", (args, player) -> {
+        handler.<Player>register("infect", "You become [purple]INFECTED", (args, player) -> {
         	Call.setRules(player.con, plagueBanned);
         	player.team(Team.purple);  	
         	
@@ -245,8 +291,8 @@ public class FPlagueBasic extends Plugin {
        
         
         
-        // Locks a team
-        handler.<Player>register("lockteam", "Lock current team", (args, player) -> {
+        // Locks a default team,sucks,probably broke after removing purple
+        handler.<Player>register("lockteam", "Lock current team - [red] Default Teams Only", (args, player) -> {
         	if(player.team() == Team.green) {
         		greenJoinable = false;
         		player.sendMessage("[green]GREEN team was locked");
@@ -260,14 +306,52 @@ public class FPlagueBasic extends Plugin {
         
         
 
-        // duh
+        // It shows how long a round has lasted duh
         handler.<Player>register("time", "Check how long game has lasted", (args, player) -> {
         	player.sendMessage("[purple]Game has lasted [green]" + ((System.currentTimeMillis() - gameTime) / 60000) + " [purple]minutes");
+        	
+        });
+        
+        handler.<Player>register("respawn", "Respawn your alpha if bugged as sharded", (args, player) -> {
+        if(player.team() == Team.sharded) {
+        Unit spawnunit = UnitTypes.alpha.spawn(Team.purple, 500, 500);
+		player.unit(spawnunit);
+        }
+        });
+        
+        
+        // Gameover command for admins
+        handler.<Player>register("gameover", "Ends round,Admin only", (args, player) -> {
+        	if(player.admin) {
+        	Events.fire(new GameOverEvent(Team.purple));
+        	}
+        });
+        
+        handler.<Player>register("gameover2", "Ends round,only used if game didn't end", (args, player) -> {
+        	ArrayList<String> cores = new ArrayList<String>();
+        	for(int x = 0; x < Vars.world.width(); x++) {
+				for(int y = 0; y < Vars.world.height(); y++) {
+					if(Vars.world.tile(x, y).block() == Blocks.coreShard || Vars.world.tile(x, y).block() == Blocks.coreFoundation || Vars.world.tile(x, y).block() == Blocks.coreNucleus) {
+					if(Vars.world.tile(x, y).build.team != Team.purple) {
+						cores.add("There is a surv core");
+					}
+					}
+					
+				}
+			}
+        	
+        	if(cores.isEmpty() && !Vars.state.gameOver && Have120SecondsPassed) {
+				Events.fire(new GameOverEvent(Team.purple));
+			}
+			
+			cores.clear();
+        	
+        	
         });
         
         
         //Peak of unefficient after all the timers god help
-        handler.<Player>register("newcustomteam", "<number(1-200)>", "You can choose a team number between 1 and 200 idk", (args, player) -> {
+        handler.<Player>register("newcustomteam", "<number(1-8)>", "You can choose a team number between 1 and 200 idk", (args, player) -> {
         	if(args.length == 1 && args[0].matches("[0-9]+") && Have120SecondsPassed == false) {
         	ArrayList<Float> closestcores = new ArrayList<Float>();
         	int chosenteamnumber = Integer.parseInt(args[0]) + 5;
@@ -332,7 +416,7 @@ public class FPlagueBasic extends Plugin {
         	
         });
         
-        handler.<Player>register("setteampass", "<Password>", "Put a team password and allows people to join using it -[red]Custom Teams Only", (args, player) -> {
+        handler.<Player>register("setteampass", "<Password>", "Put a team password and allows people to join using it - [red]Custom Teams Only", (args, player) -> {
         	if(args.length == 1 && player.team() != Team.blue && player.team() != Team.green && player.team() != Team.purple && player.team() != Team.sharded && player.team() != Team.purple) {
         	
         	TeamNPass teampass = new TeamNPass(player.team().id, args[0]);
@@ -380,19 +464,19 @@ public class FPlagueBasic extends Plugin {
 	
 	//this thing has more than rules as you can see lmao
 	void init_rules(){
-		rules.canGameOver = true; // MAPS NEED TO HAVE AT LEAST 1 CORE OTHER THAN RED
-		rules.reactorExplosions = false;
-		rules.buildSpeedMultiplier = 2;
-		rules.fire = false;
-		rules.logicUnitBuild = false;
-		rules.damageExplosions = false;
+		rules.canGameOver = false; //I have my own way to game over
+		rules.reactorExplosions = false; // I wonder,nah plague op
+		rules.buildSpeedMultiplier = 2; // game goes faster brr
+		rules.fire = false; // Obvious
+		rules.logicUnitBuild = false; // You know why
+		rules.damageExplosions = false; // NO NO NO
 		
 				
         survivorBanned = rules.copy();
         survivorBanned.bannedBlocks.addAll(Blocks.groundFactory, Blocks.navalFactory);
 
         plagueBanned = rules.copy();
-        plagueBanned.bannedBlocks.addAll(Blocks.battery, Blocks.batteryLarge, Blocks.steamGenerator, Blocks.combustionGenerator, Blocks.differentialGenerator, Blocks.rtgGenerator, Blocks.thermalGenerator, Blocks.impactReactor, Blocks.duo, Blocks.scatter, Blocks.scorch, Blocks.hail, Blocks.wave, Blocks.lancer, Blocks.arc, Blocks.parallax, Blocks.swarmer, Blocks.salvo, Blocks.segment, Blocks.tsunami, Blocks.fuse, Blocks.ripple, Blocks.cyclone, Blocks.foreshadow, Blocks.spectre, Blocks.meltdown, Blocks.navalFactory); // Can't be trusted
+        plagueBanned.bannedBlocks.addAll(Blocks.battery, Blocks.batteryLarge, Blocks.steamGenerator, Blocks.combustionGenerator, Blocks.differentialGenerator, Blocks.rtgGenerator, Blocks.thermalGenerator, Blocks.impactReactor, Blocks.duo, Blocks.scatter, Blocks.scorch, Blocks.hail, Blocks.wave, Blocks.lancer, Blocks.arc, Blocks.parallax, Blocks.swarmer, Blocks.salvo, Blocks.segment, Blocks.tsunami, Blocks.fuse, Blocks.ripple, Blocks.cyclone, Blocks.foreshadow, Blocks.spectre, Blocks.meltdown, Blocks.navalFactory, Blocks.copperWall, Blocks.copperWallLarge, Blocks.titaniumWall, Blocks.titaniumWallLarge, Blocks.plastaniumWall, Blocks.plastaniumWallLarge, Blocks.thoriumWall, Blocks.thoriumWallLarge, Blocks.phaseWall, Blocks.phaseWallLarge, Blocks.surgeWall, Blocks.surgeWallLarge, Blocks.door, Blocks.doorLarge); // Can't be trusted
         
        
         
@@ -450,6 +534,7 @@ public class FPlagueBasic extends Plugin {
 	public static void randomGen(int width,int height) {
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < width; y++) {
+				@SuppressWarnings("unused")
 				double randOre = Math.floor(Math.random() * 6);
 				double oreLuck = Math.random();
 				if(Vars.world.tile(x, y).floor() == Blocks.sand || Vars.world.tile(x, y).floor() == Blocks.darksand){
