@@ -116,6 +116,7 @@ public class FPlagueBasic extends Plugin {
 		// No unit control until 45 mins have passed
 		netServer.admins.addActionFilter((action) ->{ 
 			if(action.type == ActionType.control && Have45MinsPassed == false){
+				
 				return false;
                 
             }
@@ -238,9 +239,10 @@ public class FPlagueBasic extends Plugin {
 				}
 				if(cores.isEmpty() && !Vars.state.gameOver && Have120SecondsPassed) {
 					Events.fire(new GameOverEvent(Team.purple));
+				} else {
+					cores.clear();
 				}
-				System.out.println(cores);
-				cores.clear();
+				
 			}
 			
 			}
