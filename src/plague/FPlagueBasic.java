@@ -20,6 +20,7 @@ import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.content.UnitTypes;
 import mindustry.game.EventType.BlockDestroyEvent;
+import mindustry.game.EventType.BlockInfoEvent;
 import mindustry.game.EventType.BuildSelectEvent;
 import mindustry.game.EventType.DepositEvent;
 import mindustry.game.EventType.GameOverEvent;
@@ -129,6 +130,8 @@ public class FPlagueBasic extends Plugin {
 	        	  Vars.world.tile(event.tile.tileX(), event.tile.tileY()).setNet(Blocks.coreShard, Team.all[event.player.team().id], 0);  
 	          }
 	        });
+		
+		
 		
 		
 		// Makes you plague if you join too late also if rejoin put back on team
@@ -322,6 +325,12 @@ public class FPlagueBasic extends Plugin {
         handler.<Player>register("time", "Check how long game has lasted", (args, player) -> {
         	player.sendMessage("[purple]Game has lasted [green]" + ((System.currentTimeMillis() - gameTime) / 60000) + " [purple]minutes");
         	
+        });
+        
+        
+        handler.<Player>register("kill", "Kills currently controlled unit", (args, player) -> {
+        	player.unit().kill();
+
         });
         
         handler.<Player>register("respawn", "Respawn your alpha if bugged as sharded", (args, player) -> {
