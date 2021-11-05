@@ -170,7 +170,7 @@ public class PlagueTime {
         timer = new Timer();
         timer.schedule(new PlagueyTime(), seconds * 1000);
         unitcontroltimer = new Timer();
-        unitcontroltimer.schedule(new UnitControlTime(), 2700 * 1000);
+        unitcontroltimer.schedule(new UnitControlTime(), 1200 * 1000);
         multiplier1 = new Timer();
         multiplier1.schedule(new UnitMultiplier1(), 600 * 1000);
         multiplier2 = new Timer();
