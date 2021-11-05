@@ -302,52 +302,7 @@ public class FPlagueBasic extends Plugin {
         });
         
         
-        // Makes you join blue duh 
-        handler.<Player>register("blue", "You become [blue]BLUE", (args, player) -> {
-        	
-        	if(blueJoinable == true && player.team() != Team.purple) {
-        	player.team(Team.blue);  
-        	Call.setRules(player.con, survivorBanned);
-        	
-        	if(blueItemsAdded == false) {
-        		CoreBlock.CoreBuild nearestCoreTeamBlue = Vars.state.teams.closestCore(player.getX() / 8, player.getY() / 8, Team.blue);
-        		for(ItemStack stack : rules.loadout) {
-    				Call.setItem(nearestCoreTeamBlue, stack.item, stack.amount);  
-    				blueItemsAdded = true;
-    			}
-        	}
-        	
-        	} else {
-        		player.sendMessage("Team is locked or you are infected");
-        	}
-        });
-        
-        
-        // green
-        handler.<Player>register("green", "You become [green]GREEN", (args, player) -> {
-        	
-        	if(greenJoinable == true && player.team() != Team.purple) {
-        	player.team(Team.green);
-        	Call.setRules(player.con, survivorBanned);
-        	
-        	
-        	if(greenItemsAdded == false) {
-        		CoreBlock.CoreBuild nearestCoreTeamGreen = Vars.state.teams.closestCore(player.getX() / 8, player.getY() / 8, Team.green);
-        		for(ItemStack stack : rules.loadout) {
-    				Call.setItem(nearestCoreTeamGreen, stack.item, stack.amount);  
-    				greenItemsAdded = true;
-    			}
-        	}
-        	
-        	
-        	} else {
-        		player.sendMessage("Team is locked or you are infected");
-        	}
-        });
-        
-       
-        
-        
+         
         // Locks a default team,sucks,probably broke after removing purple
         handler.<Player>register("lockteam", "Lock current team - [red] Default Teams Only", (args, player) -> {
         	if(player.team() == Team.green) {
