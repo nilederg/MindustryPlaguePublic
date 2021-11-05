@@ -133,7 +133,7 @@ public class FPlagueBasic extends Plugin {
 		
 		// Makes you plague if you join too late also if rejoin put back on team
 		Events.on(PlayerJoin.class, event -> {
-			Unit spawnunit = UnitTypes.alpha.spawn(Team.purple, 500, 500);
+			Unit spawnunit = UnitTypes.alpha.spawn(Team.purple, Vars.world.width() / 2, Vars.world.height() / 2);
 			event.player.unit(spawnunit);
 			
 			if(relogTeam.containsKey(event.player.uuid())) {
@@ -233,13 +233,13 @@ public class FPlagueBasic extends Plugin {
 						
 					}
 				}
-				
+				if(cores.isEmpty() && !Vars.state.gameOver && Have120SecondsPassed) {
+					Events.fire(new GameOverEvent(Team.purple));
+				}
+				System.out.println(cores);
+				cores.clear();
 			}
-			if(cores.isEmpty() && !Vars.state.gameOver && Have120SecondsPassed) {
-				Events.fire(new GameOverEvent(Team.purple));
-			}
-			System.out.println(cores);
-			cores.clear();
+			
 			}
 		});
 		
@@ -371,7 +371,7 @@ public class FPlagueBasic extends Plugin {
         
         handler.<Player>register("respawn", "Respawn your alpha if bugged as sharded", (args, player) -> {
         if(player.team() == Team.sharded) {
-        Unit spawnunit = UnitTypes.alpha.spawn(Team.purple, 500, 500);
+        Unit spawnunit = UnitTypes.alpha.spawn(Team.purple, Vars.world.width() / 2, Vars.world.height() / 2);
 		player.unit(spawnunit);
         }
         });
@@ -462,7 +462,7 @@ public class FPlagueBasic extends Plugin {
 		
 				
         survivorBanned = rules.copy();
-        survivorBanned.bannedBlocks.addAll(Blocks.groundFactory, Blocks.navalFactory);
+        survivorBanned.bannedBlocks.addAll(Blocks.groundFactory, Blocks.navalFactory, Blocks.commandCenter);
 
         plagueBanned = rules.copy();
         plagueBanned.bannedBlocks.addAll(Blocks.battery, Blocks.batteryLarge, Blocks.steamGenerator, Blocks.combustionGenerator, Blocks.differentialGenerator, Blocks.rtgGenerator, Blocks.thermalGenerator, Blocks.impactReactor, Blocks.duo, Blocks.scatter, Blocks.scorch, Blocks.hail, Blocks.wave, Blocks.lancer, Blocks.arc, Blocks.parallax, Blocks.swarmer, Blocks.salvo, Blocks.segment, Blocks.tsunami, Blocks.fuse, Blocks.ripple, Blocks.cyclone, Blocks.foreshadow, Blocks.spectre, Blocks.meltdown, Blocks.navalFactory, Blocks.copperWall, Blocks.copperWallLarge, Blocks.titaniumWall, Blocks.titaniumWallLarge, Blocks.plastaniumWall, Blocks.plastaniumWallLarge, Blocks.thoriumWall, Blocks.thoriumWallLarge, Blocks.phaseWall, Blocks.phaseWallLarge, Blocks.surgeWall, Blocks.surgeWallLarge, Blocks.door, Blocks.doorLarge, Blocks.thoriumReactor, Blocks.solarPanel, Blocks.largeSolarPanel); // Can't be trusted
