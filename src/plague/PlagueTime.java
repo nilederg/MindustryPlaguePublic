@@ -135,7 +135,7 @@ public class PlagueTime {
 	   
 	    UnitTypes.bryde.weapons.get(0).bullet.damage = defaultbrydedamage0;
 	    UnitTypes.bryde.weapons.get(1).bullet.damage = defaultbrydedamage1;
-	    UnitTypes.bryde.weapons.get(0).bullet.damage = defaultbrydedamage2;
+	    UnitTypes.bryde.weapons.get(2).bullet.damage = defaultbrydedamage2;
 	   
 	    UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0;
 	   
