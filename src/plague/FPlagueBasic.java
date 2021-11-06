@@ -33,14 +33,15 @@ import mindustry.game.Rules;
 import mindustry.game.Team;
 
 import mindustry.gen.Call;
-
+import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration.ActionType;
 
 import mindustry.type.ItemStack;
-
+import mindustry.type.UnitType;
+import mindustry.type.Weapon;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 
@@ -56,7 +57,6 @@ public class FPlagueBasic extends Plugin {
 	boolean greenItemsAdded = false;
 	
 	
-	static boolean Have45MinsPassed = false;
 	static boolean Have120SecondsPassed = false;
 	long gameTime = System.currentTimeMillis();
 	
@@ -87,7 +87,7 @@ public class FPlagueBasic extends Plugin {
 		rules.logicUnitBuild = false; // You know why
 		rules.damageExplosions = false; // NO NO NO
 		
-		   
+		
 		init_rules();
 		
 		
@@ -113,9 +113,10 @@ public class FPlagueBasic extends Plugin {
 			return true;
 		});
 		
-		// No unit control until 45 mins have passed
+		// No unit control until 20 mins have passed
 		netServer.admins.addActionFilter((action) ->{ 
-			if(action.type == ActionType.control && Have45MinsPassed == false){
+			
+			if(action.type == ActionType.control && ((System.currentTimeMillis() - gameTime) / 1000) < 1200){
 				
 				return false;
                 
@@ -222,29 +223,24 @@ public class FPlagueBasic extends Plugin {
 		
 		// When a core is destroyed check for all surv cores
 		Events.on(BlockDestroyEvent.class, event -> {
-			
 			if(event.tile.block() != null) {
-				ArrayList<String> cores = new ArrayList<String>();
-			if(event.tile.block() == Blocks.coreShard || event.tile.block() == Blocks.coreFoundation || event.tile.block() == Blocks.coreNucleus) {
-				
-				for(int x = 0; x < Vars.world.width(); x++) {
-					for(int y = 0; y < Vars.world.height(); y++) {
-						if(Vars.world.tile(x, y).block() == Blocks.coreShard || Vars.world.tile(x, y).block() == Blocks.coreFoundation || Vars.world.tile(x, y).block() == Blocks.coreNucleus) {
-						if(Vars.world.tile(x, y).build.team != Team.purple) {
-							cores.add("There is a surv core");
-						}
-						}
-						
+			ArrayList<String> cores = new ArrayList<String>();
+        	for(int x = 0; x < Vars.world.width(); x++) {
+				for(int y = 0; y < Vars.world.height(); y++) {
+					if(Vars.world.tile(x, y).block() == Blocks.coreShard || Vars.world.tile(x, y).block() == Blocks.coreFoundation || Vars.world.tile(x, y).block() == Blocks.coreNucleus) {
+					if(Vars.world.tile(x, y).build.team != Team.purple) {
+						cores.add("There is a surv core");
 					}
+					}
+					
 				}
-				if(cores.isEmpty() && !Vars.state.gameOver && Have120SecondsPassed) {
-					Events.fire(new GameOverEvent(Team.purple));
-				} else {
-					cores.clear();
-				}
-				
+			}
+        	
+        	if(cores.isEmpty() && !Vars.state.gameOver) {
+				Events.fire(new GameOverEvent(Team.purple));
 			}
 			
+			cores.clear();
 			}
 		});
 		
@@ -257,30 +253,14 @@ public class FPlagueBasic extends Plugin {
 			greenJoinable = true;
 			greenItemsAdded = false;
 			Have120SecondsPassed = false;
-			Have45MinsPassed = false;
 			gameTime = System.currentTimeMillis();
 			this.lockedCustomTeams.clear();
 			relogTeam.clear();
 			PlagueTime.timer.cancel();
 			PlagueTime.unitcontroltimer.cancel();
 			PlagueTime.multiplier1.cancel();
-			PlagueTime.multiplier2.cancel();
-			PlagueTime.multiplier3.cancel();
-			PlagueTime.multiplier4.cancel();
-			PlagueTime.multiplier5.cancel();
-			PlagueTime.multiplier6.cancel();
-			PlagueTime.multiplier7.cancel();
-			PlagueTime.multiplier8.cancel();
-			PlagueTime.multiplier9.cancel();
-			PlagueTime.multiplier10.cancel();
-			PlagueTime.multiplier11.cancel();
-			PlagueTime.multiplier12.cancel();
-			PlagueTime.multiplier13.cancel();
-			PlagueTime.multiplier14.cancel();
-			PlagueTime.multiplier15.cancel();
-			PlagueTime.multiplier16.cancel();
-			PlagueTime.multiplier17.cancel();
-			PlagueTime.multiplier18.cancel();
+			PlagueTime.resetToDefaults();
+			
 			new PlagueTime(120); // amount of seconds until everything actually starts
 			
 			
@@ -413,6 +393,8 @@ public class FPlagueBasic extends Plugin {
         	}
         	   	
         });
+        
+        
         
     }
 	
