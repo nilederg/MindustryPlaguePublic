@@ -20,7 +20,6 @@ import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.content.UnitTypes;
 import mindustry.game.EventType.BlockDestroyEvent;
-import mindustry.game.EventType.BlockInfoEvent;
 import mindustry.game.EventType.BuildSelectEvent;
 import mindustry.game.EventType.DepositEvent;
 import mindustry.game.EventType.GameOverEvent;
@@ -33,28 +32,17 @@ import mindustry.game.Rules;
 import mindustry.game.Team;
 
 import mindustry.gen.Call;
-import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration.ActionType;
 
 import mindustry.type.ItemStack;
-import mindustry.type.UnitType;
-import mindustry.type.Weapon;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 
-
-
-
-
-
 public class FPlagueBasic extends Plugin {
-	boolean blueItemsAdded = false;
-	boolean blueJoinable = true;
-	boolean greenJoinable = true;
-	boolean greenItemsAdded = false;
+
 	
 	
 	static boolean Have120SecondsPassed = false;
@@ -248,10 +236,6 @@ public class FPlagueBasic extends Plugin {
 		// Hell no no ono
 		Events.on(GameOverEvent.class, event -> {
 			
-			blueJoinable = true;
-			blueItemsAdded = false;
-			greenJoinable = true;
-			greenItemsAdded = false;
 			Have120SecondsPassed = false;
 			gameTime = System.currentTimeMillis();
 			this.lockedCustomTeams.clear();
@@ -288,18 +272,6 @@ public class FPlagueBasic extends Plugin {
         
         
          
-        // Locks a default team,sucks,probably broke after removing purple
-        handler.<Player>register("lockteam", "Lock current team - [red] Default Teams Only", (args, player) -> {
-        	if(player.team() == Team.green) {
-        		greenJoinable = false;
-        		player.sendMessage("[green]GREEN team was locked");
-        	} else if(player.team() == Team.blue) {
-        		blueJoinable = false;
-        		player.sendMessage("[blue]BLUE team was locked");
-        	} else {
-        		player.sendMessage("This is not a lockable team");
-        	}
-        });
         
         
 
@@ -357,7 +329,7 @@ public class FPlagueBasic extends Plugin {
         
         
         handler.<Player>register("setteampass", "<Password>", "Put a team password and allows people to join using it - [red]Custom Teams Only", (args, player) -> {
-        	if(args.length == 1 && player.team() != Team.blue && player.team() != Team.green && player.team() != Team.purple && player.team() != Team.sharded && player.team() != Team.purple) {
+        	if(args.length == 1 && player.team() != Team.sharded && player.team() != Team.purple) {
         	
         	TeamNPass teampass = new TeamNPass(player.team().id, args[0]);
         	

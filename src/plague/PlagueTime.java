@@ -274,7 +274,7 @@ public class PlagueTime {
    
    public static float defaultbrydedamage0 = UnitTypes.bryde.weapons.get(0).bullet.damage;
    public static float defaultbrydedamage1 = UnitTypes.bryde.weapons.get(1).bullet.damage;
-   public static float defaultbrydedamage2 = UnitTypes.bryde.weapons.get(0).bullet.damage;
+   public static float defaultbrydedamage2 = UnitTypes.bryde.weapons.get(2).bullet.damage;
    
    public static float defaultcorvusdamage0 = UnitTypes.corvus.weapons.get(0).bullet.damage;
    
