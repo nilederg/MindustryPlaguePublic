@@ -13,7 +13,6 @@ import mindustry.type.Weapon;
 
 public class PlagueTime {
 	static Timer timer;
-	static Timer unitcontroltimer;
 	static Timer multiplier1;
 	double modifiermessage = 1.0;
 	

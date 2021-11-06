@@ -241,7 +241,6 @@ public class FPlagueBasic extends Plugin {
 			this.lockedCustomTeams.clear();
 			relogTeam.clear();
 			PlagueTime.timer.cancel();
-			PlagueTime.unitcontroltimer.cancel();
 			PlagueTime.multiplier1.cancel();
 			PlagueTime.resetToDefaults();
 			
@@ -297,7 +296,7 @@ public class FPlagueBasic extends Plugin {
         
         // Gameover command for admins
         handler.<Player>register("gameover", "Ends round,Admin only", (args, player) -> {
-        	if(player.admin) {
+        	if(player.admin() == true) {
         	Events.fire(new GameOverEvent(Team.purple));
         	}
         });
