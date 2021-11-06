@@ -122,98 +122,98 @@ public class PlagueTime {
 	   UnitTypes.antumbra.weapons.get(5).bullet.damage = defaultantumbradamage5;
    
 	    UnitTypes.arkyid.weapons.get(0).bullet.damage = defaultarkyiddamage0;
-	    UnitTypes.arkyid.weapons.get(1).bullet.damage = defaultarkyiddamage0;
-	    UnitTypes.arkyid.weapons.get(2).bullet.damage = defaultarkyiddamage0;
-	    UnitTypes.arkyid.weapons.get(3).bullet.damage = defaultarkyiddamage0;
-	    UnitTypes.arkyid.weapons.get(4).bullet.damage = defaultarkyiddamage0;
-	    UnitTypes.arkyid.weapons.get(5).bullet.damage = defaultarkyiddamage0;
-	    UnitTypes.arkyid.weapons.get(6).bullet.damage = defaultarkyiddamage0;
-	    UnitTypes.arkyid.weapons.get(7).bullet.damage = defaultarkyiddamage0;
+	    UnitTypes.arkyid.weapons.get(1).bullet.damage = defaultarkyiddamage1;
+	    UnitTypes.arkyid.weapons.get(2).bullet.damage = defaultarkyiddamage2;
+	    UnitTypes.arkyid.weapons.get(3).bullet.damage = defaultarkyiddamage3;
+	    UnitTypes.arkyid.weapons.get(4).bullet.damage = defaultarkyiddamage4;
+	    UnitTypes.arkyid.weapons.get(5).bullet.damage = defaultarkyiddamage5;
+	    UnitTypes.arkyid.weapons.get(6).bullet.damage = defaultarkyiddamage6;
+	    UnitTypes.arkyid.weapons.get(7).bullet.damage = defaultarkyiddamage7;
 	    
 	    UnitTypes.atrax.weapons.get(0).bullet.damage = defaultatraxdamage0;
-	    UnitTypes.atrax.weapons.get(1).bullet.damage = defaultatraxdamage0;
+	    UnitTypes.atrax.weapons.get(1).bullet.damage = defaultatraxdamage1;
 	   
 	    UnitTypes.bryde.weapons.get(0).bullet.damage = defaultbrydedamage0;
-	    UnitTypes.bryde.weapons.get(1).bullet.damage = defaultbrydedamage0;
-	    UnitTypes.bryde.weapons.get(0).bullet.damage = defaultbrydedamage0;
+	    UnitTypes.bryde.weapons.get(1).bullet.damage = defaultbrydedamage1;
+	    UnitTypes.bryde.weapons.get(0).bullet.damage = defaultbrydedamage2;
 	   
 	    UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0;
 	   
 	   // Crawler has an ability i assume
 	   
 	    UnitTypes.dagger.weapons.get(0).bullet.damage = defaultdaggerdamage0;
-	    UnitTypes.dagger.weapons.get(1).bullet.damage = defaultdaggerdamage0;
+	    UnitTypes.dagger.weapons.get(1).bullet.damage = defaultdaggerdamage1;
 	   
 	    UnitTypes.eclipse.weapons.get(0).bullet.damage = defaulteclipsedamage0;
-	    UnitTypes.eclipse.weapons.get(1).bullet.damage = defaulteclipsedamage0;
-	    UnitTypes.eclipse.weapons.get(2).bullet.damage = defaulteclipsedamage0;
-	    UnitTypes.eclipse.weapons.get(3).bullet.damage = defaulteclipsedamage0;
-	    UnitTypes.eclipse.weapons.get(4).bullet.damage = defaulteclipsedamage0;
-	    UnitTypes.eclipse.weapons.get(5).bullet.damage = defaulteclipsedamage0;
+	    UnitTypes.eclipse.weapons.get(1).bullet.damage = defaulteclipsedamage1;
+	    UnitTypes.eclipse.weapons.get(2).bullet.damage = defaulteclipsedamage2;
+	    UnitTypes.eclipse.weapons.get(3).bullet.damage = defaulteclipsedamage3;
+	    UnitTypes.eclipse.weapons.get(4).bullet.damage = defaulteclipsedamage4;
+	    UnitTypes.eclipse.weapons.get(5).bullet.damage = defaulteclipsedamage5;
 	   
 	    UnitTypes.fortress.weapons.get(0).bullet.damage = defaultfortressdamage0;
-	    UnitTypes.fortress.weapons.get(1).bullet.damage = defaultfortressdamage0;
+	    UnitTypes.fortress.weapons.get(1).bullet.damage = defaultfortressdamage1;
 	   
 	   // Horizon has an ability i think
 	   
 	    UnitTypes.mace.weapons.get(0).bullet.damage = defaultmacedamage0;
-	    UnitTypes.mace.weapons.get(1).bullet.damage = defaultmacedamage0;
+	    UnitTypes.mace.weapons.get(1).bullet.damage = defaultmacedamage1;
 	   
 	   
 	    UnitTypes.mega.weapons.get(0).bullet.damage = defaultmegadamage0;
-	    UnitTypes.mega.weapons.get(1).bullet.damage = defaultmegadamage0;
-	    UnitTypes.mega.weapons.get(2).bullet.damage = defaultmegadamage0;
-	    UnitTypes.mega.weapons.get(3).bullet.damage = defaultmegadamage0;
+	    UnitTypes.mega.weapons.get(1).bullet.damage = defaultmegadamage1;
+	    UnitTypes.mega.weapons.get(2).bullet.damage = defaultmegadamage2;
+	    UnitTypes.mega.weapons.get(3).bullet.damage = defaultmegadamage3;
 	   
 	    UnitTypes.minke.weapons.get(0).bullet.damage = defaultminkedamage0;
-	    UnitTypes.minke.weapons.get(1).bullet.damage = defaultminkedamage0;
-	    UnitTypes.minke.weapons.get(2).bullet.damage = defaultminkedamage0;
-	    UnitTypes.minke.weapons.get(3).bullet.damage = defaultminkedamage0;
+	    UnitTypes.minke.weapons.get(1).bullet.damage = defaultminkedamage1;
+	    UnitTypes.minke.weapons.get(2).bullet.damage = defaultminkedamage2;
+	    UnitTypes.minke.weapons.get(3).bullet.damage = defaultminkedamage3;
 	   
 	    UnitTypes.nova.weapons.get(0).bullet.damage = defaultnovadamage0;
-	    UnitTypes.nova.weapons.get(1).bullet.damage = defaultnovadamage0;
+	    UnitTypes.nova.weapons.get(1).bullet.damage = defaultnovadamage1;
 	   
 	   // Oct is weaponless kekw
 	   
 	    UnitTypes.omura.weapons.get(0).bullet.damage = defaultomuradamage0;
 
 	    UnitTypes.poly.weapons.get(0).bullet.damage = defaultpolydamage0;
-	    UnitTypes.poly.weapons.get(1).bullet.damage = defaultpolydamage0;
+	    UnitTypes.poly.weapons.get(1).bullet.damage = defaultpolydamage1;
 	   
 	    UnitTypes.pulsar.weapons.get(0).bullet.damage = defaultpulsardamage0;
-	    UnitTypes.pulsar.weapons.get(1).bullet.damage = defaultpulsardamage0;
+	    UnitTypes.pulsar.weapons.get(1).bullet.damage = defaultpulsardamage1;
 	   
 	    UnitTypes.quad.weapons.get(0).bullet.damage = defaultquaddamage0;
 
 	    UnitTypes.quasar.weapons.get(0).bullet.damage = defaultquasardamage0;
-	    UnitTypes.quasar.weapons.get(1).bullet.damage = defaultquasardamage0;
+	    UnitTypes.quasar.weapons.get(1).bullet.damage = defaultquasardamage1;
 	   
 	    UnitTypes.reign.weapons.get(0).bullet.damage = defaultreigndamage0;
-	    UnitTypes.reign.weapons.get(1).bullet.damage = defaultreigndamage0;
+	    UnitTypes.reign.weapons.get(1).bullet.damage = defaultreigndamage1;
 	   
 	    UnitTypes.risso.weapons.get(0).bullet.damage = defaultrissodamage0;
-	    UnitTypes.risso.weapons.get(1).bullet.damage = defaultrissodamage0;
-	    UnitTypes.risso.weapons.get(2).bullet.damage = defaultrissodamage0;
+	    UnitTypes.risso.weapons.get(1).bullet.damage = defaultrissodamage1;
+	    UnitTypes.risso.weapons.get(2).bullet.damage = defaultrissodamage2;
 	   
 	    UnitTypes.scepter.weapons.get(0).bullet.damage = defaultscepterdamage0;
-	    UnitTypes.scepter.weapons.get(1).bullet.damage = defaultscepterdamage0;
-	    UnitTypes.scepter.weapons.get(2).bullet.damage = defaultscepterdamage0;
-	    UnitTypes.scepter.weapons.get(3).bullet.damage = defaultscepterdamage0;
-	    UnitTypes.scepter.weapons.get(4).bullet.damage = defaultscepterdamage0;
-	    UnitTypes.scepter.weapons.get(5).bullet.damage = defaultscepterdamage0;
+	    UnitTypes.scepter.weapons.get(1).bullet.damage = defaultscepterdamage1;
+	    UnitTypes.scepter.weapons.get(2).bullet.damage = defaultscepterdamage2;
+	    UnitTypes.scepter.weapons.get(3).bullet.damage = defaultscepterdamage3;
+	    UnitTypes.scepter.weapons.get(4).bullet.damage = defaultscepterdamage4;
+	    UnitTypes.scepter.weapons.get(5).bullet.damage = defaultscepterdamage5;
 	   
 	    UnitTypes.sei.weapons.get(0).bullet.damage = defaultseidamage0;
-	    UnitTypes.sei.weapons.get(1).bullet.damage = defaultseidamage0;
-	    UnitTypes.sei.weapons.get(2).bullet.damage = defaultseidamage0;
+	    UnitTypes.sei.weapons.get(1).bullet.damage = defaultseidamage1;
+	    UnitTypes.sei.weapons.get(2).bullet.damage = defaultseidamage2;
 	   
 	    UnitTypes.spiroct.weapons.get(0).bullet.damage = defaultspiroctdamage0;
-	    UnitTypes.spiroct.weapons.get(1).bullet.damage = defaultspiroctdamage0;
-	    UnitTypes.spiroct.weapons.get(2).bullet.damage = defaultspiroctdamage0;
-	    UnitTypes.spiroct.weapons.get(3).bullet.damage = defaultspiroctdamage0;
+	    UnitTypes.spiroct.weapons.get(1).bullet.damage = defaultspiroctdamage1;
+	    UnitTypes.spiroct.weapons.get(2).bullet.damage = defaultspiroctdamage2;
+	    UnitTypes.spiroct.weapons.get(3).bullet.damage = defaultspiroctdamage3;
 	   
 	    UnitTypes.toxopid.weapons.get(0).bullet.damage = defaulttoxopiddamage0;
-	    UnitTypes.toxopid.weapons.get(1).bullet.damage = defaulttoxopiddamage0;
-	    UnitTypes.toxopid.weapons.get(2).bullet.damage = defaulttoxopiddamage0;
+	    UnitTypes.toxopid.weapons.get(1).bullet.damage = defaulttoxopiddamage1;
+	    UnitTypes.toxopid.weapons.get(2).bullet.damage = defaulttoxopiddamage2;
 	   
 	    UnitTypes.vela.weapons.get(0).bullet.damage = defaultveladamage0;
 	   
