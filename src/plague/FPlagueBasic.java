@@ -70,7 +70,7 @@ public class FPlagueBasic extends Plugin {
 		
 		rules.canGameOver = false; //I have my own way to game over
 		rules.reactorExplosions = false; // I wonder,nah plague op
-		rules.buildSpeedMultiplier = 2; // game goes faster brr
+		rules.buildSpeedMultiplier = 4; // game goes faster brr
 		rules.fire = false; // Obvious
 		rules.logicUnitBuild = false; // You know why
 		rules.damageExplosions = false; // NO NO NO
@@ -126,8 +126,8 @@ public class FPlagueBasic extends Plugin {
 		
 		// Makes you plague if you join too late also if rejoin put back on team
 		Events.on(PlayerJoin.class, event -> {
-			Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() / 2, Vars.world.height() / 2);
-			event.player.unit(spawnunit);
+			
+			
 			
 			if(relogTeam.containsKey(event.player.uuid())) {
 	          event.player.team(relogTeam.get(event.player.uuid()));
@@ -135,7 +135,12 @@ public class FPlagueBasic extends Plugin {
 			} else if (Have120SecondsPassed == true) {
 	        	 event.player.team(Team.purple); 	  
 	        	 Call.setRules(event.player.con, plagueBanned);
-	          }	
+	        	 Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() / 2, Vars.world.height() / 2);
+	 			 event.player.unit(spawnunit);
+	          }	else if (event.player.team() == Team.sharded) {
+	        	  Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() / 2, Vars.world.height() / 2);
+	        	  event.player.unit(spawnunit);
+	          }
 			    
 			
 			
@@ -145,6 +150,15 @@ public class FPlagueBasic extends Plugin {
 			if(event.player.team() != Team.purple && event.player.team() != Team.sharded) {
 			relogTeam.put(event.player.uuid(), event.player.team());
 			}
+			
+			if(!event.player.unit().isNull()) {
+				if(event.player.unit().type == UnitTypes.gamma) {
+					event.player.unit().kill();
+				}
+			}
+			
+			
+			
 	        }); 
 		
 		// Create core with block placement
@@ -288,8 +302,13 @@ public class FPlagueBasic extends Plugin {
         
         handler.<Player>register("respawn", "Respawn your alpha if bugged as sharded", (args, player) -> {
         if(player.team() == Team.sharded) {
+        	if(!player.unit().isNull()) {
+        		player.unit().kill();
+        	}
+        	
         Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() / 2, Vars.world.height() / 2);
 		player.unit(spawnunit);
+		
         }
         });
         
@@ -380,7 +399,7 @@ public class FPlagueBasic extends Plugin {
 		
 		rules.canGameOver = false; //I have my own way to game over
 		rules.reactorExplosions = false; // I wonder,nah plague op
-		rules.buildSpeedMultiplier = 2; // game goes faster brr
+		rules.buildSpeedMultiplier = 4; // game goes faster brr
 		rules.fire = false; // Obvious
 		rules.logicUnitBuild = false; // You know why
 		rules.damageExplosions = false; // NO NO NO
