@@ -216,11 +216,15 @@ public class FPlagueBasic extends Plugin {
 		
 		// Flare becomes mono duh but only for plague cus surv flares have damage disabled
 		Events.on(UnitCreateEvent.class, event -> {
-	          if(event.unit.type == UnitTypes.flare && event.unit.team == Team.purple) {
+	          if(event.unit.type == UnitTypes.horizon) {
 	        	 
 	        	  event.unit.setType(UnitTypes.mono);
 	        	  
-	          }
+	          } 
+	          
+	          
+	          
+	          
 	        }); 
 		
 		// When a core is destroyed check for all surv cores
