@@ -1,11 +1,15 @@
 package plague;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import arc.Events;
 import mindustry.Vars;
+import mindustry.content.Blocks;
 import mindustry.content.UnitTypes;
 import mindustry.game.Team;
+import mindustry.game.EventType.GameOverEvent;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
 import mindustry.type.Weapon;
@@ -14,6 +18,7 @@ import mindustry.type.Weapon;
 public class PlagueTime {
 	static Timer timer;
 	static Timer multiplier1;
+	static Timer gameover;
 	double modifiermessage = 1.0;
 	
 	   
@@ -27,7 +32,8 @@ public class PlagueTime {
         timer.schedule(new PlagueyTime(), seconds * 1000);
         multiplier1 = new Timer();
         multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
-        
+        gameover = new Timer();
+        gameover.schedule(new gameOvering(), 120 * 1000);
         
         
 	}
@@ -51,7 +57,32 @@ public class PlagueTime {
         }
     }
     
-    
+    class gameOvering extends TimerTask {
+        public void run() {
+        	ArrayList<String> cores = new ArrayList<String>();
+        	for(int x = 0; x < Vars.world.width(); x++) {
+				for(int y = 0; y < Vars.world.height(); y++) {
+					if(Vars.world.tile(x, y).block() == Blocks.coreShard || Vars.world.tile(x, y).block() == Blocks.coreFoundation || Vars.world.tile(x, y).block() == Blocks.coreNucleus) {
+					if(Vars.world.tile(x, y).build.team != Team.purple) {
+						cores.add("There is a surv core");
+					}
+					}
+					
+				}
+			}
+        	
+        	if(cores.isEmpty() && !Vars.state.gameOver) {
+				Events.fire(new GameOverEvent(Team.purple));
+				gameover.schedule(new gameOvering(), 130 * 1000);
+			} else {
+				gameover.schedule(new gameOvering(), 5 * 1000);
+			}
+			
+			cores.clear();
+			
+			this.cancel();
+        }
+    }
     
     
     

@@ -19,7 +19,6 @@ import mindustry.content.Blocks;
 
 import mindustry.content.Items;
 import mindustry.content.UnitTypes;
-import mindustry.game.EventType.BlockDestroyEvent;
 import mindustry.game.EventType.BuildSelectEvent;
 import mindustry.game.EventType.GameOverEvent;
 import mindustry.game.EventType.PlayerJoin;
@@ -146,10 +145,10 @@ public class FPlagueBasic extends Plugin {
 		
 		
 		
-		// Make core from vault using 480 thorium 
+		// Make core from vault using 1k thorium 
 		Events.on(TapEvent.class, event -> {
 			if(event.tile.block() == Blocks.vault) {
-				if(event.tile.build.items().has(Items.thorium, 500) && event.player.team() != Team.purple) {
+				if(event.tile.build.items().has(Items.thorium, 1000) && event.player.team() != Team.purple) {
 					Vars.world.tile(event.tile.x, event.tile.y).setNet(Blocks.coreShard, event.player.team(), 0);
 				}
 			}
@@ -260,28 +259,6 @@ public class FPlagueBasic extends Plugin {
 	          
 	        }); 
 		
-		// When a core is destroyed check for all surv cores
-		Events.on(BlockDestroyEvent.class, event -> {
-			if(event.tile.block() != null) {
-			ArrayList<String> cores = new ArrayList<String>();
-        	for(int x = 0; x < Vars.world.width(); x++) {
-				for(int y = 0; y < Vars.world.height(); y++) {
-					if(Vars.world.tile(x, y).block() == Blocks.coreShard || Vars.world.tile(x, y).block() == Blocks.coreFoundation || Vars.world.tile(x, y).block() == Blocks.coreNucleus) {
-					if(Vars.world.tile(x, y).build.team != Team.purple) {
-						cores.add("There is a surv core");
-					}
-					}
-					
-				}
-			}
-        	
-        	if(cores.isEmpty() && !Vars.state.gameOver) {
-				Events.fire(new GameOverEvent(Team.purple));
-			}
-			
-			cores.clear();
-			}
-		});
 		
 		
 		// Hell no no ono
