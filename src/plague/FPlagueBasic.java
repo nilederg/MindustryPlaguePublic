@@ -96,8 +96,6 @@ public class FPlagueBasic extends Plugin {
 		
 		// No placing near crux core and banned blocks incase of bug
 		netServer.admins.addActionFilter((action) ->{ 
-			int playerx = Math.round(action.player.getX());
-			int playery = Math.round(action.player.getY());
 			ArrayList<Block> boulders = new ArrayList<Block>();
 			boulders.add(Blocks.boulder);
 			boulders.add(Blocks.daciteBoulder);
@@ -106,7 +104,7 @@ public class FPlagueBasic extends Plugin {
 			boulders.add(Blocks.shaleBoulder);
 			boulders.add(Blocks.snowBoulder);
 			
-			if(action.block != null && action.type == ActionType.placeBlock && action.player.team() != Team.purple && closestCore(playerx, playery, Team.purple) < 100){
+			if(action.block != null && action.type == ActionType.placeBlock && action.player.team() != Team.purple && closestCore(action.tile.x * 8, action.tile.y * 8, Team.purple) < 90){
 				return false;
             }
 			
