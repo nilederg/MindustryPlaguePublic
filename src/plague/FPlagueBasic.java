@@ -38,6 +38,7 @@ import mindustry.mod.Plugin;
 import mindustry.net.Administration.ActionType;
 
 import mindustry.type.ItemStack;
+import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 
@@ -90,16 +91,49 @@ public class FPlagueBasic extends Plugin {
             }
 			return true;
 		});
-		// No placing near crux core 
+		
+		
+		
+		// No placing near crux core and banned blocks incase of bug
 		netServer.admins.addActionFilter((action) ->{ 
 			int playerx = Math.round(action.player.getX());
 			int playery = Math.round(action.player.getY());
+			ArrayList<Block> boulders = new ArrayList<Block>();
+			boulders.add(Blocks.boulder);
+			boulders.add(Blocks.daciteBoulder);
+			boulders.add(Blocks.basaltBoulder);
+			boulders.add(Blocks.sandBoulder);
+			boulders.add(Blocks.shaleBoulder);
+			boulders.add(Blocks.snowBoulder);
 			
 			if(action.block != null && action.type == ActionType.placeBlock && action.player.team() != Team.purple && closestCore(playerx, playery, Team.purple) < 100){
-                return false;
+				return false;
             }
+			
+			if(action.block != null && action.type == ActionType.placeBlock && action.tile.block() == Blocks.powerSource) {
+				return false;
+			}
+			
+			if(action.block != null && action.type == ActionType.placeBlock && action.player.team() != Team.purple && survivorBanned.bannedBlocks.contains(action.block)) {
+				action.player.sendMessage("[red]NO PERMISSION TO PLACE BANNED BLOCKS");
+				return false;
+			}
+			
+			if(action.block != null && action.type == ActionType.placeBlock && action.player.team() == Team.purple && plagueBanned.bannedBlocks.contains(action.block)) {
+				action.player.sendMessage("[red]NO PERMISSION TO PLACE BANNED BLOCKS");
+				return false;
+			}
+			
+			if(action.block != null && action.type == ActionType.breakBlock && boulders.contains(action.tile.block())) {
+				action.tile.setNet(Blocks.air);
+				return false;
+			}
+			
 			return true;
+			
 		});
+		
+		
 		
 		// No unit control until 20 mins have passed
 		netServer.admins.addActionFilter((action) ->{ 
