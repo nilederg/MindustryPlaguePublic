@@ -21,10 +21,10 @@ import mindustry.content.Items;
 import mindustry.content.UnitTypes;
 import mindustry.game.EventType.BlockDestroyEvent;
 import mindustry.game.EventType.BuildSelectEvent;
-import mindustry.game.EventType.DepositEvent;
 import mindustry.game.EventType.GameOverEvent;
 import mindustry.game.EventType.PlayerJoin;
 import mindustry.game.EventType.PlayerLeave;
+import mindustry.game.EventType.TapEvent;
 import mindustry.game.EventType.UnitCreateEvent;
 
 
@@ -147,12 +147,13 @@ public class FPlagueBasic extends Plugin {
 		
 		
 		// Make core from vault using 480 thorium 
-		Events.on(DepositEvent.class, event -> {
-	          if(event.tile.block == Blocks.vault && event.tile.items().has(Items.thorium, 480) && event.player.team() != Team.purple) {
-	        	  Vars.world.tile(event.tile.tileX(), event.tile.tileY()).setNet(Blocks.coreShard, Team.all[event.player.team().id], 0);  
-	          }
-	        });
-		
+		Events.on(TapEvent.class, event -> {
+			if(event.tile.block() == Blocks.vault) {
+				if(event.tile.build.items().has(Items.thorium, 500) && event.player.team() != Team.purple) {
+					Vars.world.tile(event.tile.x, event.tile.y).setNet(Blocks.coreShard, event.player.team(), 0);
+				}
+			}
+		});
 		
 		
 		
