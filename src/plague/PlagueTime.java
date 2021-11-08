@@ -74,8 +74,15 @@ public class PlagueTime {
       		p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifiermessage + "x");
       	});
      	 multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
+     	 UnitTypes.poly.weapons.get(0).bullet.damage = 0;
+     	 UnitTypes.poly.weapons.get(1).bullet.damage = 0;
             this.cancel();
         }
+        
+        // Below will be disabled damage but weapons aren't deleted like on other units
+        
+        
+        
     }
     
     
