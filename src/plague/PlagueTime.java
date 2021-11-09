@@ -29,11 +29,11 @@ public class PlagueTime {
 		
 		
         timer = new Timer();
-        timer.schedule(new PlagueyTime(), 132 * 1000);
+        timer.schedule(new PlagueyTime(), 125 * 1000);
         multiplier1 = new Timer();
         multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
         gameover = new Timer();
-        gameover.schedule(new gameOvering(), 120 * 1000);
+        gameover.schedule(new gameOvering(), 132 * 1000);
         
         
 	}
