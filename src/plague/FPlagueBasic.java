@@ -149,7 +149,7 @@ public class FPlagueBasic extends Plugin {
 		Events.on(TapEvent.class, event -> {
 			if(event.tile.block() == Blocks.vault) {
 				if(event.tile.build.items().has(Items.thorium, 1000) && event.player.team() != Team.purple) {
-					Vars.world.tile(event.tile.x, event.tile.y).setNet(Blocks.coreShard, event.player.team(), 0);
+					Vars.world.tile(event.tile.build.tileX(), event.tile.build.tileY()).setNet(Blocks.coreShard, event.player.team(), 0);
 				}
 			}
 		});
