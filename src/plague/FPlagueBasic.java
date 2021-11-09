@@ -270,6 +270,7 @@ public class FPlagueBasic extends Plugin {
 			relogTeam.clear();
 			PlagueTime.timer.cancel();
 			PlagueTime.multiplier1.cancel();
+			PlagueTime.gameover.cancel();
 			PlagueTime.resetToDefaults();
 			
 			new PlagueTime(120); // amount of seconds until everything actually starts

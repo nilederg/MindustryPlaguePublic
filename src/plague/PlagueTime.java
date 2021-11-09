@@ -29,7 +29,7 @@ public class PlagueTime {
 		
 		
         timer = new Timer();
-        timer.schedule(new PlagueyTime(), 120 * 1000);
+        timer.schedule(new PlagueyTime(), 132 * 1000);
         multiplier1 = new Timer();
         multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
         gameover = new Timer();
@@ -72,9 +72,7 @@ public class PlagueTime {
 			}
         	
         	if(cores.isEmpty() && !Vars.state.gameOver) {
-        		if((System.currentTimeMillis() - FPlagueBasic.gameTime) > 120000) {
-				Events.fire(new GameOverEvent(Team.purple));
-        		}
+				Events.fire(new GameOverEvent(Team.purple));	
 				gameover.schedule(new gameOvering(), 130 * 1000);
 			} else {
 				gameover.schedule(new gameOvering(), 5 * 1000);		
