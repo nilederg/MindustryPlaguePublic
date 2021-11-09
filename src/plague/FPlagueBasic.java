@@ -46,7 +46,7 @@ public class FPlagueBasic extends Plugin {
 	
 	
 	static boolean Have120SecondsPassed = false;
-	long gameTime = System.currentTimeMillis();
+	static long gameTime = System.currentTimeMillis();
 	
 	
 	
