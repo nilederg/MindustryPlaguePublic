@@ -172,6 +172,7 @@ public class FPlagueBasic extends Plugin {
 	          }	else if (event.player.team() == Team.sharded) {
 	        	  Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() * 4, Vars.world.height() * 4);
 	        	  event.player.unit(spawnunit);
+	        	  Call.setRules(event.player.con, survivorBanned);
 	          }
 			    
 			
@@ -264,17 +265,19 @@ public class FPlagueBasic extends Plugin {
 		// Hell no no ono
 		Events.on(GameOverEvent.class, event -> {
 			
-			Have120SecondsPassed = false;
+			
 			gameTime = System.currentTimeMillis();
 			this.lockedCustomTeams.clear();
 			relogTeam.clear();
-			PlagueTime.timer.cancel();
+			if(Have120SecondsPassed = false) {
+				PlagueTime.timer.cancel();
+			}
 			PlagueTime.multiplier1.cancel();
 			PlagueTime.gameover.cancel();
 			PlagueTime.resetToDefaults();
-			
+			Have120SecondsPassed = false;
 			new PlagueTime(120); // amount of seconds until everything actually starts
-			
+		
 			
 			 
 	        });
@@ -418,14 +421,13 @@ public class FPlagueBasic extends Plugin {
 		rules.fire = false; // Obvious
 		rules.logicUnitBuild = false; // You know why
 		rules.damageExplosions = false; // NO NO NO
-		
+		rules.enemyCoreBuildRadius = 700;
 				
         survivorBanned = rules.copy();
         survivorBanned.bannedBlocks.addAll(Blocks.groundFactory, Blocks.navalFactory, Blocks.commandCenter, Blocks.multiplicativeReconstructor);
-
-        plagueBanned = rules.copy();
-        plagueBanned.bannedBlocks.addAll(Blocks.battery, Blocks.batteryLarge, Blocks.steamGenerator, Blocks.combustionGenerator, Blocks.differentialGenerator, Blocks.rtgGenerator, Blocks.thermalGenerator, Blocks.impactReactor, Blocks.duo, Blocks.scatter, Blocks.scorch, Blocks.hail, Blocks.wave, Blocks.lancer, Blocks.arc, Blocks.parallax, Blocks.swarmer, Blocks.salvo, Blocks.segment, Blocks.tsunami, Blocks.fuse, Blocks.ripple, Blocks.cyclone, Blocks.foreshadow, Blocks.spectre, Blocks.meltdown, Blocks.navalFactory, Blocks.copperWall, Blocks.copperWallLarge, Blocks.titaniumWall, Blocks.titaniumWallLarge, Blocks.plastaniumWall, Blocks.plastaniumWallLarge, Blocks.thoriumWall, Blocks.thoriumWallLarge, Blocks.phaseWall, Blocks.phaseWallLarge, Blocks.surgeWall, Blocks.surgeWallLarge, Blocks.door, Blocks.doorLarge, Blocks.thoriumReactor, Blocks.solarPanel, Blocks.largeSolarPanel); // Can't be trusted
         
+        plagueBanned = rules.copy();
+        plagueBanned.bannedBlocks.addAll(Blocks.battery, Blocks.batteryLarge, Blocks.steamGenerator, Blocks.combustionGenerator, Blocks.differentialGenerator, Blocks.rtgGenerator, Blocks.thermalGenerator, Blocks.impactReactor, Blocks.duo, Blocks.scatter, Blocks.scorch, Blocks.hail, Blocks.lancer, Blocks.arc, Blocks.parallax, Blocks.swarmer, Blocks.salvo, Blocks.segment, Blocks.tsunami, Blocks.fuse, Blocks.ripple, Blocks.cyclone, Blocks.foreshadow, Blocks.spectre, Blocks.meltdown, Blocks.navalFactory, Blocks.copperWall, Blocks.copperWallLarge, Blocks.titaniumWall, Blocks.titaniumWallLarge, Blocks.plastaniumWall, Blocks.plastaniumWallLarge, Blocks.thoriumWall, Blocks.thoriumWallLarge, Blocks.phaseWall, Blocks.phaseWallLarge, Blocks.surgeWall, Blocks.surgeWallLarge, Blocks.door, Blocks.doorLarge, Blocks.thoriumReactor, Blocks.solarPanel, Blocks.largeSolarPanel); // Can't be trusted
        
         
         Blocks.powerSource.health = Integer.MAX_VALUE;
