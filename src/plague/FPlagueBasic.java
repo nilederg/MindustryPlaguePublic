@@ -314,6 +314,7 @@ public class FPlagueBasic extends Plugin {
 	@Override
     public void registerClientCommands(CommandHandler handler){
         handler.<Player>register("infect", "You become [purple]INFECTED", (args, player) -> {
+        	if(player.team() != Team.purple) {
         	useless = 0;
         	Team playerteam = player.team();
         	Groups.player.each(p -> {
@@ -333,7 +334,7 @@ public class FPlagueBasic extends Plugin {
         		}
         			
         	}
-        	
+        	}
         	
         	
         	
