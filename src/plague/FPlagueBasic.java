@@ -3,17 +3,17 @@ package plague;
 
 import static mindustry.Vars.netServer;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import arc.Events;
+import arc.struct.Seq;
 
-
+import static mindustry.Vars.maps;
 
 import arc.util.CommandHandler;
-
+import arc.util.Strings;
 import mindustry.Vars;
 import mindustry.content.Blocks;
 
@@ -25,17 +25,14 @@ import mindustry.game.EventType.PlayerJoin;
 import mindustry.game.EventType.PlayerLeave;
 import mindustry.game.EventType.TapEvent;
 import mindustry.game.EventType.UnitCreateEvent;
-
-
 import mindustry.game.Rules;
 import mindustry.game.Team;
-
 import mindustry.gen.Call;
+import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import mindustry.mod.Plugin;
 import mindustry.net.Administration.ActionType;
-
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
@@ -44,22 +41,32 @@ import mindustry.world.blocks.storage.CoreBlock;
 public class FPlagueBasic extends Plugin {
 
 	
-	
+	int useless = 0;
 	static boolean Have120SecondsPassed = false;
 	static long gameTime = System.currentTimeMillis();
-	
-	
+	int mapvotes1 = 0;
+	int mapvotes2 = 0;
+	int mapvotes3 = 0;
+	int mapvotes4 = 0;
+	int mapvotes5 = 0;
+	int mapvotes6 = 0;
+	int mapvotes7 = 0;
+	int mapvotes8 = 0;
+	int mapvotes9 = 0;
+	int mapvotes10 = 0;
 	
 	
 	
 
-	
+	public static mindustry.maps.Map selectedMap;
 	 private final Rules rules = new Rules();
 	    private Rules survivorBanned = new Rules();
 	    public static Rules plagueBanned = new Rules();
 	    ArrayList<TeamNPass> lockedCustomTeams = new ArrayList<TeamNPass>();
 	    Map<String, Team> relogTeam = new HashMap<String, Team>();
-	    
+	    ArrayList<String> gameovervotes = new ArrayList<String>();
+	    int totalplayers = 0; // for some reason i need it here cus java
+	    ArrayList<String> playersThatVoted = new ArrayList<String>();
 	    
 	   
 	
@@ -78,6 +85,9 @@ public class FPlagueBasic extends Plugin {
 		
 		init_rules();
 		
+		
+		
+	
 		
 		
 		
@@ -190,7 +200,9 @@ public class FPlagueBasic extends Plugin {
 				}
 			}
 			
-			
+			if(gameovervotes.contains(event.player.name)) {
+				gameovervotes.remove(event.player.name);
+			}
 			
 	        }); 
 		
@@ -267,15 +279,27 @@ public class FPlagueBasic extends Plugin {
 			
 			
 			gameTime = System.currentTimeMillis();
-			this.lockedCustomTeams.clear();
+			lockedCustomTeams.clear();
 			relogTeam.clear();
-		PlagueTime.timer.cancel();
+			gameovervotes.clear();		
+			PlagueTime.timer.cancel();
 			PlagueTime.multiplier1.cancel();
 			PlagueTime.gameover.cancel();
 			PlagueTime.resetToDefaults();
 			Have120SecondsPassed = false;
 			new PlagueTime(120); // amount of seconds until everything actually starts
-		
+			
+			// Why,why would you even do more timers Fitmo.. WHY?! Cursed existence
+			mostVotedMap();
+			
+			
+			
+			if(selectedMap != null) {
+			Groups.player.each(p -> {
+				p.sendMessage("[yellow]Voted map is: " + selectedMap.name());
+			});
+			new MapChangerThings();
+			}
 			
 			 
 	        });
@@ -290,9 +314,33 @@ public class FPlagueBasic extends Plugin {
 	@Override
     public void registerClientCommands(CommandHandler handler){
         handler.<Player>register("infect", "You become [purple]INFECTED", (args, player) -> {
+        	useless = 0;
+        	Team playerteam = player.team();
+        	Groups.player.each(p -> {
+        	if(p.team() == player.team()){
+        	useless++;
+        	}
+        	});
+        	if(useless == 1){
+        		for(int x = 0; x < Vars.world.width(); x++) {
+        			for(int y = 0; y < Vars.world.height(); y++) {
+            			
+        				if(Vars.world.tile(x, y).block() == Blocks.coreFoundation && Vars.world.tile(x, y).isCenter() && Vars.world.tile(x, y).build.team == playerteam){
+        					Vars.world.tile(x, y).setNet(Blocks.air);
+                        }
+        				
+            		}
+        		}
+        			
+        	}
+        	
+        	
+        	
+        	
+        	
         	Call.setRules(player.con, plagueBanned);
         	player.team(Team.purple);  	
-        	
+        	useless = 0;
         	
         	
         	
@@ -310,13 +358,15 @@ public class FPlagueBasic extends Plugin {
         	
         });
         
-        
+        // Kills currently controlled unit
         handler.<Player>register("kill", "Kills currently controlled unit", (args, player) -> {
         	player.unit().kill();
 
         });
         
-        handler.<Player>register("respawn", "Respawn your alpha if bugged as sharded", (args, player) -> {
+        
+        // Respawns unit
+        handler.<Player>register("respawn", "Respawn your gamma if bugged as sharded", (args, player) -> {
         if(player.team() == Team.sharded) {
         	if(!player.unit().isNull()) {
         		player.unit().kill();
@@ -327,6 +377,158 @@ public class FPlagueBasic extends Plugin {
 		
         }
         });
+        
+        
+        // All maps lol
+        handler.<Player>register("maps", "vote for next map", (args, player) -> {
+        	int mapnumber = 0;
+        	player.sendMessage("All maps:");
+        	Seq<mindustry.maps.Map> list = mindustry.Vars.maps.customMaps();
+        	
+        	for(mindustry.maps.Map map : list) {
+        		mapnumber++;
+        		player.sendMessage(mapnumber + " " + map.name());
+        	}
+        	
+        	
+            });
+        
+        
+        // Start voting to select next map not finished
+        handler.<Player>register("vote", "<MapNumber>" ,"vote for next map", (args, player) -> {
+            Seq<mindustry.maps.Map> allcustommaps = mindustry.Vars.maps.customMaps();
+        	if(!playersThatVoted.contains(player.name)) {
+        	
+        	if(args[0].matches("[0-9]+")) {
+        		int votednumber = Integer.parseInt(args[0]);
+        		if(votednumber == 1) {
+        		try {
+        			allcustommaps.get(0);
+        			mapvotes1++;
+        			playersThatVoted.add(player.name);
+        			player.sendMessage("You voted for map " + allcustommaps.get(0).name());
+        		} catch(Exception e) {
+        			player.sendMessage("Vote failed");
+        		}
+        		} else if(votednumber == 2) {
+        			try {
+            			allcustommaps.get(1);
+            			mapvotes2++;
+            			playersThatVoted.add(player.name);
+            			player.sendMessage("You voted for map " + allcustommaps.get(1).name());
+            		} catch(Exception e) {
+            			player.sendMessage("Vote failed");
+            		}
+        		} else if(votednumber == 3) {
+        			try {
+            			allcustommaps.get(2);
+            			mapvotes3++;
+            			playersThatVoted.add(player.name);
+            			player.sendMessage("You voted for map " + allcustommaps.get(2).name());
+            		} catch(Exception e) {
+            			player.sendMessage("Vote failed");
+            		}
+        		} else if(votednumber == 4) {
+        			try {
+            			allcustommaps.get(3);
+            			mapvotes4++;
+            			playersThatVoted.add(player.name);
+            			player.sendMessage("You voted for map " + allcustommaps.get(3).name());
+            		} catch(Exception e) {
+            			player.sendMessage("Vote failed");
+            		}
+        		} else if(votednumber == 5) {
+        			try {
+            			allcustommaps.get(4);
+            			mapvotes5++;
+            			playersThatVoted.add(player.name);
+            			player.sendMessage("You voted for map " + allcustommaps.get(4).name());
+            		} catch(Exception e) {
+            			player.sendMessage("Vote failed");
+            		}
+        		} else if(votednumber == 6) {
+        			try {
+            			allcustommaps.get(5);
+            			mapvotes6++;
+            			playersThatVoted.add(player.name);
+            			player.sendMessage("You voted for map " + allcustommaps.get(5).name());
+            		} catch(Exception e) {
+            			player.sendMessage("Vote failed");
+            		}
+        		} else if(votednumber == 7) {
+        			try {
+            			allcustommaps.get(6);
+            			mapvotes7++;
+            			playersThatVoted.add(player.name);
+            			player.sendMessage("You voted for map " + allcustommaps.get(6).name());
+            		} catch(Exception e) {
+            			player.sendMessage("Vote failed");
+            		}
+        		} else if(votednumber == 8) {
+        			try {
+            			allcustommaps.get(7);
+            			mapvotes8++;
+            			playersThatVoted.add(player.name);
+            			player.sendMessage("You voted for map " + allcustommaps.get(7).name());
+            		} catch(Exception e) {
+            			player.sendMessage("Vote failed");
+            		}
+        		} else if(votednumber == 9) {
+        			try {
+            			allcustommaps.get(8);
+            			mapvotes9++;
+            			playersThatVoted.add(player.name);
+            			player.sendMessage("You voted for map " + allcustommaps.get(8).name());
+            		} catch(Exception e) {
+            			player.sendMessage("Vote failed");
+            		}
+        		} else if(votednumber == 10) {
+        			try {
+            			allcustommaps.get(9);
+            			mapvotes10++;
+            			playersThatVoted.add(player.name);
+            			player.sendMessage("You voted for map " + allcustommaps.get(9).name());
+            		} catch(Exception e) {
+            			player.sendMessage("Vote failed");
+            		}
+        		}	
+	
+        	}
+        	
+        	} else {
+        		player.sendMessage("You already voted");
+        	}
+        	
+        	
+            });
+        
+        // How do I explain.. if 4/5th of players voted then game ends
+        handler.<Player>register("gameovervote", "[purple] Vote for the game to end", (args, player) -> { 	
+        	
+        	if(Have120SecondsPassed) {
+        	if(gameovervotes.contains(player.name)) {
+        	  		gameovervotes.remove(player.name);
+        	  	} else {
+        	  		gameovervotes.add(player.name);
+        	  	}
+        		totalplayers = 0;
+        	  	Groups.player.each(p -> {
+        	  		totalplayers++;
+        	  	});
+        	  	
+        	  	Groups.player.each(p -> {
+        	  		p.sendMessage("[yellow] There is currently [purple]" + gameovervotes.size() + "[yellow] votes out of [purple]" + (totalplayers / 5 * 4) + "[yellow] required.");
+        	  	});
+        	  	
+        	  	if((totalplayers / 5 * 4) <= gameovervotes.size()) {
+        	  		Events.fire(new GameOverEvent(Team.purple));
+        	  	}
+        	  	
+        	  	
+        	  	
+        }
+        });
+        
         
         
         // Gameover command for admins
@@ -486,7 +688,172 @@ public class FPlagueBasic extends Plugin {
 	
 	
 	
+	public mindustry.maps.Map findmap(String mapname) {
+		mindustry.maps.Map findMap;
+		findMap = maps.all().find(map -> Strings.stripColors(map.name().replace('_', ' ')).equalsIgnoreCase(Strings.stripColors(mapname)));
+    	if(findMap != null) {
+    		return findMap;
+    	}
+    	return null;
+	}
 	
+	public mindustry.maps.Map mostVotedMap(){
+		playersThatVoted.clear();
+		Seq<mindustry.maps.Map> allmaps = mindustry.Vars.maps.customMaps();
+		if(mapvotes1 > mapvotes2 && mapvotes1 > mapvotes3 && mapvotes1 > mapvotes4 && mapvotes1 > mapvotes5 && mapvotes1 > mapvotes6 && mapvotes1 > mapvotes7 && mapvotes1 > mapvotes8 && mapvotes1 > mapvotes9 && mapvotes1 > mapvotes10) {
+			mapvotes1 = 0;
+			mapvotes2 = 0;
+			mapvotes3 = 0;
+			mapvotes4 = 0;
+			mapvotes5 = 0;
+			mapvotes6 = 0;
+			mapvotes7 = 0;
+			mapvotes8 = 0;
+			mapvotes9 = 0;
+			mapvotes10 = 0;
+			selectedMap = allmaps.get(0);
+			return null;	
+		}
+		
+		if(mapvotes2 > mapvotes1 && mapvotes2 > mapvotes3 && mapvotes2 > mapvotes4 && mapvotes2 > mapvotes5 && mapvotes2 > mapvotes6 && mapvotes2 > mapvotes7 && mapvotes2 > mapvotes8 && mapvotes2 > mapvotes9 && mapvotes2 > mapvotes10) {
+			mapvotes1 = 0;
+			mapvotes2 = 0;
+			mapvotes3 = 0;
+			mapvotes4 = 0;
+			mapvotes5 = 0;
+			mapvotes6 = 0;
+			mapvotes7 = 0;
+			mapvotes8 = 0;
+			mapvotes9 = 0;
+			mapvotes10 = 0;
+			selectedMap = allmaps.get(1);
+			return null;	
+		}
+		
+		if(mapvotes3 > mapvotes2 && mapvotes3 > mapvotes1 && mapvotes3 > mapvotes4 && mapvotes3 > mapvotes5 && mapvotes3 > mapvotes6 && mapvotes3 > mapvotes7 && mapvotes3 > mapvotes8 && mapvotes3 > mapvotes9 && mapvotes3 > mapvotes10) {
+			mapvotes1 = 0;
+			mapvotes2 = 0;
+			mapvotes3 = 0;
+			mapvotes4 = 0;
+			mapvotes5 = 0;
+			mapvotes6 = 0;
+			mapvotes7 = 0;
+			mapvotes8 = 0;
+			mapvotes9 = 0;
+			mapvotes10 = 0;
+			selectedMap = allmaps.get(2);
+			return null;	
+		}
+		
+		if(mapvotes4 > mapvotes2 && mapvotes4 > mapvotes3 && mapvotes4 > mapvotes1 && mapvotes4 > mapvotes5 && mapvotes4 > mapvotes6 && mapvotes4 > mapvotes7 && mapvotes4 > mapvotes8 && mapvotes4 > mapvotes9 && mapvotes4 > mapvotes10) {
+			mapvotes1 = 0;
+			mapvotes2 = 0;
+			mapvotes3 = 0;
+			mapvotes4 = 0;
+			mapvotes5 = 0;
+			mapvotes6 = 0;
+			mapvotes7 = 0;
+			mapvotes8 = 0;
+			mapvotes9 = 0;
+			mapvotes10 = 0;
+			selectedMap = allmaps.get(3);
+			return null;	
+		}
+		
+		if(mapvotes5 > mapvotes2 && mapvotes5 > mapvotes3 && mapvotes5 > mapvotes4 && mapvotes5 > mapvotes1 && mapvotes5 > mapvotes6 && mapvotes5 > mapvotes7 && mapvotes5 > mapvotes8 && mapvotes5 > mapvotes9 && mapvotes5 > mapvotes10) {
+			mapvotes1 = 0;
+			mapvotes2 = 0;
+			mapvotes3 = 0;
+			mapvotes4 = 0;
+			mapvotes5 = 0;
+			mapvotes6 = 0;
+			mapvotes7 = 0;
+			mapvotes8 = 0;
+			mapvotes9 = 0;
+			mapvotes10 = 0;
+			selectedMap = allmaps.get(4);
+			return null;	
+		}
+		
+		if(mapvotes6 > mapvotes2 && mapvotes6 > mapvotes3 && mapvotes6 > mapvotes4 && mapvotes6 > mapvotes5 && mapvotes6 > mapvotes1 && mapvotes6 > mapvotes7 && mapvotes6 > mapvotes8 && mapvotes6 > mapvotes9 && mapvotes6 > mapvotes10) {
+			mapvotes1 = 0;
+			mapvotes2 = 0;
+			mapvotes3 = 0;
+			mapvotes4 = 0;
+			mapvotes5 = 0;
+			mapvotes6 = 0;
+			mapvotes7 = 0;
+			mapvotes8 = 0;
+			mapvotes9 = 0;
+			mapvotes10 = 0;
+			selectedMap = allmaps.get(5);
+			return null;	
+		}
+		
+		if(mapvotes7 > mapvotes2 && mapvotes7 > mapvotes3 && mapvotes7 > mapvotes4 && mapvotes7 > mapvotes5 && mapvotes7 > mapvotes6 && mapvotes7 > mapvotes1 && mapvotes7 > mapvotes8 && mapvotes7 > mapvotes9 && mapvotes7 > mapvotes10) {
+			mapvotes1 = 0;
+			mapvotes2 = 0;
+			mapvotes3 = 0;
+			mapvotes4 = 0;
+			mapvotes5 = 0;
+			mapvotes6 = 0;
+			mapvotes7 = 0;
+			mapvotes8 = 0;
+			mapvotes9 = 0;
+			mapvotes10 = 0;
+			selectedMap = allmaps.get(6);
+			return null;	
+		}
+		
+		if(mapvotes8 > mapvotes2 && mapvotes8 > mapvotes3 && mapvotes8 > mapvotes4 && mapvotes8 > mapvotes5 && mapvotes8 > mapvotes6 && mapvotes8 > mapvotes7 && mapvotes8 > mapvotes1 && mapvotes8 > mapvotes9 && mapvotes8 > mapvotes10) {
+			mapvotes1 = 0;
+			mapvotes2 = 0;
+			mapvotes3 = 0;
+			mapvotes4 = 0;
+			mapvotes5 = 0;
+			mapvotes6 = 0;
+			mapvotes7 = 0;
+			mapvotes8 = 0;
+			mapvotes9 = 0;
+			mapvotes10 = 0;
+			selectedMap = allmaps.get(7);
+			return null;	
+		}
+		
+		if(mapvotes9 > mapvotes2 && mapvotes9 > mapvotes3 && mapvotes9 > mapvotes4 && mapvotes9 > mapvotes5 && mapvotes9 > mapvotes6 && mapvotes9 > mapvotes7 && mapvotes9 > mapvotes8 && mapvotes9 > mapvotes1 && mapvotes9 > mapvotes10) {
+			mapvotes1 = 0;
+			mapvotes2 = 0;
+			mapvotes3 = 0;
+			mapvotes4 = 0;
+			mapvotes5 = 0;
+			mapvotes6 = 0;
+			mapvotes7 = 0;
+			mapvotes8 = 0;
+			mapvotes9 = 0;
+			mapvotes10 = 0;
+			selectedMap = allmaps.get(8);
+			return null;	
+		}
+		
+		if(mapvotes10 > mapvotes2 && mapvotes10 > mapvotes3 && mapvotes10 > mapvotes4 && mapvotes10 > mapvotes5 && mapvotes10 > mapvotes6 && mapvotes10 > mapvotes7 && mapvotes10 > mapvotes8 && mapvotes10 > mapvotes9 && mapvotes10 > mapvotes1) {
+			mapvotes1 = 0;
+			mapvotes2 = 0;
+			mapvotes3 = 0;
+			mapvotes4 = 0;
+			mapvotes5 = 0;
+			mapvotes6 = 0;
+			mapvotes7 = 0;
+			mapvotes8 = 0;
+			mapvotes9 = 0;
+			mapvotes10 = 0;
+			selectedMap = allmaps.get(9);
+			return null;	
+		}
+		
+		return null;
+		
+		
+	}
 	
 	public float closestCore(int playerx, int playery, Team team) {
 		CoreBlock.CoreBuild nearestCoreTeam0 = Vars.state.teams.closestCore(playerx / 8, playery / 8, team);
