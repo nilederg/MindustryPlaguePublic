@@ -269,9 +269,7 @@ public class FPlagueBasic extends Plugin {
 			gameTime = System.currentTimeMillis();
 			this.lockedCustomTeams.clear();
 			relogTeam.clear();
-			if(Have120SecondsPassed = false) {
-				PlagueTime.timer.cancel();
-			}
+		PlagueTime.timer.cancel();
 			PlagueTime.multiplier1.cancel();
 			PlagueTime.gameover.cancel();
 			PlagueTime.resetToDefaults();
