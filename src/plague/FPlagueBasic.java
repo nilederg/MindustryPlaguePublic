@@ -19,6 +19,7 @@ import mindustry.content.Blocks;
 
 import mindustry.content.Items;
 import mindustry.content.UnitTypes;
+import mindustry.game.EventType.BlockDestroyEvent;
 import mindustry.game.EventType.BuildSelectEvent;
 import mindustry.game.EventType.GameOverEvent;
 import mindustry.game.EventType.PlayerJoin;
@@ -266,12 +267,19 @@ public class FPlagueBasic extends Plugin {
 	        	  event.unit.setType(UnitTypes.mono);
 	        	  
 	          } 
-	          
-	          
-	          
-	          
+
 	        }); 
 		
+		
+		// Some maps have power infs outside of no build oh well invincibility time
+		Events.on(BlockDestroyEvent.class, event -> {
+	          if(event.tile.block() == Blocks.powerSource) {
+	        	 event.tile.setNet(Blocks.powerSource, event.tile.team(), 0);
+	        	  
+	        	  
+	          } 
+
+	        }); 
 		
 		
 		// Hell no no ono
