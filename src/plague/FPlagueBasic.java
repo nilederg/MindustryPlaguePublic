@@ -40,7 +40,8 @@ import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 
 public class FPlagueBasic extends Plugin {
-
+	
+	
 	
 	int useless = 0;
 	static boolean Have120SecondsPassed = false;
@@ -388,23 +389,13 @@ public class FPlagueBasic extends Plugin {
         });
         
         
-        // All maps lol
-        handler.<Player>register("maps", "vote for next map", (args, player) -> {
-        	int mapnumber = 0;
-        	player.sendMessage("All maps:");
-        	Seq<mindustry.maps.Map> list = mindustry.Vars.maps.customMaps();
-        	
-        	for(mindustry.maps.Map map : list) {
-        		mapnumber++;
-        		player.sendMessage(mapnumber + " " + map.name());
-        	}
-        	
-        	
-            });
         
         
-        // Start voting to select next map not finished
-        handler.<Player>register("vote", "<MapNumber>" ,"vote for next map", (args, player) -> {
+        
+        // Start voting to select next map or see all maps
+        handler.<Player>register("vote", "[MapNumber]" ,"Vote for next map or see all maps", (args, player) -> {
+        	if(args.length == 1) {
+        	
             Seq<mindustry.maps.Map> allcustommaps = mindustry.Vars.maps.customMaps();
         	if(!playersThatVoted.contains(player.name)) {
         	
@@ -507,7 +498,16 @@ public class FPlagueBasic extends Plugin {
         	} else {
         		player.sendMessage("You already voted");
         	}
+        } else {
+        	int mapnumber = 0;
+        	player.sendMessage("All maps:");
+        	Seq<mindustry.maps.Map> list = mindustry.Vars.maps.customMaps();
         	
+        	for(mindustry.maps.Map map : list) {
+        		mapnumber++;
+        		player.sendMessage(mapnumber + " " + map.name());
+        	}
+        }
         	
             });
         
@@ -897,6 +897,7 @@ public class FPlagueBasic extends Plugin {
 	public float cartesianDistance(float x, float y, float cx, float cy){
         return (float) Math.sqrt(Math.pow(x - cx, 2) + Math.pow(y - cy, 2) );
     }
+	
 	
 	
 }
