@@ -526,13 +526,23 @@ public class FPlagueBasic extends Plugin {
         	  	});
         	  	
         	  	Groups.player.each(p -> {
+        	  		if(totalplayers <= 5) {
+        	  			p.sendMessage("[yellow] There is currently [purple]" + gameovervotes.size() + "[yellow] votes out of [purple]" + 2 + "[yellow] required.");
+        	  		} else {
         	  		p.sendMessage("[yellow] There is currently [purple]" + gameovervotes.size() + "[yellow] votes out of [purple]" + (totalplayers / 5 * 4) + "[yellow] required.");
+        	  		}
         	  	});
         	  	
-        	  	if((totalplayers / 5 * 4) <= gameovervotes.size()) {
+        	  	
+        	  	if(totalplayers <= 5) {
+        	  	
+        	  		if(gameovervotes.size() >= 2) {
+        	  		Events.fire(new GameOverEvent(Team.purple));
+        	  		}
+        	  		
+        	  	} else if((totalplayers / 5 * 4) <= gameovervotes.size()) {
         	  		Events.fire(new GameOverEvent(Team.purple));
         	  	}
-        	  	
         	  	
         	  	
         }
