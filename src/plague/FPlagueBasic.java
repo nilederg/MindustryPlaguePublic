@@ -178,8 +178,6 @@ public class FPlagueBasic extends Plugin {
 			} else if (Have120SecondsPassed == true) {
 	        	 event.player.team(Team.purple); 	  
 	        	 Call.setRules(event.player.con, plagueBanned);
-	        	 Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() * 4, Vars.world.height() * 4);
-	 			 event.player.unit(spawnunit);
 	          }	else if (event.player.team() == Team.sharded) {
 	        	  Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() * 4, Vars.world.height() * 4);
 	        	  event.player.unit(spawnunit);
