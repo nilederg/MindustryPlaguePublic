@@ -126,10 +126,10 @@ public class PlagueTime {
    public static void resetToDefaults() {
 	   
 	   //DEFAULT UNITS ARE GAY
-	   UnitTypes.flare.health = flarehp;
-	   UnitTypes.gamma.health = gammahp;
-	   UnitTypes.beta.health = betahp;
-	   UnitTypes.alpha.health = alphahp;
+	   UnitTypes.flare.health = 1;
+	   UnitTypes.gamma.health = 1;
+	   UnitTypes.beta.health = 1;
+	   UnitTypes.alpha.health = 1;
 	   
 	   
 	   UnitTypes.antumbra.health = defaultantumbrahealth;

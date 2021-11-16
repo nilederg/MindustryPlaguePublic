@@ -648,6 +648,10 @@ public class FPlagueBasic extends Plugin {
         UnitTypes.gamma.weapons.clear();
         UnitTypes.flare.weapons.clear();
         UnitTypes.horizon.abilities.clear();
+        UnitTypes.alpha.health = 1;
+        UnitTypes.beta.health = 1;
+        UnitTypes.gamma.health = 1;
+        UnitTypes.flare.health = 1;
         
         //Disable pickup,interesting variable
         UnitTypes.oct.payloadCapacity = 0;
