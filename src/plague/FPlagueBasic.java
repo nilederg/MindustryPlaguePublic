@@ -25,6 +25,7 @@ import mindustry.game.EventType.GameOverEvent;
 import mindustry.game.EventType.PlayerJoin;
 import mindustry.game.EventType.PlayerLeave;
 import mindustry.game.EventType.TapEvent;
+import mindustry.game.EventType.UnitCreateEvent;
 import mindustry.game.Rules;
 import mindustry.game.Team;
 import mindustry.gen.Call;
@@ -302,6 +303,15 @@ public class FPlagueBasic extends Plugin {
 			 
 	        });
 		
+		Events.on(UnitCreateEvent.class, event -> {
+			if(event.unit.type == UnitTypes.flare || event.unit.type == UnitTypes.horizon || event.unit.type == UnitTypes.zenith || event.unit.type == UnitTypes.antumbra || event.unit.type == UnitTypes.eclipse) {
+				event.unit.kill();
+			}
+			
+			
+			
+			 
+	        });
 		
 	}
 	
