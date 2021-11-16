@@ -124,6 +124,14 @@ public class PlagueTime {
     // Resets all damage and health to default
     
    public static void resetToDefaults() {
+	   
+	   //DEFAULT UNITS ARE GAY
+	   UnitTypes.flare.health = flarehp;
+	   UnitTypes.gamma.health = gammahp;
+	   UnitTypes.beta.health = betahp;
+	   UnitTypes.alpha.health = alphahp;
+	   
+	   
 	   UnitTypes.antumbra.health = defaultantumbrahealth;
 	   UnitTypes.arkyid.health = defaultarkyidhealth;
 	   UnitTypes.atrax.health = defaultatraxhealth;
@@ -152,6 +160,8 @@ public class PlagueTime {
 	   UnitTypes.toxopid.health = defaulttoxopidhealth;
 	   UnitTypes.vela.health = defaultvelahealth;
 	   UnitTypes.zenith.health = defaultzenithhealth;
+	   
+	   
 	   
 	   UnitTypes.antumbra.weapons.get(0).bullet.damage = defaultantumbradamage0;
 	   UnitTypes.antumbra.weapons.get(1).bullet.damage = defaultantumbradamage1;
@@ -261,6 +271,12 @@ public class PlagueTime {
    }
    
    
+   // Default units cause trouble SMH
+   public static float flarehp = UnitTypes.flare.health;
+   public static float gammahp = UnitTypes.gamma.health;
+   public static float betahp = UnitTypes.beta.health;
+   public static float alphahp = UnitTypes.alpha.health;
+  
    
    // All default stats
    public static float defaultantumbrahealth = UnitTypes.antumbra.health;

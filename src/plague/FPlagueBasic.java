@@ -25,7 +25,6 @@ import mindustry.game.EventType.GameOverEvent;
 import mindustry.game.EventType.PlayerJoin;
 import mindustry.game.EventType.PlayerLeave;
 import mindustry.game.EventType.TapEvent;
-import mindustry.game.EventType.UnitCreateEvent;
 import mindustry.game.Rules;
 import mindustry.game.Team;
 import mindustry.gen.Call;
@@ -261,15 +260,7 @@ public class FPlagueBasic extends Plugin {
         	}
         });
 		
-		// Flare becomes mono duh but only for plague cus surv flares have damage disabled
-		Events.on(UnitCreateEvent.class, event -> {
-	          if(event.unit.type == UnitTypes.horizon) {
-	        	 
-	        	  event.unit.setType(UnitTypes.mono);
-	        	  
-	          } 
-
-	        }); 
+		
 		
 		
 		// Some maps have power infs outside of no build oh well invincibility time
@@ -656,7 +647,7 @@ public class FPlagueBasic extends Plugin {
         UnitTypes.beta.weapons.clear();
         UnitTypes.gamma.weapons.clear();
         UnitTypes.flare.weapons.clear();
-        
+        UnitTypes.horizon.abilities.clear();
         
         //Disable pickup,interesting variable
         UnitTypes.oct.payloadCapacity = 0;
