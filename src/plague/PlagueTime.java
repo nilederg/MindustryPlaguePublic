@@ -12,14 +12,14 @@ import mindustry.game.Team;
 import mindustry.game.EventType.GameOverEvent;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
-import mindustry.type.Weapon;
 
 
 public class PlagueTime {
 	static Timer timer;
 	static Timer multiplier1;
 	static Timer gameover;
-	double modifiermessage = 1.0;
+	double modifier = 1.0;
+	double modifiermessage = 1;
 	
 	   
 	
@@ -92,19 +92,153 @@ public class PlagueTime {
     
     class UnitMultiplier extends TimerTask {
         public void run() {
-        	
-        	
-     	    modifiermessage = Math.round((modifiermessage * 1.1) * 100.0) / 100.0;
+        	modifier = modifier * 1.05;
+        	modifier = modifier + 0.05;
+     	    modifiermessage = Math.round(modifier * 100.0) / 100.0;
      	    
-     	   Vars.content.units().each(u ->{
-     		   u.health = (float) (u.health * 1.1);
-     		   for(Weapon weapon : u.weapons) {
-     			   weapon.bullet.damage = (float) (weapon.bullet.damage * 1.1);
-     		   }
-     	   }); 
-     	   
+     	    // VVV Don't read
+     	    
+     	   UnitTypes.antumbra.health = defaultantumbrahealth * (float) modifier;
+    	   UnitTypes.arkyid.health = defaultarkyidhealth * (float) modifier;
+    	   UnitTypes.atrax.health = defaultatraxhealth * (float) modifier;
+    	   UnitTypes.bryde.health = defaultbrydehealth * (float) modifier;
+    	   UnitTypes.corvus.health = defaultcorvushealth * (float) modifier;
+    	   UnitTypes.crawler.health = defaultcrawlerhealth * (float) modifier;
+    	   UnitTypes.dagger.health = defaultdaggerhealth * (float) modifier;
+    	   UnitTypes.eclipse.health = defaulteclipsehealth * (float) modifier;
+    	   UnitTypes.fortress.health = defaultfortresshealth * (float) modifier;
+    	   UnitTypes.horizon.health = defaulthorizonhealth * (float) modifier;
+    	   UnitTypes.mace.health = defaultmacehealth * (float) modifier;
+    	   UnitTypes.mega.health = defaultmegahealth * (float) modifier;
+    	   UnitTypes.minke.health = defaultminkehealth * (float) modifier;
+    	   UnitTypes.nova.health = defaultnovahealth * (float) modifier;
+    	   UnitTypes.oct.health = defaultocthealth * (float) modifier;
+    	   UnitTypes.omura.health = defaultomurahealth * (float) modifier;
+    	   UnitTypes.poly.health = defaultpolyhealth * (float) modifier;
+    	   UnitTypes.pulsar.health = defaultpulsarhealth * (float) modifier;
+    	   UnitTypes.quad.health = defaultquadhealth * (float) modifier;
+    	   UnitTypes.quasar.health = defaultquasarhealth * (float) modifier;
+    	   UnitTypes.reign.health = defaultreignhealth * (float) modifier;
+    	   UnitTypes.risso.health = defaultrissohealth * (float) modifier;
+    	   UnitTypes.scepter.health = defaultscepterhealth * (float) modifier;
+    	   UnitTypes.sei.health = defaultseihealth * (float) modifier;
+    	   UnitTypes.spiroct.health = defaultspirocthealth * (float) modifier;
+    	   UnitTypes.toxopid.health = defaulttoxopidhealth * (float) modifier;
+    	   UnitTypes.vela.health = defaultvelahealth * (float) modifier;
+    	   UnitTypes.zenith.health = defaultzenithhealth * (float) modifier;
+     	    
+    	   UnitTypes.antumbra.weapons.get(0).bullet.damage = defaultantumbradamage0 * (float) modifier;
+    	   UnitTypes.antumbra.weapons.get(1).bullet.damage = defaultantumbradamage1 * (float) modifier;
+    	   UnitTypes.antumbra.weapons.get(2).bullet.damage = defaultantumbradamage2 * (float) modifier;
+    	   UnitTypes.antumbra.weapons.get(3).bullet.damage = defaultantumbradamage3 * (float) modifier;
+    	   UnitTypes.antumbra.weapons.get(4).bullet.damage = defaultantumbradamage4 * (float) modifier;
+    	   UnitTypes.antumbra.weapons.get(5).bullet.damage = defaultantumbradamage5 * (float) modifier;
+       
+    	    UnitTypes.arkyid.weapons.get(0).bullet.damage = defaultarkyiddamage0 * (float) modifier;
+    	    UnitTypes.arkyid.weapons.get(1).bullet.damage = defaultarkyiddamage1 * (float) modifier;
+    	    UnitTypes.arkyid.weapons.get(2).bullet.damage = defaultarkyiddamage2 * (float) modifier;
+    	    UnitTypes.arkyid.weapons.get(3).bullet.damage = defaultarkyiddamage3 * (float) modifier;
+    	    UnitTypes.arkyid.weapons.get(4).bullet.damage = defaultarkyiddamage4 * (float) modifier;
+    	    UnitTypes.arkyid.weapons.get(5).bullet.damage = defaultarkyiddamage5 * (float) modifier;
+    	    UnitTypes.arkyid.weapons.get(6).bullet.damage = defaultarkyiddamage6 * (float) modifier;
+    	    UnitTypes.arkyid.weapons.get(7).bullet.damage = defaultarkyiddamage7 * (float) modifier;
+    	    
+    	    UnitTypes.atrax.weapons.get(0).bullet.damage = defaultatraxdamage0 * (float) modifier;
+    	    UnitTypes.atrax.weapons.get(1).bullet.damage = defaultatraxdamage1 * (float) modifier;
+    	   
+    	    UnitTypes.bryde.weapons.get(0).bullet.damage = defaultbrydedamage0 * (float) modifier;
+    	    UnitTypes.bryde.weapons.get(1).bullet.damage = defaultbrydedamage1 * (float) modifier;
+    	    UnitTypes.bryde.weapons.get(2).bullet.damage = defaultbrydedamage2 * (float) modifier;
+    	   
+    	    UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * (float) modifier;
+    	   
+    	   // Crawler has an ability i assume
+    	   
+    	    UnitTypes.dagger.weapons.get(0).bullet.damage = defaultdaggerdamage0 * (float) modifier;
+    	    UnitTypes.dagger.weapons.get(1).bullet.damage = defaultdaggerdamage1 * (float) modifier;
+    	   
+    	    UnitTypes.eclipse.weapons.get(0).bullet.damage = defaulteclipsedamage0 * (float) modifier;
+    	    UnitTypes.eclipse.weapons.get(1).bullet.damage = defaulteclipsedamage1 * (float) modifier;
+    	    UnitTypes.eclipse.weapons.get(2).bullet.damage = defaulteclipsedamage2 * (float) modifier;
+    	    UnitTypes.eclipse.weapons.get(3).bullet.damage = defaulteclipsedamage3 * (float) modifier;
+    	    UnitTypes.eclipse.weapons.get(4).bullet.damage = defaulteclipsedamage4 * (float) modifier;
+    	    UnitTypes.eclipse.weapons.get(5).bullet.damage = defaulteclipsedamage5 * (float) modifier;
+    	   
+    	    UnitTypes.fortress.weapons.get(0).bullet.damage = defaultfortressdamage0 * (float) modifier;
+    	    UnitTypes.fortress.weapons.get(1).bullet.damage = defaultfortressdamage1 * (float) modifier;
+    	   
+    	   	// Horizon has uneditable ability
+    	   
+    	    UnitTypes.mace.weapons.get(0).bullet.damage = defaultmacedamage0 * (float) modifier;
+    	    UnitTypes.mace.weapons.get(1).bullet.damage = defaultmacedamage1 * (float) modifier;
+    	   
+    	   
+    	    UnitTypes.mega.weapons.get(0).bullet.damage = defaultmegadamage0 * (float) modifier;
+    	    UnitTypes.mega.weapons.get(1).bullet.damage = defaultmegadamage1 * (float) modifier;
+    	    UnitTypes.mega.weapons.get(2).bullet.damage = defaultmegadamage2 * (float) modifier;
+    	    UnitTypes.mega.weapons.get(3).bullet.damage = defaultmegadamage3 * (float) modifier;
+    	   
+    	    UnitTypes.minke.weapons.get(0).bullet.damage = defaultminkedamage0 * (float) modifier;
+    	    UnitTypes.minke.weapons.get(1).bullet.damage = defaultminkedamage1 * (float) modifier;
+    	    UnitTypes.minke.weapons.get(2).bullet.damage = defaultminkedamage2 * (float) modifier;
+    	    UnitTypes.minke.weapons.get(3).bullet.damage = defaultminkedamage3 * (float) modifier;
+    	   
+    	    UnitTypes.nova.weapons.get(0).bullet.damage = defaultnovadamage0 * (float) modifier;
+    	    UnitTypes.nova.weapons.get(1).bullet.damage = defaultnovadamage1 * (float) modifier;
+    	   
+    	   // Oct is weaponless kekw
+    	   
+    	    UnitTypes.omura.weapons.get(0).bullet.damage = defaultomuradamage0 * (float) modifier;
+
+    	    UnitTypes.poly.weapons.get(0).bullet.damage = defaultpolydamage0 * (float) modifier;
+    	    UnitTypes.poly.weapons.get(1).bullet.damage = defaultpolydamage1 * (float) modifier;
+    	   
+    	    UnitTypes.pulsar.weapons.get(0).bullet.damage = defaultpulsardamage0 * (float) modifier;
+    	    UnitTypes.pulsar.weapons.get(1).bullet.damage = defaultpulsardamage1 * (float) modifier;
+    	   
+    	    UnitTypes.quad.weapons.get(0).bullet.damage = defaultquaddamage0 * (float) modifier;
+
+    	    UnitTypes.quasar.weapons.get(0).bullet.damage = defaultquasardamage0 * (float) modifier;
+    	    UnitTypes.quasar.weapons.get(1).bullet.damage = defaultquasardamage1 * (float) modifier;
+    	   
+    	    UnitTypes.reign.weapons.get(0).bullet.damage = defaultreigndamage0 * (float) modifier;
+    	    UnitTypes.reign.weapons.get(1).bullet.damage = defaultreigndamage1 * (float) modifier;
+    	   
+    	    UnitTypes.risso.weapons.get(0).bullet.damage = defaultrissodamage0 * (float) modifier;
+    	    UnitTypes.risso.weapons.get(1).bullet.damage = defaultrissodamage1 * (float) modifier;
+    	    UnitTypes.risso.weapons.get(2).bullet.damage = defaultrissodamage2 * (float) modifier;
+    	   
+    	    UnitTypes.scepter.weapons.get(0).bullet.damage = defaultscepterdamage0 * (float) modifier;
+    	    UnitTypes.scepter.weapons.get(1).bullet.damage = defaultscepterdamage1 * (float) modifier;
+    	    UnitTypes.scepter.weapons.get(2).bullet.damage = defaultscepterdamage2 * (float) modifier;
+    	    UnitTypes.scepter.weapons.get(3).bullet.damage = defaultscepterdamage3 * (float) modifier;
+    	    UnitTypes.scepter.weapons.get(4).bullet.damage = defaultscepterdamage4 * (float) modifier;
+    	    UnitTypes.scepter.weapons.get(5).bullet.damage = defaultscepterdamage5 * (float) modifier;
+    	   
+    	    UnitTypes.sei.weapons.get(0).bullet.damage = defaultseidamage0 * (float) modifier;
+    	    UnitTypes.sei.weapons.get(1).bullet.damage = defaultseidamage1 * (float) modifier;
+    	    UnitTypes.sei.weapons.get(2).bullet.damage = defaultseidamage2 * (float) modifier;
+    	   
+    	    UnitTypes.spiroct.weapons.get(0).bullet.damage = defaultspiroctdamage0 * (float) modifier;
+    	    UnitTypes.spiroct.weapons.get(1).bullet.damage = defaultspiroctdamage1 * (float) modifier;
+    	    UnitTypes.spiroct.weapons.get(2).bullet.damage = defaultspiroctdamage2 * (float) modifier;
+    	    UnitTypes.spiroct.weapons.get(3).bullet.damage = defaultspiroctdamage3 * (float) modifier;
+    	   
+    	    UnitTypes.toxopid.weapons.get(0).bullet.damage = defaulttoxopiddamage0 * (float) modifier;
+    	    UnitTypes.toxopid.weapons.get(1).bullet.damage = defaulttoxopiddamage1 * (float) modifier;
+    	    UnitTypes.toxopid.weapons.get(2).bullet.damage = defaulttoxopiddamage2 * (float) modifier;
+    	   
+    	    UnitTypes.vela.weapons.get(0).bullet.damage = defaultveladamage0 * (float) modifier;
+    	   
+    	    UnitTypes.zenith.weapons.get(0).bullet.damage =	defaultzenithdamage0 * (float) modifier;
+    	    UnitTypes.zenith.weapons.get(1).bullet.damage = defaultzenithdamage1 * (float) modifier;
+    	   
+     	    // ^^^ You read it you monster
+     	    
+     	    
+     	       	   
      	  Groups.player.each(p -> {
-      		p.sendMessage("[yellow]Units now deal [red]10% [yellow]more damage and have [red]10% [yellow] more health for a total multiplier of [red]" + modifiermessage + "x");
+      		p.sendMessage("[yellow]Units now deal increased [red]damage[yellow] and have more [green]health[yellow] for a total multiplier of [red]" + modifiermessage + "x");
       	});
      	 multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
      	 UnitTypes.poly.weapons.get(0).bullet.damage = 0;
@@ -203,7 +337,7 @@ public class PlagueTime {
 	    UnitTypes.fortress.weapons.get(0).bullet.damage = defaultfortressdamage0;
 	    UnitTypes.fortress.weapons.get(1).bullet.damage = defaultfortressdamage1;
 	   
-	   // Horizon has an ability i think
+	   	// Horizon has uneditable ability
 	   
 	    UnitTypes.mace.weapons.get(0).bullet.damage = defaultmacedamage0;
 	    UnitTypes.mace.weapons.get(1).bullet.damage = defaultmacedamage1;

@@ -69,6 +69,7 @@ public class FPlagueBasic extends Plugin {
 	    ArrayList<String> gameovervotes = new ArrayList<String>();
 	    int totalplayers = 0; // for some reason i need it here cus java
 	    ArrayList<String> playersThatVoted = new ArrayList<String>();
+	    ArrayList<String> plagueCores = new ArrayList<String>();
 	    
 	   
 	
@@ -392,7 +393,7 @@ public class FPlagueBasic extends Plugin {
         
         
         // Start voting to select next map or see all maps
-        handler.<Player>register("vote", "[MapNumber]" ,"Vote for next map or see all maps", (args, player) -> {
+        handler.<Player>register("rtv", "[MapNumber]" ,"Vote for next map or see all maps", (args, player) -> {
         	if(args.length == 1) {
         	
             Seq<mindustry.maps.Map> allcustommaps = mindustry.Vars.maps.customMaps();
@@ -511,7 +512,7 @@ public class FPlagueBasic extends Plugin {
             });
         
         // How do I explain.. if 4/5th of players voted then game ends
-        handler.<Player>register("gameovervote", "[purple] Vote for the game to end", (args, player) -> { 	
+        handler.<Player>register("endgame", "[purple] Vote for the game to end", (args, player) -> { 	
         	
         	if(Have120SecondsPassed) {
         	if(gameovervotes.contains(player.name)) {
@@ -555,6 +556,7 @@ public class FPlagueBasic extends Plugin {
         	Events.fire(new GameOverEvent(Team.purple));
         	}
         });
+        
         
         handler.<Player>register("gameover2", "Ends round,only used if game didn't end", (args, player) -> {
         	ArrayList<String> cores = new ArrayList<String>();
@@ -639,14 +641,14 @@ public class FPlagueBasic extends Plugin {
 		rules.fire = false; // Obvious
 		rules.logicUnitBuild = false; // You know why
 		rules.damageExplosions = false; // NO NO NO
-		rules.enemyCoreBuildRadius = 700;
+		
 				
         survivorBanned = rules.copy();
         survivorBanned.bannedBlocks.addAll(Blocks.groundFactory, Blocks.navalFactory, Blocks.commandCenter, Blocks.multiplicativeReconstructor);
+        survivorBanned.enemyCoreBuildRadius = 700;
         
         plagueBanned = rules.copy();
         plagueBanned.bannedBlocks.addAll(Blocks.battery, Blocks.batteryLarge, Blocks.steamGenerator, Blocks.combustionGenerator, Blocks.differentialGenerator, Blocks.rtgGenerator, Blocks.thermalGenerator, Blocks.impactReactor, Blocks.duo, Blocks.scatter, Blocks.scorch, Blocks.hail, Blocks.lancer, Blocks.arc, Blocks.parallax, Blocks.swarmer, Blocks.salvo, Blocks.segment, Blocks.tsunami, Blocks.fuse, Blocks.ripple, Blocks.cyclone, Blocks.foreshadow, Blocks.spectre, Blocks.meltdown, Blocks.navalFactory, Blocks.copperWall, Blocks.copperWallLarge, Blocks.titaniumWall, Blocks.titaniumWallLarge, Blocks.plastaniumWall, Blocks.plastaniumWallLarge, Blocks.thoriumWall, Blocks.thoriumWallLarge, Blocks.phaseWall, Blocks.phaseWallLarge, Blocks.surgeWall, Blocks.surgeWallLarge, Blocks.door, Blocks.doorLarge, Blocks.thoriumReactor, Blocks.solarPanel, Blocks.largeSolarPanel); // Can't be trusted
-       
         
         Blocks.powerSource.health = Integer.MAX_VALUE;
         
