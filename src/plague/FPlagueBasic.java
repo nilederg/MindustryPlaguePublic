@@ -36,6 +36,7 @@ import mindustry.mod.Plugin;
 import mindustry.net.Administration.ActionType;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
+import mindustry.world.Tile;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 
@@ -69,7 +70,7 @@ public class FPlagueBasic extends Plugin {
 	    ArrayList<String> gameovervotes = new ArrayList<String>();
 	    int totalplayers = 0; // for some reason i need it here cus java
 	    ArrayList<String> playersThatVoted = new ArrayList<String>();
-	    ArrayList<String> plagueCores = new ArrayList<String>();
+	    ArrayList<Tile> plagueCores = new ArrayList<Tile>();
 	    
 	   
 	
@@ -115,10 +116,21 @@ public class FPlagueBasic extends Plugin {
 			boulders.add(Blocks.sandBoulder);
 			boulders.add(Blocks.shaleBoulder);
 			boulders.add(Blocks.snowBoulder);
+			if(plagueCores.isEmpty() && Vars.state.gameOver == false) {
+				for(int x = 0; x < Vars.world.width(); x++) {
+					for(int y = 0; y < Vars.world.height(); y++) {
+						if(Vars.world.tile(x, y).block() == Blocks.coreFoundation || Vars.world.tile(x, y).block() == Blocks.coreShard || Vars.world.tile(x, y).block() == Blocks.coreNucleus) {
+							if(Vars.world.tile(x, y).team() == Team.purple && Vars.world.tile(x, y).isCenter()) {
+								plagueCores.add(Vars.world.tile(x, y));
+							}
+							
+						}	
+					}
+				}
+			}
 			
-			if(action.block != null && action.type == ActionType.placeBlock && action.player.team() != Team.purple && closestCore(action.tile.x * 8, action.tile.y * 8, Team.purple) < 90){
-				return false;
-            }
+			
+			
 			
 			if(action.block != null && action.type == ActionType.placeBlock && action.tile.block() == Blocks.powerSource) {
 				return false;
@@ -137,6 +149,15 @@ public class FPlagueBasic extends Plugin {
 			if(action.block != null && action.type == ActionType.breakBlock && boulders.contains(action.tile.block())) {
 				action.tile.setNet(Blocks.air);
 				return false;
+			}
+			
+			if(action.block != null && action.type == ActionType.placeBlock){
+				for(Tile b : plagueCores) {
+					if(cartesianDistance(action.tile.x, action.tile.y, b.x, b.y) < 90) {
+					return false;
+					}
+				}
+            
 			}
 			
 			return true;
@@ -281,7 +302,8 @@ public class FPlagueBasic extends Plugin {
 			gameTime = System.currentTimeMillis();
 			lockedCustomTeams.clear();
 			relogTeam.clear();
-			gameovervotes.clear();		
+			gameovervotes.clear();	
+			plagueCores.clear();
 			PlagueTime.timer.cancel();
 			PlagueTime.multiplier1.cancel();
 			PlagueTime.gameover.cancel();
