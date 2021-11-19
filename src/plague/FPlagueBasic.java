@@ -153,7 +153,7 @@ public class FPlagueBasic extends Plugin {
 			
 			if(action.block != null && action.type == ActionType.placeBlock){
 				for(Tile b : plagueCores) {
-					if(cartesianDistance(action.tile.x, action.tile.y, b.x, b.y) < 90) {
+					if(cartesianDistance(action.tile.x, action.tile.y, b.x, b.y) < 90 && action.player.team() != Team.purple) {
 					return false;
 					}
 				}
