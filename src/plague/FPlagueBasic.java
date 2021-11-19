@@ -47,16 +47,9 @@ public class FPlagueBasic extends Plugin {
 	int useless = 0;
 	static boolean Have120SecondsPassed = false;
 	static long gameTime = System.currentTimeMillis();
-	int mapvotes1 = 0;
-	int mapvotes2 = 0;
-	int mapvotes3 = 0;
-	int mapvotes4 = 0;
-	int mapvotes5 = 0;
-	int mapvotes6 = 0;
-	int mapvotes7 = 0;
-	int mapvotes8 = 0;
-	int mapvotes9 = 0;
-	int mapvotes10 = 0;
+	int[] mapvotes = new int[]{0,0,0,0,0,0,0,0,0,0};
+	
+	
 	
 	
 	
@@ -85,7 +78,7 @@ public class FPlagueBasic extends Plugin {
 		rules.fire = false; // Obvious
 		rules.logicUnitBuild = false; // You know why
 		rules.damageExplosions = false; // NO NO NO
-		
+		mapvotes = new int[]{0,0,0,0,0,0,0,0,0,0};
 		
 		init_rules();
 		
@@ -422,99 +415,15 @@ public class FPlagueBasic extends Plugin {
         	if(!playersThatVoted.contains(player.name)) {
         	
         	if(args[0].matches("[0-9]+")) {
-        		int votednumber = Integer.parseInt(args[0]);
-        		if(votednumber == 1) {
         		try {
-        			allcustommaps.get(0);
-        			mapvotes1++;
-        			playersThatVoted.add(player.name);
-        			player.sendMessage("You voted for map " + allcustommaps.get(0).name());
-        		} catch(Exception e) {
-        			player.sendMessage("Vote failed");
-        		}
-        		} else if(votednumber == 2) {
-        			try {
-            			allcustommaps.get(1);
-            			mapvotes2++;
-            			playersThatVoted.add(player.name);
-            			player.sendMessage("You voted for map " + allcustommaps.get(1).name());
-            		} catch(Exception e) {
-            			player.sendMessage("Vote failed");
-            		}
-        		} else if(votednumber == 3) {
-        			try {
-            			allcustommaps.get(2);
-            			mapvotes3++;
-            			playersThatVoted.add(player.name);
-            			player.sendMessage("You voted for map " + allcustommaps.get(2).name());
-            		} catch(Exception e) {
-            			player.sendMessage("Vote failed");
-            		}
-        		} else if(votednumber == 4) {
-        			try {
-            			allcustommaps.get(3);
-            			mapvotes4++;
-            			playersThatVoted.add(player.name);
-            			player.sendMessage("You voted for map " + allcustommaps.get(3).name());
-            		} catch(Exception e) {
-            			player.sendMessage("Vote failed");
-            		}
-        		} else if(votednumber == 5) {
-        			try {
-            			allcustommaps.get(4);
-            			mapvotes5++;
-            			playersThatVoted.add(player.name);
-            			player.sendMessage("You voted for map " + allcustommaps.get(4).name());
-            		} catch(Exception e) {
-            			player.sendMessage("Vote failed");
-            		}
-        		} else if(votednumber == 6) {
-        			try {
-            			allcustommaps.get(5);
-            			mapvotes6++;
-            			playersThatVoted.add(player.name);
-            			player.sendMessage("You voted for map " + allcustommaps.get(5).name());
-            		} catch(Exception e) {
-            			player.sendMessage("Vote failed");
-            		}
-        		} else if(votednumber == 7) {
-        			try {
-            			allcustommaps.get(6);
-            			mapvotes7++;
-            			playersThatVoted.add(player.name);
-            			player.sendMessage("You voted for map " + allcustommaps.get(6).name());
-            		} catch(Exception e) {
-            			player.sendMessage("Vote failed");
-            		}
-        		} else if(votednumber == 8) {
-        			try {
-            			allcustommaps.get(7);
-            			mapvotes8++;
-            			playersThatVoted.add(player.name);
-            			player.sendMessage("You voted for map " + allcustommaps.get(7).name());
-            		} catch(Exception e) {
-            			player.sendMessage("Vote failed");
-            		}
-        		} else if(votednumber == 9) {
-        			try {
-            			allcustommaps.get(8);
-            			mapvotes9++;
-            			playersThatVoted.add(player.name);
-            			player.sendMessage("You voted for map " + allcustommaps.get(8).name());
-            		} catch(Exception e) {
-            			player.sendMessage("Vote failed");
-            		}
-        		} else if(votednumber == 10) {
-        			try {
-            			allcustommaps.get(9);
-            			mapvotes10++;
-            			playersThatVoted.add(player.name);
-            			player.sendMessage("You voted for map " + allcustommaps.get(9).name());
-            		} catch(Exception e) {
-            			player.sendMessage("Vote failed");
-            		}
-        		}	
-	
+                    int votednumber = Integer.parseInt(args[0]) - 1;
+                    mapvotes[votednumber]++;
+                    player.sendMessage("You voted for map " + allcustommaps.get(votednumber).name());
+                    playersThatVoted.add(player.name);                 
+                } catch(Exception e) {
+                    player.sendMessage("Vote failed");
+                }
+        		
         	}
         	
         	} else {
@@ -746,157 +655,20 @@ public class FPlagueBasic extends Plugin {
 	public mindustry.maps.Map mostVotedMap(){
 		playersThatVoted.clear();
 		Seq<mindustry.maps.Map> allmaps = mindustry.Vars.maps.customMaps();
-		if(mapvotes1 > mapvotes2 && mapvotes1 > mapvotes3 && mapvotes1 > mapvotes4 && mapvotes1 > mapvotes5 && mapvotes1 > mapvotes6 && mapvotes1 > mapvotes7 && mapvotes1 > mapvotes8 && mapvotes1 > mapvotes9 && mapvotes1 > mapvotes10) {
-			mapvotes1 = 0;
-			mapvotes2 = 0;
-			mapvotes3 = 0;
-			mapvotes4 = 0;
-			mapvotes5 = 0;
-			mapvotes6 = 0;
-			mapvotes7 = 0;
-			mapvotes8 = 0;
-			mapvotes9 = 0;
-			mapvotes10 = 0;
-			selectedMap = allmaps.get(0);
-			return null;	
+		int max = -1;
+		for(int i = 0; i < 10; i++){
+		  if(mapvotes[i]>(max == -1 ? 0 : mapvotes[max])){
+		    max=i;
+		  }
 		}
-		
-		if(mapvotes2 > mapvotes1 && mapvotes2 > mapvotes3 && mapvotes2 > mapvotes4 && mapvotes2 > mapvotes5 && mapvotes2 > mapvotes6 && mapvotes2 > mapvotes7 && mapvotes2 > mapvotes8 && mapvotes2 > mapvotes9 && mapvotes2 > mapvotes10) {
-			mapvotes1 = 0;
-			mapvotes2 = 0;
-			mapvotes3 = 0;
-			mapvotes4 = 0;
-			mapvotes5 = 0;
-			mapvotes6 = 0;
-			mapvotes7 = 0;
-			mapvotes8 = 0;
-			mapvotes9 = 0;
-			mapvotes10 = 0;
-			selectedMap = allmaps.get(1);
-			return null;	
+		        
+		if(max != -1){
+		  mapvotes = new int[]{0,0,0,0,0,0,0,0,0,0};
+		  selectedMap = allmaps.get(max);
+		  return allmaps.get(max);
+		} else {
+		  return null;
 		}
-		
-		if(mapvotes3 > mapvotes2 && mapvotes3 > mapvotes1 && mapvotes3 > mapvotes4 && mapvotes3 > mapvotes5 && mapvotes3 > mapvotes6 && mapvotes3 > mapvotes7 && mapvotes3 > mapvotes8 && mapvotes3 > mapvotes9 && mapvotes3 > mapvotes10) {
-			mapvotes1 = 0;
-			mapvotes2 = 0;
-			mapvotes3 = 0;
-			mapvotes4 = 0;
-			mapvotes5 = 0;
-			mapvotes6 = 0;
-			mapvotes7 = 0;
-			mapvotes8 = 0;
-			mapvotes9 = 0;
-			mapvotes10 = 0;
-			selectedMap = allmaps.get(2);
-			return null;	
-		}
-		
-		if(mapvotes4 > mapvotes2 && mapvotes4 > mapvotes3 && mapvotes4 > mapvotes1 && mapvotes4 > mapvotes5 && mapvotes4 > mapvotes6 && mapvotes4 > mapvotes7 && mapvotes4 > mapvotes8 && mapvotes4 > mapvotes9 && mapvotes4 > mapvotes10) {
-			mapvotes1 = 0;
-			mapvotes2 = 0;
-			mapvotes3 = 0;
-			mapvotes4 = 0;
-			mapvotes5 = 0;
-			mapvotes6 = 0;
-			mapvotes7 = 0;
-			mapvotes8 = 0;
-			mapvotes9 = 0;
-			mapvotes10 = 0;
-			selectedMap = allmaps.get(3);
-			return null;	
-		}
-		
-		if(mapvotes5 > mapvotes2 && mapvotes5 > mapvotes3 && mapvotes5 > mapvotes4 && mapvotes5 > mapvotes1 && mapvotes5 > mapvotes6 && mapvotes5 > mapvotes7 && mapvotes5 > mapvotes8 && mapvotes5 > mapvotes9 && mapvotes5 > mapvotes10) {
-			mapvotes1 = 0;
-			mapvotes2 = 0;
-			mapvotes3 = 0;
-			mapvotes4 = 0;
-			mapvotes5 = 0;
-			mapvotes6 = 0;
-			mapvotes7 = 0;
-			mapvotes8 = 0;
-			mapvotes9 = 0;
-			mapvotes10 = 0;
-			selectedMap = allmaps.get(4);
-			return null;	
-		}
-		
-		if(mapvotes6 > mapvotes2 && mapvotes6 > mapvotes3 && mapvotes6 > mapvotes4 && mapvotes6 > mapvotes5 && mapvotes6 > mapvotes1 && mapvotes6 > mapvotes7 && mapvotes6 > mapvotes8 && mapvotes6 > mapvotes9 && mapvotes6 > mapvotes10) {
-			mapvotes1 = 0;
-			mapvotes2 = 0;
-			mapvotes3 = 0;
-			mapvotes4 = 0;
-			mapvotes5 = 0;
-			mapvotes6 = 0;
-			mapvotes7 = 0;
-			mapvotes8 = 0;
-			mapvotes9 = 0;
-			mapvotes10 = 0;
-			selectedMap = allmaps.get(5);
-			return null;	
-		}
-		
-		if(mapvotes7 > mapvotes2 && mapvotes7 > mapvotes3 && mapvotes7 > mapvotes4 && mapvotes7 > mapvotes5 && mapvotes7 > mapvotes6 && mapvotes7 > mapvotes1 && mapvotes7 > mapvotes8 && mapvotes7 > mapvotes9 && mapvotes7 > mapvotes10) {
-			mapvotes1 = 0;
-			mapvotes2 = 0;
-			mapvotes3 = 0;
-			mapvotes4 = 0;
-			mapvotes5 = 0;
-			mapvotes6 = 0;
-			mapvotes7 = 0;
-			mapvotes8 = 0;
-			mapvotes9 = 0;
-			mapvotes10 = 0;
-			selectedMap = allmaps.get(6);
-			return null;	
-		}
-		
-		if(mapvotes8 > mapvotes2 && mapvotes8 > mapvotes3 && mapvotes8 > mapvotes4 && mapvotes8 > mapvotes5 && mapvotes8 > mapvotes6 && mapvotes8 > mapvotes7 && mapvotes8 > mapvotes1 && mapvotes8 > mapvotes9 && mapvotes8 > mapvotes10) {
-			mapvotes1 = 0;
-			mapvotes2 = 0;
-			mapvotes3 = 0;
-			mapvotes4 = 0;
-			mapvotes5 = 0;
-			mapvotes6 = 0;
-			mapvotes7 = 0;
-			mapvotes8 = 0;
-			mapvotes9 = 0;
-			mapvotes10 = 0;
-			selectedMap = allmaps.get(7);
-			return null;	
-		}
-		
-		if(mapvotes9 > mapvotes2 && mapvotes9 > mapvotes3 && mapvotes9 > mapvotes4 && mapvotes9 > mapvotes5 && mapvotes9 > mapvotes6 && mapvotes9 > mapvotes7 && mapvotes9 > mapvotes8 && mapvotes9 > mapvotes1 && mapvotes9 > mapvotes10) {
-			mapvotes1 = 0;
-			mapvotes2 = 0;
-			mapvotes3 = 0;
-			mapvotes4 = 0;
-			mapvotes5 = 0;
-			mapvotes6 = 0;
-			mapvotes7 = 0;
-			mapvotes8 = 0;
-			mapvotes9 = 0;
-			mapvotes10 = 0;
-			selectedMap = allmaps.get(8);
-			return null;	
-		}
-		
-		if(mapvotes10 > mapvotes2 && mapvotes10 > mapvotes3 && mapvotes10 > mapvotes4 && mapvotes10 > mapvotes5 && mapvotes10 > mapvotes6 && mapvotes10 > mapvotes7 && mapvotes10 > mapvotes8 && mapvotes10 > mapvotes9 && mapvotes10 > mapvotes1) {
-			mapvotes1 = 0;
-			mapvotes2 = 0;
-			mapvotes3 = 0;
-			mapvotes4 = 0;
-			mapvotes5 = 0;
-			mapvotes6 = 0;
-			mapvotes7 = 0;
-			mapvotes8 = 0;
-			mapvotes9 = 0;
-			mapvotes10 = 0;
-			selectedMap = allmaps.get(9);
-			return null;	
-		}
-		
-		return null;
 		
 		
 	}
