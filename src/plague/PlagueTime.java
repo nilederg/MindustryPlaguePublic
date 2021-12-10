@@ -248,6 +248,13 @@ public class PlagueTime {
      	 multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
      	 UnitTypes.poly.weapons.get(0).bullet.damage = 0;
      	 UnitTypes.poly.weapons.get(1).bullet.damage = 0;
+     	 UnitTypes.quad.weapons.get(0).bullet.splashDamage = 0;
+     	 UnitTypes.quad.weapons.get(0).bullet.damage = 0;
+     	 UnitTypes.mega.weapons.get(0).bullet.damage = 0;
+     	 UnitTypes.mega.weapons.get(1).bullet.damage = 0;
+     	 UnitTypes.mega.weapons.get(2).bullet.damage = 0;
+     	 UnitTypes.mega.weapons.get(3).bullet.damage = 0;
+     	 
             this.cancel();
         }
         
