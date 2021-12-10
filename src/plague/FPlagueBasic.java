@@ -185,7 +185,7 @@ public class FPlagueBasic extends Plugin {
 		
 		// Makes you plague if you join too late also if rejoin put back on team
 		Events.on(PlayerJoin.class, event -> {
-			
+			event.player.sendMessage("[blue]Discord Link: [yellow]https://discord.gg/4JUFvqQ7cw");
 			
 			
 			if(relogTeam.containsKey(event.player.uuid())) {
@@ -458,9 +458,9 @@ public class FPlagueBasic extends Plugin {
         	  	
         	  	Groups.player.each(p -> {
         	  		if(totalplayers <= 5) {
-        	  			p.sendMessage("[yellow] There is currently [purple]" + gameovervotes.size() + "[yellow] votes out of [purple]" + 2 + "[yellow] required.");
+        	  			p.sendMessage("[yellow] There are currently [purple]" + gameovervotes.size() + "[yellow] of [purple]" + 2 + "[yellow] votes to end the game. Vote with /endgame");
         	  		} else {
-        	  		p.sendMessage("[yellow] There is currently [purple]" + gameovervotes.size() + "[yellow] votes out of [purple]" + (totalplayers / 5 * 4) + "[yellow] required.");
+        	  		p.sendMessage("[yellow] There are currently [purple]" + gameovervotes.size() + "[yellow] of [purple]" + (totalplayers / 5 * 4) + "[yellow] votes to end the game. Vote with /endgame");
         	  		}
         	  	});
         	  	

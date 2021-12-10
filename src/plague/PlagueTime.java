@@ -96,7 +96,9 @@ public class PlagueTime {
         	modifier = modifier + 0.05;
      	    modifiermessage = Math.round(modifier * 100.0) / 100.0;
      	    
-     	    // VVV Don't read
+     	    
+     	   
+     	    
      	    
      	   UnitTypes.antumbra.health = defaultantumbrahealth * (float) modifier;
     	   UnitTypes.arkyid.health = defaultarkyidhealth * (float) modifier;
@@ -152,7 +154,8 @@ public class PlagueTime {
     	   
     	    UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * (float) modifier;
     	   
-    	   // Crawler has an ability i assume
+    	    UnitTypes.crawler.weapons.get(0).bullet.splashDamage = defaultcrawlerdamage0 * (float) modifier;
+      	    UnitTypes.crawler.weapons.get(0).bullet.splashDamageRadius = defaultcrawlerdamageradius0 * (float) modifier;
     	   
     	    UnitTypes.dagger.weapons.get(0).bullet.damage = defaultdaggerdamage0 * (float) modifier;
     	    UnitTypes.dagger.weapons.get(1).bullet.damage = defaultdaggerdamage1 * (float) modifier;
@@ -233,6 +236,8 @@ public class PlagueTime {
     	    UnitTypes.zenith.weapons.get(0).bullet.damage =	defaultzenithdamage0 * (float) modifier;
     	    UnitTypes.zenith.weapons.get(1).bullet.damage = defaultzenithdamage1 * (float) modifier;
     	   
+    	    
+    	    
      	    // ^^^ You read it you monster
      	    
      	    
@@ -322,7 +327,8 @@ public class PlagueTime {
 	   
 	    UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0;
 	   
-	   // Crawler has an ability i assume
+	    UnitTypes.crawler.weapons.get(0).bullet.splashDamage = defaultcrawlerdamage0;
+  	    UnitTypes.crawler.weapons.get(0).bullet.splashDamageRadius = defaultcrawlerdamageradius0;
 	   
 	    UnitTypes.dagger.weapons.get(0).bullet.damage = defaultdaggerdamage0;
 	    UnitTypes.dagger.weapons.get(1).bullet.damage = defaultdaggerdamage1;
@@ -467,7 +473,8 @@ public class PlagueTime {
    
    public static float defaultcorvusdamage0 = UnitTypes.corvus.weapons.get(0).bullet.damage;
    
-   // Crawler has an ability i assume
+   public static float defaultcrawlerdamage0 = UnitTypes.crawler.weapons.get(0).bullet.splashDamage;
+   public static float defaultcrawlerdamageradius0 = UnitTypes.crawler.weapons.get(0).bullet.splashDamageRadius;
    
    public static float defaultdaggerdamage0 = UnitTypes.dagger.weapons.get(0).bullet.damage;
    public static float defaultdaggerdamage1 = UnitTypes.dagger.weapons.get(1).bullet.damage;
