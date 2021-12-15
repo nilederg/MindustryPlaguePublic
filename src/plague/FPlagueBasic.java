@@ -57,15 +57,17 @@ public class FPlagueBasic extends Plugin {
 	public static mindustry.maps.Map selectedMap;
 	 private final Rules rules = new Rules();
 	    private Rules survivorBanned = new Rules();
-	    public static Rules plagueBanned = new Rules();
-	    ArrayList<TeamNPass> lockedCustomTeams = new ArrayList<TeamNPass>();
+	    public static Rules plagueBanned = new Rules();	    
 	    Map<String, Team> relogTeam = new HashMap<String, Team>();
 	    ArrayList<String> gameovervotes = new ArrayList<String>();
 	    int totalplayers = 0; // for some reason i need it here cus java
 	    ArrayList<String> playersThatVoted = new ArrayList<String>();
 	    ArrayList<Tile> plagueCores = new ArrayList<Tile>();
-	    
-	   
+	    HashMap<String, Tile> playerCores = new HashMap<String, Tile>();
+	    ArrayList<String> leaders = new ArrayList<String>();
+	    // I need this here cus java
+	    Player kickedPlayer = null;
+	    Team teamProximityCore = null;
 	
 	@Override
     public void init(){
@@ -257,13 +259,48 @@ public class FPlagueBasic extends Plugin {
             	
             	
             	if(closestcores.isEmpty() == true) {
-            		event.builder.getPlayer().team(chosenteam);
-            		Call.setRules(event.builder.getPlayer().con, survivorBanned);
-            		event.tile.setNet(Blocks.coreFoundation, Team.all[randomTeamNumber], 0);
-        			event.builder.getPlayer().sendMessage("Your team number is: [green]" + randomTeamNumber);
-            		for(ItemStack stack : rules.loadout) {
-        				Call.setItem(event.tile.build, stack.item, stack.amount);    			
-        			}
+            		 
+                			 
+                	playerCores.forEach((p, core) -> {
+                		System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));		
+                	if(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y) > distanceaway && cartesianDistance(event.tile.x, event.tile.y, core.x, core.y) < distanceaway + 20) {
+                		System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));
+                		teamProximityCore = Vars.world.tile(core.x, core.y).build.team;       				
+                    }
+                					
+                	});
+                				
+                				
+                				
+                			
+            				
+                		
+            			
+            		
+            		
+            		
+            		
+            		
+            		if(teamProximityCore != null) {
+            			event.builder.getPlayer().team(teamProximityCore);
+                		Call.setRules(event.builder.getPlayer().con, survivorBanned);
+                		event.tile.setNet(Blocks.coreFoundation, Team.all[teamProximityCore.id], 0);
+                		for(ItemStack stack : rules.loadout) {
+            				Call.setItem(event.tile.build, stack.item, stack.amount);    			
+            			}
+                		playerCores.put(event.builder.getPlayer().uuid(), event.tile);
+                		
+            		} else {
+            			event.builder.getPlayer().team(chosenteam);
+                		Call.setRules(event.builder.getPlayer().con, survivorBanned);
+                		event.tile.setNet(Blocks.coreFoundation, Team.all[randomTeamNumber], 0);
+                		for(ItemStack stack : rules.loadout) {
+            				Call.setItem(event.tile.build, stack.item, stack.amount);    			
+            			}
+                		playerCores.put(event.builder.getPlayer().uuid(), event.tile);
+                		leaders.add(event.builder.getPlayer().uuid());
+                		
+            		}
             		
             		
             		
@@ -271,6 +308,7 @@ public class FPlagueBasic extends Plugin {
             	}
         	teamcores.clear();
         	closestcores.clear();
+        	teamProximityCore = null;
         	}
         });
 		
@@ -293,10 +331,11 @@ public class FPlagueBasic extends Plugin {
 			
 			
 			gameTime = System.currentTimeMillis();
-			lockedCustomTeams.clear();
 			relogTeam.clear();
 			gameovervotes.clear();	
 			plagueCores.clear();
+			playerCores.clear();
+			leaders.clear();
 			PlagueTime.timer.cancel();
 			PlagueTime.multiplier1.cancel();
 			PlagueTime.gameover.cancel();
@@ -373,6 +412,39 @@ public class FPlagueBasic extends Plugin {
         });
         
         
+        // Kick a player from the team
+        handler.<Player>register("teamkick", "<player>", "Kick a player from your team", (args, player) -> {
+        
+        Groups.player.each(p ->{
+        	
+        	if(Strings.stripColors(p.name).equalsIgnoreCase(args[0])) {
+        		
+        		kickedPlayer = p;
+        	}
+        });
+        
+        	if(kickedPlayer == null) {
+        		player.sendMessage("No player with such name");
+        	} else {
+        		if(leaders.contains(player.uuid()) && player.team() == kickedPlayer.team() && player != kickedPlayer) {
+        			if(Have120SecondsPassed == true){
+        				kickedPlayer.team(Team.purple);
+        			} else {
+        				kickedPlayer.team(Team.sharded);
+        			}
+        			
+        			
+        			Tile playerCore = playerCores.get(kickedPlayer.uuid());
+        			playerCore.setNet(Blocks.air);
+        		    playerCores.remove(kickedPlayer.uuid());
+        		    
+        		} else {
+        			player.sendMessage("[red]You aren't a leader/team creator or target player is in another team");
+        		}
+        		
+        	}
+        	kickedPlayer = null;	
+        });
          
         
         
@@ -515,43 +587,9 @@ public class FPlagueBasic extends Plugin {
         
         
         
-        handler.<Player>register("setteampass", "<Password>", "Put a team password and allows people to join using it - [red]Custom Teams Only", (args, player) -> {
-        	if(args.length == 1 && player.team() != Team.sharded && player.team() != Team.purple) {
-        	
-        	TeamNPass teampass = new TeamNPass(player.team().id, args[0]);
-        	
-        	lockedCustomTeams.add(teampass);
-        	
-        	}
-        	   	
-        });
         
-        handler.<Player>register("joincustomteam", "<Password> <TeamNumber>", "Join a custom team -[red] Custom Teams Only", (args, player) -> {
-        	if(args.length == 2 && args[1].matches("[0-9]+") && player.team() != Team.purple) {
-        		int chosenteamnumber = Integer.parseInt(args[1]);
-            	
-     	
-        	
-        	
-        	for(TeamNPass joining : lockedCustomTeams) {
-        		
-        		int findingteamid = Math.round(joining.teamid);
-        		String findingteampass = joining.password;
-        		
-        		int tryingtojoinid = Math.round(chosenteamnumber);
-        		String tryingtojoinpass = args[0];
-        		
-        		
-        		
-        		if(findingteamid == tryingtojoinid && findingteampass.equals(tryingtojoinpass)) {
-        		System.out.println("what");
-        			player.team(Team.all[chosenteamnumber]);
-        		}
-        	}
-        	
-        	}
-        	   	
-        });
+        
+        
         
         
         
