@@ -263,7 +263,7 @@ public class FPlagueBasic extends Plugin {
                 			 
                 	playerCores.forEach((p, core) -> {
                 		System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));		
-                	if(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y) > distanceaway && cartesianDistance(event.tile.x, event.tile.y, core.x, core.y) < distanceaway + 20) {
+                	if(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y) < distanceaway + 80) {
                 		System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));
                 		teamProximityCore = Vars.world.tile(core.x, core.y).build.team;       				
                     }
@@ -614,7 +614,6 @@ public class FPlagueBasic extends Plugin {
 				
         survivorBanned = rules.copy();
         survivorBanned.bannedBlocks.addAll(Blocks.groundFactory, Blocks.navalFactory, Blocks.commandCenter, Blocks.multiplicativeReconstructor);
-        survivorBanned.enemyCoreBuildRadius = 700;
         
         plagueBanned = rules.copy();
         plagueBanned.bannedBlocks.addAll(Blocks.battery, Blocks.batteryLarge, Blocks.steamGenerator, Blocks.combustionGenerator, Blocks.differentialGenerator, Blocks.rtgGenerator, Blocks.thermalGenerator, Blocks.impactReactor, Blocks.duo, Blocks.scatter, Blocks.scorch, Blocks.hail, Blocks.lancer, Blocks.arc, Blocks.parallax, Blocks.swarmer, Blocks.salvo, Blocks.segment, Blocks.tsunami, Blocks.fuse, Blocks.ripple, Blocks.cyclone, Blocks.foreshadow, Blocks.spectre, Blocks.meltdown, Blocks.navalFactory, Blocks.copperWall, Blocks.copperWallLarge, Blocks.titaniumWall, Blocks.titaniumWallLarge, Blocks.plastaniumWall, Blocks.plastaniumWallLarge, Blocks.thoriumWall, Blocks.thoriumWallLarge, Blocks.phaseWall, Blocks.phaseWallLarge, Blocks.surgeWall, Blocks.surgeWallLarge, Blocks.door, Blocks.doorLarge, Blocks.thoriumReactor, Blocks.solarPanel, Blocks.largeSolarPanel); // Can't be trusted
