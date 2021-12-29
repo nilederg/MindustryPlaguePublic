@@ -188,7 +188,8 @@ public class FPlagueBasic extends Plugin {
 		// Makes you plague if you join too late also if rejoin put back on team
 		Events.on(PlayerJoin.class, event -> {
 			event.player.sendMessage("[blue]Discord Link: [yellow]https://discord.gg/4JUFvqQ7cw");
-			
+			event.player.sendMessage("[yellow]Rules:");
+			event.player.sendMessage("[purple]Survivors aren't allowed to attack other survivors");
 			
 			if(relogTeam.containsKey(event.player.uuid())) {
 	          event.player.team(relogTeam.get(event.player.uuid()));
@@ -231,7 +232,6 @@ public class FPlagueBasic extends Plugin {
         	ArrayList<String> teamcores = new ArrayList<String>();
         	ArrayList<Float> closestcores = new ArrayList<Float>();
         	float distanceaway = 80;
-        	
         	
         	
         	for(int x = 0; x < Vars.world.width(); x++){
