@@ -12,6 +12,7 @@ import mindustry.game.Team;
 import mindustry.game.EventType.GameOverEvent;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
+import mindustry.type.Weapon;
 
 
 public class PlagueTime {
@@ -246,14 +247,41 @@ public class PlagueTime {
       		p.sendMessage("[yellow]Units now deal increased [red]damage[yellow] and have more [green]health[yellow] for a total multiplier of [red]" + modifiermessage + "x");
       	});
      	 multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
-     	 UnitTypes.poly.weapons.get(0).bullet.damage = 0;
-     	 UnitTypes.poly.weapons.get(1).bullet.damage = 0;
-     	 UnitTypes.quad.weapons.get(0).bullet.splashDamage = 0;
-     	 UnitTypes.quad.weapons.get(0).bullet.damage = 0;
-     	 UnitTypes.mega.weapons.get(0).bullet.damage = 0;
-     	 UnitTypes.mega.weapons.get(1).bullet.damage = 0;
-     	 UnitTypes.mega.weapons.get(2).bullet.damage = 0;
-     	 UnitTypes.mega.weapons.get(3).bullet.damage = 0;
+     	 
+     	 for(Weapon w : UnitTypes.mega.weapons) {
+     		 w.bullet.damage = 0;
+     		 w.bullet.splashDamage = 0;
+     	 }
+     	 for(Weapon w : UnitTypes.quad.weapons) {
+     	     w.bullet.damage = 0;
+     		 w.bullet.splashDamage = 0;
+     	 }
+     	 for(Weapon w : UnitTypes.poly.weapons) {
+    		 w.bullet.damage = 0;
+    		 w.bullet.splashDamage = 0;
+    	 }
+     	 for(Weapon w : UnitTypes.flare.weapons) {
+     		w.bullet.damage = 0;
+     		w.bullet.splashDamage = 0;
+     	 }
+     	 for(Weapon w : UnitTypes.horizon.weapons) {
+     		w.bullet.damage = 0;
+     		w.bullet.splashDamage = 0;
+     	 }
+     	 for(Weapon w : UnitTypes.zenith.weapons) {
+     		w.bullet.damage = 0;
+     		w.bullet.splashDamage = 0;
+     	 }
+     	 for(Weapon w : UnitTypes.antumbra.weapons) {
+     		w.bullet.damage = 0;
+     		w.bullet.splashDamage = 0;
+     	 }
+     	 for(Weapon w : UnitTypes.eclipse.weapons) {
+     		w.bullet.damage = 0;
+     		w.bullet.splashDamage = 0;
+     	 }
+     	 
+     	 
      	 
             this.cancel();
         }
