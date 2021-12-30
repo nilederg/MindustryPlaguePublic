@@ -187,9 +187,12 @@ public class FPlagueBasic extends Plugin {
 		
 		// Makes you plague if you join too late also if rejoin put back on team
 		Events.on(PlayerJoin.class, event -> {
-			event.player.sendMessage("[blue]Discord Link: [yellow]https://discord.gg/rfzm5xgJSC");
-			event.player.sendMessage("[yellow]Rules:");
-			event.player.sendMessage("[purple]Survivors aren't allowed to attack other survivors");
+				event.player.sendMessage("[blue]Discord Link: [yellow]https://discord.gg/rfzm5xgJSC");
+				event.player.sendMessage("[yellow]/rules for rules");
+				event.player.sendMessage("Type /respawn if you don't have a core unit");
+				event.player.sendMessage("Type /info for gameplay information[WIP]");
+			
+			
 			
 			if(relogTeam.containsKey(event.player.uuid())) {
 	          event.player.team(relogTeam.get(event.player.uuid()));
@@ -411,6 +414,22 @@ public class FPlagueBasic extends Plugin {
         	
         });
         
+        
+        
+        handler.<Player>register("rules", "All the rules on the server", (args, player) -> {
+            player.sendMessage("1. Don't grief");
+            player.sendMessage("2. Griefing includes wasting resources, you know who you are.");
+            player.sendMessage("3. Shooting someone's core with a core unit is punishable by a kick, as it blocks visibility of resource display with a warning message.");
+            player.sendMessage("4. Don't be toxic.");
+            player.sendMessage("5. No blast bombing");
+            player.sendMessage("6. Surv vs surv combat is a kickable offense");
+            player.sendMessage("7. Don't build within a survivor's territory as plague. You know what they have conquered, use your head.");       	
+        });
+        
+        handler.<Player>register("info", "info", (args, player) -> {
+            player.sendMessage("Command not done yet");
+        	
+        });
         
         // Kick a player from the team
         handler.<Player>register("teamkick", "<player>", "Kick a player from your team", (args, player) -> {
