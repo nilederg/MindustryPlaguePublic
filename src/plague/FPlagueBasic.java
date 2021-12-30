@@ -187,7 +187,7 @@ public class FPlagueBasic extends Plugin {
 		
 		// Makes you plague if you join too late also if rejoin put back on team
 		Events.on(PlayerJoin.class, event -> {
-			event.player.sendMessage("[blue]Discord Link: [yellow]https://discord.gg/4JUFvqQ7cw");
+			event.player.sendMessage("[blue]Discord Link: [yellow]https://discord.gg/rfzm5xgJSC");
 			event.player.sendMessage("[yellow]Rules:");
 			event.player.sendMessage("[purple]Survivors aren't allowed to attack other survivors");
 			
