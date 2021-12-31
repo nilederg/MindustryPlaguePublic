@@ -190,9 +190,7 @@ public class FPlagueBasic extends Plugin {
 				event.player.sendMessage("[blue]Discord Link: [yellow]https://discord.gg/rfzm5xgJSC");
 				event.player.sendMessage("[yellow]/rules for rules");
 				event.player.sendMessage("Type /respawn if you don't have a core unit");
-				event.player.sendMessage("Type /info for gameplay information[WIP]");
-			
-			
+				event.player.sendMessage("Type /info for gameplay information[WIP]");			
 			
 			if(relogTeam.containsKey(event.player.uuid())) {
 	          event.player.team(relogTeam.get(event.player.uuid()));
@@ -253,7 +251,7 @@ public class FPlagueBasic extends Plugin {
             			
             			if(nearestEnemyCore != null) {
             				if(cartesianDistance(event.builder.getPlayer().x / 8, event.builder.getPlayer().y / 8, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()) < distanceaway) {
-            			closestcores.add(cartesianDistance(event.builder.getPlayer().x, event.builder.getPlayer().y, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()));
+            		//	closestcores.add(cartesianDistance(event.builder.getPlayer().x, event.builder.getPlayer().y, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()));
             			
             				}
             				}
