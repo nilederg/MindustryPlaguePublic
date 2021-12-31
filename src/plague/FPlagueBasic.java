@@ -600,6 +600,21 @@ public class FPlagueBasic extends Plugin {
         	
         });
         
+        handler.<Player>register("playerlist", "Shows all players and their team", (args, player) -> {
+        	Groups.player.each(p -> {
+        		if(p.team() != Team.crux) {
+        			if(leaders.contains(p.uuid())) {
+        				player.sendMessage("[red]" + p.name + "(Leader)" + " [yellow]Team ID:" + p.team().id);
+        			} else {
+        				player.sendMessage("[red]" + p.name + " [yellow]Team ID:" + p.team().id);
+        			}
+        			
+        			
+        		}
+        	});
+
+        });
+        
         
         
         
