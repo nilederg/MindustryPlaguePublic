@@ -25,18 +25,12 @@ public class PlagueTime {
 	   
 	
 	public PlagueTime(int seconds) {
-		
-		
-		
-		
         timer = new Timer();
         timer.schedule(new PlagueyTime(), 125 * 1000);
         multiplier1 = new Timer();
         multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
         gameover = new Timer();
         gameover.schedule(new gameOvering(), 132 * 1000);
-        
-        
 	}
 
     class PlagueyTime extends TimerTask {
@@ -49,12 +43,6 @@ public class PlagueTime {
         			//FPlagueBasic.randomGen(Vars.world.width(), Vars.world.height());
         		}
         	});
-        	
-            
-            
-           
-            
-          
         }
     }
     
@@ -64,11 +52,10 @@ public class PlagueTime {
         	for(int x = 0; x < Vars.world.width(); x++) {
 				for(int y = 0; y < Vars.world.height(); y++) {
 					if(Vars.world.tile(x, y).block() == Blocks.coreShard || Vars.world.tile(x, y).block() == Blocks.coreFoundation || Vars.world.tile(x, y).block() == Blocks.coreNucleus) {
-					if(Vars.world.tile(x, y).build.team != Team.purple) {
-						cores.add("There is a surv core");
+						if(Vars.world.tile(x, y).build.team != Team.purple) {
+							cores.add("There is a surv core");
+						}
 					}
-					}
-					
 				}
 			}
         	
@@ -87,56 +74,47 @@ public class PlagueTime {
         }
     }
     
-    
-    
-    
-    
     class UnitMultiplier extends TimerTask {
         public void run() {
         	modifier = modifier * 1.05;
         	modifier = modifier + 0.05;
      	    modifiermessage = Math.round(modifier * 100.0) / 100.0;
-     	    
-     	    
-     	   
-     	    
-     	    
-     	   UnitTypes.antumbra.health = defaultantumbrahealth * (float) modifier;
-    	   UnitTypes.arkyid.health = defaultarkyidhealth * (float) modifier;
-    	   UnitTypes.atrax.health = defaultatraxhealth * (float) modifier;
-    	   UnitTypes.bryde.health = defaultbrydehealth * (float) modifier;
-    	   UnitTypes.corvus.health = defaultcorvushealth * (float) modifier;
-    	   UnitTypes.crawler.health = defaultcrawlerhealth * (float) modifier;
-    	   UnitTypes.dagger.health = defaultdaggerhealth * (float) modifier;
-    	   UnitTypes.eclipse.health = defaulteclipsehealth * (float) modifier;
-    	   UnitTypes.fortress.health = defaultfortresshealth * (float) modifier;
-    	   UnitTypes.horizon.health = defaulthorizonhealth * (float) modifier;
-    	   UnitTypes.mace.health = defaultmacehealth * (float) modifier;
-    	   UnitTypes.mega.health = defaultmegahealth * (float) modifier;
-    	   UnitTypes.minke.health = defaultminkehealth * (float) modifier;
-    	   UnitTypes.nova.health = defaultnovahealth * (float) modifier;
-    	   UnitTypes.oct.health = defaultocthealth * (float) modifier;
-    	   UnitTypes.omura.health = defaultomurahealth * (float) modifier;
-    	   UnitTypes.poly.health = defaultpolyhealth * (float) modifier;
-    	   UnitTypes.pulsar.health = defaultpulsarhealth * (float) modifier;
-    	   UnitTypes.quad.health = defaultquadhealth * (float) modifier;
-    	   UnitTypes.quasar.health = defaultquasarhealth * (float) modifier;
-    	   UnitTypes.reign.health = defaultreignhealth * (float) modifier;
-    	   UnitTypes.risso.health = defaultrissohealth * (float) modifier;
-    	   UnitTypes.scepter.health = defaultscepterhealth * (float) modifier;
-    	   UnitTypes.sei.health = defaultseihealth * (float) modifier;
-    	   UnitTypes.spiroct.health = defaultspirocthealth * (float) modifier;
-    	   UnitTypes.toxopid.health = defaulttoxopidhealth * (float) modifier;
-    	   UnitTypes.vela.health = defaultvelahealth * (float) modifier;
-    	   UnitTypes.zenith.health = defaultzenithhealth * (float) modifier;
-     	    
-    	   UnitTypes.antumbra.weapons.get(0).bullet.damage = defaultantumbradamage0 * (float) modifier;
-    	   UnitTypes.antumbra.weapons.get(1).bullet.damage = defaultantumbradamage1 * (float) modifier;
-    	   UnitTypes.antumbra.weapons.get(2).bullet.damage = defaultantumbradamage2 * (float) modifier;
-    	   UnitTypes.antumbra.weapons.get(3).bullet.damage = defaultantumbradamage3 * (float) modifier;
-    	   UnitTypes.antumbra.weapons.get(4).bullet.damage = defaultantumbradamage4 * (float) modifier;
-    	   UnitTypes.antumbra.weapons.get(5).bullet.damage = defaultantumbradamage5 * (float) modifier;
-       
+     	    UnitTypes.antumbra.health = defaultantumbrahealth * (float) modifier;
+     	    UnitTypes.arkyid.health = defaultarkyidhealth * (float) modifier;
+     	    UnitTypes.atrax.health = defaultatraxhealth * (float) modifier;
+     	    UnitTypes.bryde.health = defaultbrydehealth * (float) modifier;
+     	    UnitTypes.corvus.health = defaultcorvushealth * (float) modifier;
+     	    UnitTypes.crawler.health = defaultcrawlerhealth * (float) modifier;
+     	    UnitTypes.dagger.health = defaultdaggerhealth * (float) modifier;
+     	    UnitTypes.eclipse.health = defaulteclipsehealth * (float) modifier;
+     	    UnitTypes.fortress.health = defaultfortresshealth * (float) modifier;
+     	    UnitTypes.horizon.health = defaulthorizonhealth * (float) modifier;
+     	    UnitTypes.mace.health = defaultmacehealth * (float) modifier;
+     	    UnitTypes.mega.health = defaultmegahealth * (float) modifier;
+    	   	UnitTypes.minke.health = defaultminkehealth * (float) modifier;
+    	   	UnitTypes.nova.health = defaultnovahealth * (float) modifier;
+    	   	UnitTypes.oct.health = defaultocthealth * (float) modifier;
+    	   	UnitTypes.omura.health = defaultomurahealth * (float) modifier;
+    	   	UnitTypes.poly.health = defaultpolyhealth * (float) modifier;
+    	   	UnitTypes.pulsar.health = defaultpulsarhealth * (float) modifier;
+    	   	UnitTypes.quad.health = defaultquadhealth * (float) modifier;
+    	   	UnitTypes.quasar.health = defaultquasarhealth * (float) modifier;
+    	   	UnitTypes.reign.health = defaultreignhealth * (float) modifier;
+    	   	UnitTypes.risso.health = defaultrissohealth * (float) modifier;
+    	   	UnitTypes.scepter.health = defaultscepterhealth * (float) modifier;
+    	   	UnitTypes.sei.health = defaultseihealth * (float) modifier;
+    	   	UnitTypes.spiroct.health = defaultspirocthealth * (float) modifier;
+    	   	UnitTypes.toxopid.health = defaulttoxopidhealth * (float) modifier;
+    	   	UnitTypes.vela.health = defaultvelahealth * (float) modifier;
+    	   	UnitTypes.zenith.health = defaultzenithhealth * (float) modifier;
+
+    	   	UnitTypes.antumbra.weapons.get(0).bullet.damage = defaultantumbradamage0 * (float) modifier;
+    	   	UnitTypes.antumbra.weapons.get(1).bullet.damage = defaultantumbradamage1 * (float) modifier;
+    	   	UnitTypes.antumbra.weapons.get(2).bullet.damage = defaultantumbradamage2 * (float) modifier;
+    	   	UnitTypes.antumbra.weapons.get(3).bullet.damage = defaultantumbradamage3 * (float) modifier;
+    	   	UnitTypes.antumbra.weapons.get(4).bullet.damage = defaultantumbradamage4 * (float) modifier;
+    	   	UnitTypes.antumbra.weapons.get(5).bullet.damage = defaultantumbradamage5 * (float) modifier;
+
     	    UnitTypes.arkyid.weapons.get(0).bullet.damage = defaultarkyiddamage0 * (float) modifier;
     	    UnitTypes.arkyid.weapons.get(1).bullet.damage = defaultarkyiddamage1 * (float) modifier;
     	    UnitTypes.arkyid.weapons.get(2).bullet.damage = defaultarkyiddamage2 * (float) modifier;
@@ -243,106 +221,97 @@ public class PlagueTime {
      	    
      	    
      	       	   
-     	  Groups.player.each(p -> {
-      		p.sendMessage("[yellow]Units now deal increased [red]damage[yellow] and have more [green]health[yellow] for a total multiplier of [red]" + modifiermessage + "x");
-      	});
-     	 multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
+     	  	Groups.player.each(p -> {
+      			p.sendMessage("[yellow]Units now deal increased [red]damage[yellow] and have more [green]health[yellow] for a total multiplier of [red]" + modifiermessage + "x");
+      		});
+     	 	multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
      	 
-     	 for(Weapon w : UnitTypes.mega.weapons) {
-     		 w.bullet.damage = 0;
-     		 w.bullet.splashDamage = 0;
-     	 }
-     	 for(Weapon w : UnitTypes.quad.weapons) {
-     	     w.bullet.damage = 0;
-     		 w.bullet.splashDamage = 0;
-     	 }
-     	 for(Weapon w : UnitTypes.poly.weapons) {
-    		 w.bullet.damage = 0;
-    		 w.bullet.splashDamage = 0;
-    	 }
-     	 for(Weapon w : UnitTypes.flare.weapons) {
-     		w.bullet.damage = 0;
-     		w.bullet.splashDamage = 0;
-     	 }
-     	 for(Weapon w : UnitTypes.horizon.weapons) {
-     		w.bullet.damage = 0;
-     		w.bullet.splashDamage = 0;
-     	 }
-     	 for(Weapon w : UnitTypes.zenith.weapons) {
-     		w.bullet.damage = 0;
-     		w.bullet.splashDamage = 0;
-     	 }
-     	 for(Weapon w : UnitTypes.antumbra.weapons) {
-     		w.bullet.damage = 0;
-     		w.bullet.splashDamage = 0;
-     	 }
-     	 for(Weapon w : UnitTypes.eclipse.weapons) {
-     		w.bullet.damage = 0;
-     		w.bullet.splashDamage = 0;
-     	 }
-     	 
-     	 
-     	 
+			 for(Weapon w : UnitTypes.mega.weapons) {
+				 w.bullet.damage = 0;
+				 w.bullet.splashDamage = 0;
+			 }
+			 for(Weapon w : UnitTypes.quad.weapons) {
+				 w.bullet.damage = 0;
+				 w.bullet.splashDamage = 0;
+			 }
+			 for(Weapon w : UnitTypes.poly.weapons) {
+				 w.bullet.damage = 0;
+				 w.bullet.splashDamage = 0;
+			 }
+			 for(Weapon w : UnitTypes.flare.weapons) {
+				w.bullet.damage = 0;
+				w.bullet.splashDamage = 0;
+			 }
+			 for(Weapon w : UnitTypes.horizon.weapons) {
+				w.bullet.damage = 0;
+				w.bullet.splashDamage = 0;
+			 }
+			 for(Weapon w : UnitTypes.zenith.weapons) {
+				w.bullet.damage = 0;
+				w.bullet.splashDamage = 0;
+			 }
+			 for(Weapon w : UnitTypes.antumbra.weapons) {
+				w.bullet.damage = 0;
+				w.bullet.splashDamage = 0;
+			 }
+			 for(Weapon w : UnitTypes.eclipse.weapons) {
+				w.bullet.damage = 0;
+				w.bullet.splashDamage = 0;
+			 }
             this.cancel();
         }
-        
         // Below will be disabled damage but weapons aren't deleted like on other units
-        
-        
-        
     }
-    
-    
-    
+
     // NIGHTMARES BELOW DO NOT CHECK
     // Resets all damage and health to default
     
-   public static void resetToDefaults() {
+   	public static void resetToDefaults() {
 	   
 	   //DEFAULT UNITS ARE GAY
-	   UnitTypes.flare.health = 1;
-	   UnitTypes.gamma.health = 1;
-	   UnitTypes.beta.health = 1;
-	   UnitTypes.alpha.health = 1;
+	   	UnitTypes.flare.health = 1;
+	   	UnitTypes.gamma.health = 1;
+	   	UnitTypes.beta.health = 1;
+	   	UnitTypes.alpha.health = 1;
+
+
+	   	UnitTypes.antumbra.health = defaultantumbrahealth;
+	   	UnitTypes.arkyid.health = defaultarkyidhealth;
+	   	UnitTypes.atrax.health = defaultatraxhealth;
+	   	UnitTypes.bryde.health = defaultbrydehealth;
+	   	UnitTypes.corvus.health = defaultcorvushealth;
+	   	UnitTypes.crawler.health = defaultcrawlerhealth;
+	   	UnitTypes.dagger.health = defaultdaggerhealth;
+	   	UnitTypes.eclipse.health = defaulteclipsehealth;
+	   	UnitTypes.fortress.health = defaultfortresshealth;
+	   	UnitTypes.horizon.health = defaulthorizonhealth;
+	   	UnitTypes.mace.health = defaultmacehealth;
+	   	UnitTypes.mega.health = defaultmegahealth;
+	   	UnitTypes.minke.health = defaultminkehealth;
+	   	UnitTypes.nova.health = defaultnovahealth;
+	   	UnitTypes.oct.health = defaultocthealth;
+	   	UnitTypes.omura.health = defaultomurahealth;
+	   	UnitTypes.poly.health = defaultpolyhealth;
+	   	UnitTypes.pulsar.health = defaultpulsarhealth;
+	   	UnitTypes.quad.health = defaultquadhealth;
+	   	UnitTypes.quasar.health = defaultquasarhealth;
+	   	UnitTypes.reign.health = defaultreignhealth;
+	   	UnitTypes.risso.health = defaultrissohealth;
+	   	UnitTypes.scepter.health = defaultscepterhealth;
+	   	UnitTypes.sei.health = defaultseihealth;
+	   	UnitTypes.spiroct.health = defaultspirocthealth;
+	   	UnitTypes.toxopid.health = defaulttoxopidhealth;
+	   	UnitTypes.vela.health = defaultvelahealth;
+	   	UnitTypes.zenith.health = defaultzenithhealth;
+
 	   
 	   
-	   UnitTypes.antumbra.health = defaultantumbrahealth;
-	   UnitTypes.arkyid.health = defaultarkyidhealth;
-	   UnitTypes.atrax.health = defaultatraxhealth;
-	   UnitTypes.bryde.health = defaultbrydehealth;
-	   UnitTypes.corvus.health = defaultcorvushealth;
-	   UnitTypes.crawler.health = defaultcrawlerhealth;
-	   UnitTypes.dagger.health = defaultdaggerhealth;
-	   UnitTypes.eclipse.health = defaulteclipsehealth;
-	   UnitTypes.fortress.health = defaultfortresshealth;
-	   UnitTypes.horizon.health = defaulthorizonhealth;
-	   UnitTypes.mace.health = defaultmacehealth;
-	   UnitTypes.mega.health = defaultmegahealth;
-	   UnitTypes.minke.health = defaultminkehealth;
-	   UnitTypes.nova.health = defaultnovahealth;
-	   UnitTypes.oct.health = defaultocthealth;
-	   UnitTypes.omura.health = defaultomurahealth;
-	   UnitTypes.poly.health = defaultpolyhealth;
-	   UnitTypes.pulsar.health = defaultpulsarhealth;
-	   UnitTypes.quad.health = defaultquadhealth;
-	   UnitTypes.quasar.health = defaultquasarhealth;
-	   UnitTypes.reign.health = defaultreignhealth;
-	   UnitTypes.risso.health = defaultrissohealth;
-	   UnitTypes.scepter.health = defaultscepterhealth;
-	   UnitTypes.sei.health = defaultseihealth;
-	   UnitTypes.spiroct.health = defaultspirocthealth;
-	   UnitTypes.toxopid.health = defaulttoxopidhealth;
-	   UnitTypes.vela.health = defaultvelahealth;
-	   UnitTypes.zenith.health = defaultzenithhealth;
-	   
-	   
-	   
-	   UnitTypes.antumbra.weapons.get(0).bullet.damage = defaultantumbradamage0;
-	   UnitTypes.antumbra.weapons.get(1).bullet.damage = defaultantumbradamage1;
-	   UnitTypes.antumbra.weapons.get(2).bullet.damage = defaultantumbradamage2;
-	   UnitTypes.antumbra.weapons.get(3).bullet.damage = defaultantumbradamage3;
-	   UnitTypes.antumbra.weapons.get(4).bullet.damage = defaultantumbradamage4;
-	   UnitTypes.antumbra.weapons.get(5).bullet.damage = defaultantumbradamage5;
+	   	UnitTypes.antumbra.weapons.get(0).bullet.damage = defaultantumbradamage0;
+	   	UnitTypes.antumbra.weapons.get(1).bullet.damage = defaultantumbradamage1;
+	   	UnitTypes.antumbra.weapons.get(2).bullet.damage = defaultantumbradamage2;
+	   	UnitTypes.antumbra.weapons.get(3).bullet.damage = defaultantumbradamage3;
+	   	UnitTypes.antumbra.weapons.get(4).bullet.damage = defaultantumbradamage4;
+	   	UnitTypes.antumbra.weapons.get(5).bullet.damage = defaultantumbradamage5;
    
 	    UnitTypes.arkyid.weapons.get(0).bullet.damage = defaultarkyiddamage0;
 	    UnitTypes.arkyid.weapons.get(1).bullet.damage = defaultarkyiddamage1;
@@ -443,151 +412,150 @@ public class PlagueTime {
 	   
 	    UnitTypes.zenith.weapons.get(0).bullet.damage =	defaultzenithdamage0;
 	    UnitTypes.zenith.weapons.get(1).bullet.damage = defaultzenithdamage1;
-   }
-   
-   
-   // Default units cause trouble SMH
-   public static float flarehp = UnitTypes.flare.health;
-   public static float gammahp = UnitTypes.gamma.health;
-   public static float betahp = UnitTypes.beta.health;
-   public static float alphahp = UnitTypes.alpha.health;
-  
-   
-   // All default stats
-   public static float defaultantumbrahealth = UnitTypes.antumbra.health;
-   public static float defaultarkyidhealth = UnitTypes.arkyid.health;
-   public static float defaultatraxhealth = UnitTypes.atrax.health;
-   public static float defaultbrydehealth = UnitTypes.bryde.health;
-   public static float defaultcorvushealth = UnitTypes.corvus.health;
-   public static float defaultcrawlerhealth = UnitTypes.crawler.health;
-   public static float defaultdaggerhealth = UnitTypes.dagger.health;
-   public static float defaulteclipsehealth = UnitTypes.eclipse.health;
-   public static float defaultfortresshealth = UnitTypes.fortress.health;
-   public static float defaulthorizonhealth = UnitTypes.horizon.health;
-   public static float defaultmacehealth = UnitTypes.mace.health;
-   public static float defaultmegahealth = UnitTypes.mega.health;
-   public static float defaultminkehealth = UnitTypes.minke.health;
-   public static float defaultnovahealth = UnitTypes.nova.health;
-   public static float defaultocthealth = UnitTypes.oct.health;
-   public static float defaultomurahealth = UnitTypes.omura.health;
-   public static float defaultpolyhealth = UnitTypes.poly.health;
-   public static float defaultpulsarhealth = UnitTypes.pulsar.health;
-   public static float defaultquadhealth = UnitTypes.quad.health;
-   public static float defaultquasarhealth = UnitTypes.quasar.health;
-   public static float defaultreignhealth = UnitTypes.reign.health;
-   public static float defaultrissohealth = UnitTypes.risso.health;
-   public static float defaultscepterhealth = UnitTypes.scepter.health;
-   public static float defaultseihealth = UnitTypes.sei.health;
-   public static float defaultspirocthealth = UnitTypes.spiroct.health;
-   public static float defaulttoxopidhealth = UnitTypes.toxopid.health;
-   public static float defaultvelahealth = UnitTypes.vela.health;
-   public static float defaultzenithhealth = UnitTypes.zenith.health;
-   
-   public static float defaultantumbradamage0 = UnitTypes.antumbra.weapons.get(0).bullet.damage;
-   public static float defaultantumbradamage1 = UnitTypes.antumbra.weapons.get(1).bullet.damage;
-   public static float defaultantumbradamage2 = UnitTypes.antumbra.weapons.get(2).bullet.damage;
-   public static float defaultantumbradamage3 = UnitTypes.antumbra.weapons.get(3).bullet.damage;
-   public static float defaultantumbradamage4 = UnitTypes.antumbra.weapons.get(4).bullet.damage;
-   public static float defaultantumbradamage5 = UnitTypes.antumbra.weapons.get(5).bullet.damage;
-   
-   public static float defaultarkyiddamage0 = UnitTypes.arkyid.weapons.get(0).bullet.damage;
-   public static float defaultarkyiddamage1 = UnitTypes.arkyid.weapons.get(1).bullet.damage;
-   public static float defaultarkyiddamage2 = UnitTypes.arkyid.weapons.get(2).bullet.damage;
-   public static float defaultarkyiddamage3 = UnitTypes.arkyid.weapons.get(3).bullet.damage;
-   public static float defaultarkyiddamage4 = UnitTypes.arkyid.weapons.get(4).bullet.damage;
-   public static float defaultarkyiddamage5 = UnitTypes.arkyid.weapons.get(5).bullet.damage;
-   public static float defaultarkyiddamage6 = UnitTypes.arkyid.weapons.get(6).bullet.damage;
-   public static float defaultarkyiddamage7 = UnitTypes.arkyid.weapons.get(7).bullet.damage;
-    
-   public static float defaultatraxdamage0 = UnitTypes.atrax.weapons.get(0).bullet.damage;
-   public static float defaultatraxdamage1 = UnitTypes.atrax.weapons.get(1).bullet.damage;
-   
-   public static float defaultbrydedamage0 = UnitTypes.bryde.weapons.get(0).bullet.damage;
-   public static float defaultbrydedamage1 = UnitTypes.bryde.weapons.get(1).bullet.damage;
-   public static float defaultbrydedamage2 = UnitTypes.bryde.weapons.get(2).bullet.damage;
-   
-   public static float defaultcorvusdamage0 = UnitTypes.corvus.weapons.get(0).bullet.damage;
-   
-   public static float defaultcrawlerdamage0 = UnitTypes.crawler.weapons.get(0).bullet.splashDamage;
-   public static float defaultcrawlerdamageradius0 = UnitTypes.crawler.weapons.get(0).bullet.splashDamageRadius;
-   
-   public static float defaultdaggerdamage0 = UnitTypes.dagger.weapons.get(0).bullet.damage;
-   public static float defaultdaggerdamage1 = UnitTypes.dagger.weapons.get(1).bullet.damage;
-   
-   public static float defaulteclipsedamage0 = UnitTypes.eclipse.weapons.get(0).bullet.damage;
-   public static float defaulteclipsedamage1 = UnitTypes.eclipse.weapons.get(1).bullet.damage;
-   public static float defaulteclipsedamage2 = UnitTypes.eclipse.weapons.get(2).bullet.damage;
-   public static float defaulteclipsedamage3 = UnitTypes.eclipse.weapons.get(3).bullet.damage;
-   public static float defaulteclipsedamage4 = UnitTypes.eclipse.weapons.get(4).bullet.damage;
-   public static float defaulteclipsedamage5 = UnitTypes.eclipse.weapons.get(5).bullet.damage;
-   
-   public static float defaultfortressdamage0 = UnitTypes.fortress.weapons.get(0).bullet.damage;
-   public static float defaultfortressdamage1 = UnitTypes.fortress.weapons.get(1).bullet.damage;
-   
-   // Horizon has an ability i think
-   
-   public static float defaultmacedamage0 = UnitTypes.mace.weapons.get(0).bullet.damage;
-   public static float defaultmacedamage1 = UnitTypes.mace.weapons.get(1).bullet.damage;
-   
-   
-   public static float defaultmegadamage0 = UnitTypes.mega.weapons.get(0).bullet.damage;
-   public static float defaultmegadamage1 = UnitTypes.mega.weapons.get(1).bullet.damage;
-   public static float defaultmegadamage2 = UnitTypes.mega.weapons.get(2).bullet.damage;
-   public static float defaultmegadamage3 = UnitTypes.mega.weapons.get(3).bullet.damage;
-   
-   public static float defaultminkedamage0 = UnitTypes.minke.weapons.get(0).bullet.damage;
-   public static float defaultminkedamage1 = UnitTypes.minke.weapons.get(1).bullet.damage;
-   public static float defaultminkedamage2 = UnitTypes.minke.weapons.get(2).bullet.damage;
-   public static float defaultminkedamage3 = UnitTypes.minke.weapons.get(3).bullet.damage;
-   
-   public static float defaultnovadamage0 = UnitTypes.nova.weapons.get(0).bullet.damage;
-   public static float defaultnovadamage1 = UnitTypes.nova.weapons.get(1).bullet.damage;
-   
-   // Oct is weaponless kekw
-   
-   public static float defaultomuradamage0 = UnitTypes.omura.weapons.get(0).bullet.damage;
+   	}
 
-   public static float defaultpolydamage0 = UnitTypes.poly.weapons.get(0).bullet.damage;
-   public static float defaultpolydamage1 = UnitTypes.poly.weapons.get(1).bullet.damage;
-   
-   public static float defaultpulsardamage0 = UnitTypes.pulsar.weapons.get(0).bullet.damage;
-   public static float defaultpulsardamage1 = UnitTypes.pulsar.weapons.get(1).bullet.damage;
-   
-   public static float defaultquaddamage0 = UnitTypes.quad.weapons.get(0).bullet.damage;
+	// Default units cause trouble SMH
+	public static float flarehp = UnitTypes.flare.health;
+	public static float gammahp = UnitTypes.gamma.health;
+	public static float betahp = UnitTypes.beta.health;
+	public static float alphahp = UnitTypes.alpha.health;
 
-   public static float defaultquasardamage0 = UnitTypes.quasar.weapons.get(0).bullet.damage;
-   public static float defaultquasardamage1 = UnitTypes.quasar.weapons.get(1).bullet.damage;
-   
-   public static float defaultreigndamage0 = UnitTypes.reign.weapons.get(0).bullet.damage;
-   public static float defaultreigndamage1 = UnitTypes.reign.weapons.get(1).bullet.damage;
-   
-   public static float defaultrissodamage0 = UnitTypes.risso.weapons.get(0).bullet.damage;
-   public static float defaultrissodamage1 = UnitTypes.risso.weapons.get(1).bullet.damage;
-   public static float defaultrissodamage2 = UnitTypes.risso.weapons.get(2).bullet.damage;
-   
-   public static float defaultscepterdamage0 = UnitTypes.scepter.weapons.get(0).bullet.damage;
-   public static float defaultscepterdamage1 = UnitTypes.scepter.weapons.get(1).bullet.damage;
-   public static float defaultscepterdamage2 = UnitTypes.scepter.weapons.get(2).bullet.damage;
-   public static float defaultscepterdamage3 = UnitTypes.scepter.weapons.get(3).bullet.damage;
-   public static float defaultscepterdamage4 = UnitTypes.scepter.weapons.get(4).bullet.damage;
-   public static float defaultscepterdamage5 = UnitTypes.scepter.weapons.get(5).bullet.damage;
-   
-   public static float defaultseidamage0 = UnitTypes.sei.weapons.get(0).bullet.damage;
-   public static float defaultseidamage1 = UnitTypes.sei.weapons.get(1).bullet.damage;
-   public static float defaultseidamage2 = UnitTypes.sei.weapons.get(2).bullet.damage;
-   
-   public static float defaultspiroctdamage0 = UnitTypes.spiroct.weapons.get(0).bullet.damage;
-   public static float defaultspiroctdamage1 = UnitTypes.spiroct.weapons.get(1).bullet.damage;
-   public static float defaultspiroctdamage2 = UnitTypes.spiroct.weapons.get(2).bullet.damage;
-   public static float defaultspiroctdamage3 = UnitTypes.spiroct.weapons.get(3).bullet.damage;
-   
-   public static float defaulttoxopiddamage0 = UnitTypes.toxopid.weapons.get(0).bullet.damage;
-   public static float defaulttoxopiddamage1 = UnitTypes.toxopid.weapons.get(1).bullet.damage;
-   public static float defaulttoxopiddamage2 = UnitTypes.toxopid.weapons.get(2).bullet.damage;
-   
-   public static float defaultveladamage0 = UnitTypes.vela.weapons.get(0).bullet.damage;
-   
-   public static float defaultzenithdamage0 = UnitTypes.zenith.weapons.get(0).bullet.damage;
-   public static float defaultzenithdamage1 = UnitTypes.zenith.weapons.get(1).bullet.damage;
+
+	// All default stats
+	public static float defaultantumbrahealth = UnitTypes.antumbra.health;
+	public static float defaultarkyidhealth = UnitTypes.arkyid.health;
+	public static float defaultatraxhealth = UnitTypes.atrax.health;
+	public static float defaultbrydehealth = UnitTypes.bryde.health;
+	public static float defaultcorvushealth = UnitTypes.corvus.health;
+	public static float defaultcrawlerhealth = UnitTypes.crawler.health;
+	public static float defaultdaggerhealth = UnitTypes.dagger.health;
+	public static float defaulteclipsehealth = UnitTypes.eclipse.health;
+	public static float defaultfortresshealth = UnitTypes.fortress.health;
+	public static float defaulthorizonhealth = UnitTypes.horizon.health;
+	public static float defaultmacehealth = UnitTypes.mace.health;
+	public static float defaultmegahealth = UnitTypes.mega.health;
+	public static float defaultminkehealth = UnitTypes.minke.health;
+	public static float defaultnovahealth = UnitTypes.nova.health;
+	public static float defaultocthealth = UnitTypes.oct.health;
+	public static float defaultomurahealth = UnitTypes.omura.health;
+	public static float defaultpolyhealth = UnitTypes.poly.health;
+	public static float defaultpulsarhealth = UnitTypes.pulsar.health;
+	public static float defaultquadhealth = UnitTypes.quad.health;
+	public static float defaultquasarhealth = UnitTypes.quasar.health;
+	public static float defaultreignhealth = UnitTypes.reign.health;
+	public static float defaultrissohealth = UnitTypes.risso.health;
+	public static float defaultscepterhealth = UnitTypes.scepter.health;
+	public static float defaultseihealth = UnitTypes.sei.health;
+	public static float defaultspirocthealth = UnitTypes.spiroct.health;
+	public static float defaulttoxopidhealth = UnitTypes.toxopid.health;
+	public static float defaultvelahealth = UnitTypes.vela.health;
+	public static float defaultzenithhealth = UnitTypes.zenith.health;
+
+	public static float defaultantumbradamage0 = UnitTypes.antumbra.weapons.get(0).bullet.damage;
+	public static float defaultantumbradamage1 = UnitTypes.antumbra.weapons.get(1).bullet.damage;
+	public static float defaultantumbradamage2 = UnitTypes.antumbra.weapons.get(2).bullet.damage;
+	public static float defaultantumbradamage3 = UnitTypes.antumbra.weapons.get(3).bullet.damage;
+	public static float defaultantumbradamage4 = UnitTypes.antumbra.weapons.get(4).bullet.damage;
+	public static float defaultantumbradamage5 = UnitTypes.antumbra.weapons.get(5).bullet.damage;
+
+	public static float defaultarkyiddamage0 = UnitTypes.arkyid.weapons.get(0).bullet.damage;
+	public static float defaultarkyiddamage1 = UnitTypes.arkyid.weapons.get(1).bullet.damage;
+	public static float defaultarkyiddamage2 = UnitTypes.arkyid.weapons.get(2).bullet.damage;
+	public static float defaultarkyiddamage3 = UnitTypes.arkyid.weapons.get(3).bullet.damage;
+	public static float defaultarkyiddamage4 = UnitTypes.arkyid.weapons.get(4).bullet.damage;
+	public static float defaultarkyiddamage5 = UnitTypes.arkyid.weapons.get(5).bullet.damage;
+	public static float defaultarkyiddamage6 = UnitTypes.arkyid.weapons.get(6).bullet.damage;
+	public static float defaultarkyiddamage7 = UnitTypes.arkyid.weapons.get(7).bullet.damage;
+
+	public static float defaultatraxdamage0 = UnitTypes.atrax.weapons.get(0).bullet.damage;
+	public static float defaultatraxdamage1 = UnitTypes.atrax.weapons.get(1).bullet.damage;
+
+	public static float defaultbrydedamage0 = UnitTypes.bryde.weapons.get(0).bullet.damage;
+	public static float defaultbrydedamage1 = UnitTypes.bryde.weapons.get(1).bullet.damage;
+	public static float defaultbrydedamage2 = UnitTypes.bryde.weapons.get(2).bullet.damage;
+
+	public static float defaultcorvusdamage0 = UnitTypes.corvus.weapons.get(0).bullet.damage;
+
+	public static float defaultcrawlerdamage0 = UnitTypes.crawler.weapons.get(0).bullet.splashDamage;
+	public static float defaultcrawlerdamageradius0 = UnitTypes.crawler.weapons.get(0).bullet.splashDamageRadius;
+
+	public static float defaultdaggerdamage0 = UnitTypes.dagger.weapons.get(0).bullet.damage;
+	public static float defaultdaggerdamage1 = UnitTypes.dagger.weapons.get(1).bullet.damage;
+
+	public static float defaulteclipsedamage0 = UnitTypes.eclipse.weapons.get(0).bullet.damage;
+	public static float defaulteclipsedamage1 = UnitTypes.eclipse.weapons.get(1).bullet.damage;
+	public static float defaulteclipsedamage2 = UnitTypes.eclipse.weapons.get(2).bullet.damage;
+	public static float defaulteclipsedamage3 = UnitTypes.eclipse.weapons.get(3).bullet.damage;
+	public static float defaulteclipsedamage4 = UnitTypes.eclipse.weapons.get(4).bullet.damage;
+	public static float defaulteclipsedamage5 = UnitTypes.eclipse.weapons.get(5).bullet.damage;
+
+	public static float defaultfortressdamage0 = UnitTypes.fortress.weapons.get(0).bullet.damage;
+	public static float defaultfortressdamage1 = UnitTypes.fortress.weapons.get(1).bullet.damage;
+
+	// Horizon has an ability i think
+
+	public static float defaultmacedamage0 = UnitTypes.mace.weapons.get(0).bullet.damage;
+	public static float defaultmacedamage1 = UnitTypes.mace.weapons.get(1).bullet.damage;
+
+
+	public static float defaultmegadamage0 = UnitTypes.mega.weapons.get(0).bullet.damage;
+	public static float defaultmegadamage1 = UnitTypes.mega.weapons.get(1).bullet.damage;
+	public static float defaultmegadamage2 = UnitTypes.mega.weapons.get(2).bullet.damage;
+	public static float defaultmegadamage3 = UnitTypes.mega.weapons.get(3).bullet.damage;
+
+	public static float defaultminkedamage0 = UnitTypes.minke.weapons.get(0).bullet.damage;
+	public static float defaultminkedamage1 = UnitTypes.minke.weapons.get(1).bullet.damage;
+	public static float defaultminkedamage2 = UnitTypes.minke.weapons.get(2).bullet.damage;
+	public static float defaultminkedamage3 = UnitTypes.minke.weapons.get(3).bullet.damage;
+
+	public static float defaultnovadamage0 = UnitTypes.nova.weapons.get(0).bullet.damage;
+	public static float defaultnovadamage1 = UnitTypes.nova.weapons.get(1).bullet.damage;
+
+	// Oct is weaponless kekw
+
+	public static float defaultomuradamage0 = UnitTypes.omura.weapons.get(0).bullet.damage;
+
+	public static float defaultpolydamage0 = UnitTypes.poly.weapons.get(0).bullet.damage;
+	public static float defaultpolydamage1 = UnitTypes.poly.weapons.get(1).bullet.damage;
+
+	public static float defaultpulsardamage0 = UnitTypes.pulsar.weapons.get(0).bullet.damage;
+	public static float defaultpulsardamage1 = UnitTypes.pulsar.weapons.get(1).bullet.damage;
+
+	public static float defaultquaddamage0 = UnitTypes.quad.weapons.get(0).bullet.damage;
+
+	public static float defaultquasardamage0 = UnitTypes.quasar.weapons.get(0).bullet.damage;
+	public static float defaultquasardamage1 = UnitTypes.quasar.weapons.get(1).bullet.damage;
+
+	public static float defaultreigndamage0 = UnitTypes.reign.weapons.get(0).bullet.damage;
+	public static float defaultreigndamage1 = UnitTypes.reign.weapons.get(1).bullet.damage;
+
+	public static float defaultrissodamage0 = UnitTypes.risso.weapons.get(0).bullet.damage;
+	public static float defaultrissodamage1 = UnitTypes.risso.weapons.get(1).bullet.damage;
+	public static float defaultrissodamage2 = UnitTypes.risso.weapons.get(2).bullet.damage;
+
+	public static float defaultscepterdamage0 = UnitTypes.scepter.weapons.get(0).bullet.damage;
+	public static float defaultscepterdamage1 = UnitTypes.scepter.weapons.get(1).bullet.damage;
+	public static float defaultscepterdamage2 = UnitTypes.scepter.weapons.get(2).bullet.damage;
+	public static float defaultscepterdamage3 = UnitTypes.scepter.weapons.get(3).bullet.damage;
+	public static float defaultscepterdamage4 = UnitTypes.scepter.weapons.get(4).bullet.damage;
+	public static float defaultscepterdamage5 = UnitTypes.scepter.weapons.get(5).bullet.damage;
+
+	public static float defaultseidamage0 = UnitTypes.sei.weapons.get(0).bullet.damage;
+	public static float defaultseidamage1 = UnitTypes.sei.weapons.get(1).bullet.damage;
+	public static float defaultseidamage2 = UnitTypes.sei.weapons.get(2).bullet.damage;
+
+	public static float defaultspiroctdamage0 = UnitTypes.spiroct.weapons.get(0).bullet.damage;
+	public static float defaultspiroctdamage1 = UnitTypes.spiroct.weapons.get(1).bullet.damage;
+	public static float defaultspiroctdamage2 = UnitTypes.spiroct.weapons.get(2).bullet.damage;
+	public static float defaultspiroctdamage3 = UnitTypes.spiroct.weapons.get(3).bullet.damage;
+
+	public static float defaulttoxopiddamage0 = UnitTypes.toxopid.weapons.get(0).bullet.damage;
+	public static float defaulttoxopiddamage1 = UnitTypes.toxopid.weapons.get(1).bullet.damage;
+	public static float defaulttoxopiddamage2 = UnitTypes.toxopid.weapons.get(2).bullet.damage;
+
+	public static float defaultveladamage0 = UnitTypes.vela.weapons.get(0).bullet.damage;
+
+	public static float defaultzenithdamage0 = UnitTypes.zenith.weapons.get(0).bullet.damage;
+	public static float defaultzenithdamage1 = UnitTypes.zenith.weapons.get(1).bullet.damage;
    
 }

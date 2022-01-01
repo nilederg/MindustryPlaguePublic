@@ -41,39 +41,31 @@ import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 
 public class FPlagueBasic extends Plugin {
-	
-	
-	
 	int useless = 0;
 	static boolean Have120SecondsPassed = false;
 	static long gameTime = System.currentTimeMillis();
 	int[] mapvotes = new int[]{0,0,0,0,0,0,0,0,0,0};
-	
-	
-	
-	
-	
 
 	public static mindustry.maps.Map selectedMap;
-	 private final Rules rules = new Rules();
-	    private Rules survivorBanned = new Rules();
-	    public static Rules plagueBanned = new Rules();	    
-	    Map<String, Team> relogTeam = new HashMap<String, Team>();
-	    ArrayList<String> gameovervotes = new ArrayList<String>();
-	    int totalplayers = 0; // for some reason i need it here cus java
-	    ArrayList<String> playersThatVoted = new ArrayList<String>();
-	    ArrayList<Tile> plagueCores = new ArrayList<Tile>();
-	    HashMap<String, Tile> playerCores = new HashMap<String, Tile>();
-	    ArrayList<String> leaders = new ArrayList<String>();
-	    // I need this here cus java
-	    Player kickedPlayer = null;
-	    Team teamProximityCore = null;
-	
+	private final Rules rules = new Rules();
+	private Rules survivorBanned = new Rules();
+	public static Rules plagueBanned = new Rules();
+	Map<String, Team> relogTeam = new HashMap<String, Team>();
+	ArrayList<String> gameovervotes = new ArrayList<String>();
+	int totalplayers = 0; // for some reason i need it here cus java
+	ArrayList<String> playersThatVoted = new ArrayList<String>();
+	ArrayList<Tile> plagueCores = new ArrayList<Tile>();
+	HashMap<String, Tile> playerCores = new HashMap<String, Tile>();
+	ArrayList<String> leaders = new ArrayList<String>();
+	// I need this here cus java
+	Player kickedPlayer = null;
+	Team teamProximityCore = null;
+	PlayerList players = new PlayerList();
+
 	@Override
     public void init(){
 		// Start all plague unit multipliers in x seconds and time before all teamless are turned to plague
 		new PlagueTime(120);
-		
 		rules.canGameOver = false; //I have my own way to game over
 		rules.reactorExplosions = false; // I wonder,nah plague op
 		rules.buildSpeedMultiplier = 4; // game goes faster brr
@@ -81,17 +73,8 @@ public class FPlagueBasic extends Plugin {
 		rules.logicUnitBuild = false; // You know why
 		rules.damageExplosions = false; // NO NO NO
 		mapvotes = new int[]{0,0,0,0,0,0,0,0,0,0};
-		
 		init_rules();
-		
-		
-		
-	
-		
-		
-		
-		
-		
+
 		// Prevents destroying of power source 
 		netServer.admins.addActionFilter((action) ->{
 			if(action.block != null && action.block == Blocks.powerSource && action.type == ActionType.breakBlock){
@@ -99,9 +82,6 @@ public class FPlagueBasic extends Plugin {
             }
 			return true;
 		});
-		
-		
-		
 		// No placing near crux core and banned blocks incase of bug
 		netServer.admins.addActionFilter((action) ->{ 
 			ArrayList<Block> boulders = new ArrayList<Block>();
@@ -118,14 +98,10 @@ public class FPlagueBasic extends Plugin {
 							if(Vars.world.tile(x, y).team() == Team.purple && Vars.world.tile(x, y).isCenter()) {
 								plagueCores.add(Vars.world.tile(x, y));
 							}
-							
 						}	
 					}
 				}
 			}
-			
-			
-			
 			
 			if(action.block != null && action.type == ActionType.placeBlock && action.tile.block() == Blocks.powerSource) {
 				return false;
@@ -152,28 +128,20 @@ public class FPlagueBasic extends Plugin {
 					return false;
 					}
 				}
-            
 			}
-			
 			return true;
-			
 		});
 		
 		
 		
 		// No unit control until 20 mins have passed
-		netServer.admins.addActionFilter((action) ->{ 
-			
+		netServer.admins.addActionFilter((action) ->{
 			if(action.type == ActionType.control && ((System.currentTimeMillis() - gameTime) / 1000) < 1200){
-				
 				return false;
-                
             }
 			return true;
 		});
-		
-		
-		
+
 		// Make core from vault using 1k thorium 
 		Events.on(TapEvent.class, event -> {
 			if(event.tile.block() == Blocks.vault) {
@@ -183,29 +151,29 @@ public class FPlagueBasic extends Plugin {
 			}
 		});
 		
-		
-		
 		// Makes you plague if you join too late also if rejoin put back on team
 		Events.on(PlayerJoin.class, event -> {
+			if(!players.hasPlayer(event.player.uuid())) {
+				//System.out.println("player has not joined before");
+				event.player.sendMessage("[yellow]Welcome to plague!");
 				event.player.sendMessage("[blue]Discord Link: [yellow]https://discord.gg/rfzm5xgJSC");
-				event.player.sendMessage("[yellow]/rules for rules");
-				event.player.sendMessage("Type /respawn if you don't have a core unit");
-				event.player.sendMessage("Type /info for gameplay information[WIP]");			
-			
+				event.player.sendMessage("[purple]Plague is an attack like mode where the infected (purple) must build units to take out the survivors");
+				event.player.sendMessage("[purple]Survivors can't build units, their focus is surviving purple's units, to become a survivor place a block on the outside of the map");
+				event.player.sendMessage("[purple]Plague has infinite power and must attack and kill survivors (20 minutes for unit control)");
+				//event.player.sendMessage("For more information, use /info");
+			}
+
 			if(relogTeam.containsKey(event.player.uuid())) {
-	          event.player.team(relogTeam.get(event.player.uuid()));
-			  Call.setRules(event.player.con, survivorBanned);
+				event.player.team(relogTeam.get(event.player.uuid()));
+				Call.setRules(event.player.con, survivorBanned);
 			} else if (Have120SecondsPassed == true) {
-	        	 event.player.team(Team.purple); 	  
-	        	 Call.setRules(event.player.con, plagueBanned);
-	          }	else if (event.player.team() == Team.sharded) {
-	        	  Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() * 4, Vars.world.height() * 4);
-	        	  event.player.unit(spawnunit);
-	        	  Call.setRules(event.player.con, survivorBanned);
-	          }
-			    
-			
-			
+				event.player.team(Team.purple);
+				Call.setRules(event.player.con, plagueBanned);
+			}	else if (event.player.team() == Team.sharded) {
+				Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() * 4, Vars.world.height() * 4);
+				event.player.unit(spawnunit);
+				Call.setRules(event.player.con, survivorBanned);
+			}
 		}); 
 
 		Events.on(PlayerLeave.class, event -> {
@@ -222,115 +190,86 @@ public class FPlagueBasic extends Plugin {
 			if(gameovervotes.contains(event.player.name)) {
 				gameovervotes.remove(event.player.name);
 			}
-			
-	        }); 
+		});
 		
 		// Create core with block placement
 		Events.on(BuildSelectEvent.class, event -> {
         	if(event.builder.team == Team.sharded && !Have120SecondsPassed) {
-        	int randomTeamNumber = (int) Math.floor((Math.random() * 200) + 6);
-        	Team chosenteam = Team.all[randomTeamNumber];
-        	ArrayList<String> teamcores = new ArrayList<String>();
-        	ArrayList<Float> closestcores = new ArrayList<Float>();
-        	float distanceaway = 80;
+				int randomTeamNumber = (int) Math.floor((Math.random() * 200) + 6);
+				Team chosenteam = Team.all[randomTeamNumber];
+				ArrayList<String> teamcores = new ArrayList<String>();
+				ArrayList<Float> closestcores = new ArrayList<Float>();
+				float distanceaway = 80;
+
+
+				for(int x = 0; x < Vars.world.width(); x++){
+					for(int y = 0; y < Vars.world.height(); y++){
+
+						if(Vars.world.tile(x, y).block() == Blocks.coreFoundation && Vars.world.tile(x, y).isCenter() && Vars.world.tile(x, y).build.team == chosenteam){
+							teamcores.add("hascorelol");
+						}
+					}
+				}
         	
-        	
-        	for(int x = 0; x < Vars.world.width(); x++){
-                for(int y = 0; y < Vars.world.height(); y++){
-                    
-                    if(Vars.world.tile(x, y).block() == Blocks.coreFoundation && Vars.world.tile(x, y).isCenter() && Vars.world.tile(x, y).build.team == chosenteam){
-                        teamcores.add("hascorelol");
-                    }
-                }
-            }		
-        	
-        	if(teamcores.isEmpty() == true) {
-            	for(Team t : Team.all) {
-            		if (t != chosenteam) {
-            			CoreBlock.CoreBuild nearestEnemyCore = Vars.state.teams.closestCore(event.builder.getPlayer().x / 8, event.builder.getPlayer().y / 8, t);
-            			
-            			if(nearestEnemyCore != null) {
-            				if(cartesianDistance(event.builder.getPlayer().x / 8, event.builder.getPlayer().y / 8, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()) < distanceaway) {
-            		//	closestcores.add(cartesianDistance(event.builder.getPlayer().x, event.builder.getPlayer().y, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()));
-            			
-            				}
-            				}
-            		}
-            	}
+				if(teamcores.isEmpty() == true) {
+					for(Team t : Team.all) {
+						if (t != chosenteam) {
+							CoreBlock.CoreBuild nearestEnemyCore = Vars.state.teams.closestCore(event.builder.getPlayer().x / 8, event.builder.getPlayer().y / 8, t);
+							if(nearestEnemyCore != null) {
+								if(cartesianDistance(event.builder.getPlayer().x / 8, event.builder.getPlayer().y / 8, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()) < distanceaway) {
+									closestcores.add(cartesianDistance(event.builder.getPlayer().x, event.builder.getPlayer().y, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()));
+								}
+							}
+						}
+					}
             	
-            	
-            	if(closestcores.isEmpty() == true) {
-            		 
-                			 
-                	playerCores.forEach((p, core) -> {
-                		//System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));		
-                	if(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y) < distanceaway + 80) {
-                		//System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));
-                		teamProximityCore = Vars.world.tile(core.x, core.y).build.team;       				
-                    }
-                					
-                	});
-                				
-                				
-                				
-                			
-            				
-                		
-            			
-            		
-            		
-            		
-            		
-            		
-            		if(teamProximityCore != null) {
-            			event.builder.getPlayer().team(teamProximityCore);
-                		Call.setRules(event.builder.getPlayer().con, survivorBanned);
-                		event.tile.setNet(Blocks.coreFoundation, Team.all[teamProximityCore.id], 0);
-                		for(ItemStack stack : rules.loadout) {
-            				Call.setItem(event.tile.build, stack.item, stack.amount);    			
-            			}
-                		playerCores.put(event.builder.getPlayer().uuid(), event.tile);
-                		
-            		} else {
-            			event.builder.getPlayer().team(chosenteam);
-                		Call.setRules(event.builder.getPlayer().con, survivorBanned);
-                		event.tile.setNet(Blocks.coreFoundation, Team.all[randomTeamNumber], 0);
-                		for(ItemStack stack : rules.loadout) {
-            				Call.setItem(event.tile.build, stack.item, stack.amount);    			
-            			}
-                		playerCores.put(event.builder.getPlayer().uuid(), event.tile);
-                		leaders.add(event.builder.getPlayer().uuid());
-                		
-            		}
-            		
-            		
-            		
-            	}
-            	}
-        	teamcores.clear();
-        	closestcores.clear();
-        	teamProximityCore = null;
+            
+					if(closestcores.isEmpty() == true) {
+						playerCores.forEach((p, core) -> {
+							//System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));
+							if(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y) < distanceaway + 80) {
+								//System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));
+								teamProximityCore = Vars.world.tile(core.x, core.y).build.team;
+							}
+						});
+
+						if(teamProximityCore != null) {
+							event.builder.getPlayer().team(teamProximityCore);
+							Call.setRules(event.builder.getPlayer().con, survivorBanned);
+							event.tile.setNet(Blocks.coreFoundation, Team.all[teamProximityCore.id], 0);
+							for(ItemStack stack : rules.loadout) {
+								Call.setItem(event.tile.build, stack.item, stack.amount);
+							}
+								playerCores.put(event.builder.getPlayer().uuid(), event.tile);
+
+						} else {
+							event.builder.getPlayer().team(chosenteam);
+							Call.setRules(event.builder.getPlayer().con, survivorBanned);
+							event.tile.setNet(Blocks.coreFoundation, Team.all[randomTeamNumber], 0);
+							for(ItemStack stack : rules.loadout) {
+								Call.setItem(event.tile.build, stack.item, stack.amount);
+							}
+							playerCores.put(event.builder.getPlayer().uuid(), event.tile);
+							leaders.add(event.builder.getPlayer().uuid());
+						}
+					}
+				}
+				teamcores.clear();
+				closestcores.clear();
+				teamProximityCore = null;
         	}
         });
-		
-		
-		
-		
+
 		// Some maps have power infs outside of no build oh well invincibility time
 		Events.on(BlockDestroyEvent.class, event -> {
 	          if(event.tile.block() == Blocks.powerSource) {
 	        	 event.tile.setNet(Blocks.powerSource, event.tile.team(), 0);
-	        	  
-	        	  
-	          } 
-
-	        }); 
+	          }
+		});
 		
 		
 		// Hell no no ono
 		Events.on(GameOverEvent.class, event -> {
-			
-			
 			gameTime = System.currentTimeMillis();
 			relogTeam.clear();
 			gameovervotes.clear();	
@@ -346,29 +285,20 @@ public class FPlagueBasic extends Plugin {
 			
 			// Why,why would you even do more timers Fitmo.. WHY?! Cursed existence
 			mostVotedMap();
-			
-			
-			
+
 			if(selectedMap != null) {
-			Groups.player.each(p -> {
-				p.sendMessage("[yellow]Voted map is: " + selectedMap.name());
-			});
-			new MapChangerThings();
+				Groups.player.each(p -> {
+					p.sendMessage("[yellow]Voted map is: " + selectedMap.name());
+				});
+				new MapChangerThings();
 			}
-			
-			 
-	        });
+		});
 		
 		Events.on(UnitCreateEvent.class, event -> {
 			if(event.unit.type == UnitTypes.flare || event.unit.type == UnitTypes.horizon || event.unit.type == UnitTypes.zenith || event.unit.type == UnitTypes.antumbra || event.unit.type == UnitTypes.eclipse) {
 				event.unit.kill();
 			}
-			
-			
-			
-			 
-	        });
-		
+		});
 	}
 	
 	
@@ -379,67 +309,53 @@ public class FPlagueBasic extends Plugin {
     public void registerClientCommands(CommandHandler handler){
         handler.<Player>register("infect", "You become [purple]INFECTED", (args, player) -> {
         	if(player.team() != Team.purple) {
-        	useless = 0;
-        	Team playerteam = player.team();
-        	Groups.player.each(p -> {
-        	if(p.team() == player.team()){
-        	useless++;
+				useless = 0;
+				Team playerteam = player.team();
+				Groups.player.each(p -> {
+					if(p.team() == player.team()){
+						useless++;
+					}
+				});
+				if(useless == 1){
+					for(int x = 0; x < Vars.world.width(); x++) {
+						for(int y = 0; y < Vars.world.height(); y++) {
+							if(Vars.world.tile(x, y).block() == Blocks.coreFoundation && Vars.world.tile(x, y).isCenter() && Vars.world.tile(x, y).build.team == playerteam){
+								Vars.world.tile(x, y).setNet(Blocks.air);
+							}
+						}
+					}
+				}
         	}
-        	});
-        	if(useless == 1){
-        		for(int x = 0; x < Vars.world.width(); x++) {
-        			for(int y = 0; y < Vars.world.height(); y++) {
-            			
-        				if(Vars.world.tile(x, y).block() == Blocks.coreFoundation && Vars.world.tile(x, y).isCenter() && Vars.world.tile(x, y).build.team == playerteam){
-        					Vars.world.tile(x, y).setNet(Blocks.air);
-                        }
-        				
-            		}
-        		}
-        			
-        	}
-        	}
-        	
-        	
-        	
-        	
+
         	Call.setRules(player.con, plagueBanned);
         	player.team(Team.purple);  	
         	useless = 0;
-        	
-        	
-        	
-        	
         });
-        
-        
-        
-        handler.<Player>register("rules", "All the rules on the server", (args, player) -> {
-            player.sendMessage("1. Don't grief");
-            player.sendMessage("2. Griefing includes wasting resources, you know who you are.");
-            player.sendMessage("3. Shooting someone's core with a core unit is punishable by a kick, as it blocks visibility of resource display with a warning message.");
-            player.sendMessage("4. Don't be toxic.");
-            player.sendMessage("5. No blast bombing");
-            player.sendMessage("6. Surv vs surv combat is a kickable offense");
-            player.sendMessage("7. Don't build within a survivor's territory as plague. You know what they have conquered, use your head.");       	
-        });
-        
-        handler.<Player>register("info", "info", (args, player) -> {
-            player.sendMessage("Command not done yet");
-        	
-        });
-        
-        // Kick a player from the team
+
+		handler.<Player>register("rules", "All the rules on the server", (args, player) -> {
+			player.sendMessage("1. Don't grief");
+			player.sendMessage("2. Griefing includes wasting resources, you know who you are.");
+			player.sendMessage("3. Shooting someone's core with a core unit is punishable by a kick, as it blocks visibility of resource display with a warning message.");
+			player.sendMessage("4. Don't be toxic.");
+			player.sendMessage("5. No blast bombing");
+			player.sendMessage("6. Surv vs surv combat is a kickable offense");
+			player.sendMessage("7. Don't build within a survivor's territory as plague. You know what they have conquered, use your head.");
+		});
+
+		handler.<Player>register("info" ,"provides information about the plague game mode", (args, player) -> {
+			player.sendMessage("Plague is an attack like mode where the infected (purple) must build units to take out the survivors");
+			player.sendMessage("Survivors can't build units, their focus is surviving purple's units, to become a survivor place a block on the outside of the map");
+			player.sendMessage("Plague has infinite power and must attack and kill survivors (20 minutes for unit control)");
+		});
+
+		// Kick a player from the team
         handler.<Player>register("teamkick", "<player>", "Kick a player from your team", (args, player) -> {
         
         Groups.player.each(p ->{
-        	
         	if(Strings.stripColors(p.name).equalsIgnoreCase(args[0])) {
-        		
         		kickedPlayer = p;
         	}
         });
-        
         	if(kickedPlayer == null) {
         		player.sendMessage("No player with such name");
         	} else {
@@ -449,8 +365,6 @@ public class FPlagueBasic extends Plugin {
         			} else {
         				kickedPlayer.team(Team.sharded);
         			}
-        			
-        			
         			Tile playerCore = playerCores.get(kickedPlayer.uuid());
         			playerCore.setNet(Blocks.air);
         		    playerCores.remove(kickedPlayer.uuid());
@@ -462,9 +376,6 @@ public class FPlagueBasic extends Plugin {
         	}
         	kickedPlayer = null;	
         });
-         
-        
-        
 
         // It shows how long a round has lasted duh
         handler.<Player>register("time", "Check how long game has lasted", (args, player) -> {
@@ -475,97 +386,80 @@ public class FPlagueBasic extends Plugin {
         // Kills currently controlled unit
         handler.<Player>register("kill", "Kills currently controlled unit", (args, player) -> {
         	player.unit().kill();
-
         });
-        
-        
+
         // Respawns unit
         handler.<Player>register("respawn", "Respawn your gamma if bugged as sharded", (args, player) -> {
-        if(player.team() == Team.sharded) {
-        	if(!player.unit().isNull()) {
-        		player.unit().kill();
-        	}
-        	
-        Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() * 4, Vars.world.height() * 4);
-		player.unit(spawnunit);
-		
-        }
+			if(player.team() == Team.sharded) {
+				if(!player.unit().isNull()) {
+					player.unit().kill();
+				}
+				Unit spawnunit = UnitTypes.gamma.spawn(Team.purple, Vars.world.width() * 4, Vars.world.height() * 4);
+				player.unit(spawnunit);
+			}
         });
-        
-        
-        
-        
         
         // Start voting to select next map or see all maps
         handler.<Player>register("rtv", "[MapNumber]" ,"Vote for next map or see all maps", (args, player) -> {
-        	if(args.length == 1) {
-        	
-            Seq<mindustry.maps.Map> allcustommaps = mindustry.Vars.maps.customMaps();
-        	if(!playersThatVoted.contains(player.name)) {
-        	
-        	if(args[0].matches("[0-9]+")) {
-        		try {
-                    int votednumber = Integer.parseInt(args[0]) - 1;
-                    mapvotes[votednumber]++;
-                    player.sendMessage("You voted for map " + allcustommaps.get(votednumber).name());
-                    playersThatVoted.add(player.name);                 
-                } catch(Exception e) {
-                    player.sendMessage("Vote failed");
-                }
-        		
-        	}
-        	
-        	} else {
-        		player.sendMessage("You already voted");
-        	}
-        } else {
-        	int mapnumber = 0;
-        	player.sendMessage("All maps:");
-        	Seq<mindustry.maps.Map> list = mindustry.Vars.maps.customMaps();
-        	
-        	for(mindustry.maps.Map map : list) {
-        		mapnumber++;
-        		player.sendMessage(mapnumber + " " + map.name());
-        	}
-        }
-        	
-            });
+			if(args.length == 1) {
+
+				Seq<mindustry.maps.Map> allcustommaps = mindustry.Vars.maps.customMaps();
+				if(!playersThatVoted.contains(player.name)) {
+					if(args[0].matches("[0-9]+")) {
+						try {
+							int votednumber = Integer.parseInt(args[0]) - 1;
+							mapvotes[votednumber]++;
+							player.sendMessage("You voted for map " + allcustommaps.get(votednumber).name());
+							playersThatVoted.add(player.name);
+						} catch(Exception e) {
+							player.sendMessage("Vote failed");
+						}
+					}
+				} else {
+					player.sendMessage("You already voted");
+				}
+			} else {
+				int mapnumber = 0;
+				player.sendMessage("All maps:");
+				Seq<mindustry.maps.Map> list = mindustry.Vars.maps.customMaps();
+
+				for(mindustry.maps.Map map : list) {
+					mapnumber++;
+					player.sendMessage(mapnumber + " " + map.name());
+				}
+			}
+		});
         
         // How do I explain.. if 4/5th of players voted then game ends
         handler.<Player>register("endgame", "[purple] Vote for the game to end", (args, player) -> { 	
         	
         	if(Have120SecondsPassed) {
-        	if(gameovervotes.contains(player.name)) {
-        	  		gameovervotes.remove(player.name);
-        	  	} else {
-        	  		gameovervotes.add(player.name);
-        	  	}
-        		totalplayers = 0;
-        	  	Groups.player.each(p -> {
-        	  		totalplayers++;
-        	  	});
-        	  	
-        	  	Groups.player.each(p -> {
-        	  		if(totalplayers <= 5) {
-        	  			p.sendMessage("[yellow] There are currently [purple]" + gameovervotes.size() + "[yellow] of [purple]" + 2 + "[yellow] votes to end the game. Vote with /endgame");
-        	  		} else {
-        	  		p.sendMessage("[yellow] There are currently [purple]" + gameovervotes.size() + "[yellow] of [purple]" + (totalplayers / 5 * 4) + "[yellow] votes to end the game. Vote with /endgame");
-        	  		}
-        	  	});
-        	  	
-        	  	
-        	  	if(totalplayers <= 5) {
-        	  	
-        	  		if(gameovervotes.size() >= 2) {
-        	  		Events.fire(new GameOverEvent(Team.purple));
-        	  		}
-        	  		
-        	  	} else if((totalplayers / 5 * 4) <= gameovervotes.size()) {
-        	  		Events.fire(new GameOverEvent(Team.purple));
-        	  	}
-        	  	
-        	  	
-        }
+				if(gameovervotes.contains(player.name)) {
+						gameovervotes.remove(player.name);
+				} else {
+					gameovervotes.add(player.name);
+				}
+				totalplayers = 0;
+				Groups.player.each(p -> {
+					totalplayers++;
+				});
+
+				Groups.player.each(p -> {
+					if(totalplayers <= 5) {
+						p.sendMessage("[yellow] There are currently [purple]" + gameovervotes.size() + "[yellow] of [purple]" + 2 + "[yellow] votes to end the game. Vote with /endgame");
+					} else {
+						p.sendMessage("[yellow] There are currently [purple]" + gameovervotes.size() + "[yellow] of [purple]" + (totalplayers / 5 * 4) + "[yellow] votes to end the game. Vote with /endgame");
+					}
+				});
+
+				if(totalplayers <= 5) {
+					if(gameovervotes.size() >= 2) {
+						Events.fire(new GameOverEvent(Team.purple));
+					}
+				} else if((totalplayers / 5 * 4) <= gameovervotes.size()) {
+					Events.fire(new GameOverEvent(Team.purple));
+				}
+			}
         });
         
         
@@ -573,7 +467,7 @@ public class FPlagueBasic extends Plugin {
         // Gameover command for admins
         handler.<Player>register("gameover", "Ends round,Admin only", (args, player) -> {
         	if(player.admin() == true) {
-        	Events.fire(new GameOverEvent(Team.purple));
+        		Events.fire(new GameOverEvent(Team.purple));
         	}
         });
         
@@ -583,56 +477,35 @@ public class FPlagueBasic extends Plugin {
         	for(int x = 0; x < Vars.world.width(); x++) {
 				for(int y = 0; y < Vars.world.height(); y++) {
 					if(Vars.world.tile(x, y).block() == Blocks.coreShard || Vars.world.tile(x, y).block() == Blocks.coreFoundation || Vars.world.tile(x, y).block() == Blocks.coreNucleus) {
-					if(Vars.world.tile(x, y).build.team != Team.purple) {
-						cores.add("There is a surv core");
+						if(Vars.world.tile(x, y).build.team != Team.purple) {
+							cores.add("There is a surv core");
+						}
 					}
-					}
-					
 				}
 			}
         	
         	if(cores.isEmpty() && !Vars.state.gameOver && Have120SecondsPassed) {
 				Events.fire(new GameOverEvent(Team.purple));
 			}
-			
 			cores.clear();
         	
         	
         });
-        
-        handler.<Player>register("playerlist", "Shows all players and their team", (args, player) -> {
-        	Groups.player.each(p -> {
-        		if(p.team() != Team.crux) {
-        			if(leaders.contains(p.uuid())) {
-        				player.sendMessage("[red]" + p.name + "(Leader)" + " [yellow]Team ID:" + p.team().id);
-        			} else {
-        				player.sendMessage("[red]" + p.name + " [yellow]Team ID:" + p.team().id);
-        			}
-        			
-        			
-        		}
-        	});
 
-        });
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
-	
-	
-	
-	
-	
-	
-	
+		handler.<Player>register("playerlist", "Shows all players and their team", (args, player) -> {
+			Groups.player.each(p -> {
+				if(p.team() != Team.crux) {
+					if(leaders.contains(p.uuid())) {
+						player.sendMessage("[red]" + p.name + "(Leader)" + " [yellow]Team ID:" + p.team().id);
+					} else {
+						player.sendMessage("[red]" + p.name + " [yellow]Team ID:" + p.team().id);
+					}
+				}
+			});
+		});
+
+	}
+
 	//this thing has more than rules as you can see lmao
 	void init_rules(){
 		
@@ -679,39 +552,8 @@ public class FPlagueBasic extends Plugin {
         
         //foreshadow build damage removed cus yes
         ((ItemTurret) Blocks.foreshadow).ammoTypes.get(Items.surgeAlloy).buildingDamageMultiplier = 0;
-        
-        
-        	
-        
-        
-       
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-        
-
-
-        
     }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	public mindustry.maps.Map findmap(String mapname) {
 		mindustry.maps.Map findMap;
 		findMap = maps.all().find(map -> Strings.stripColors(map.name().replace('_', ' ')).equalsIgnoreCase(Strings.stripColors(mapname)));
@@ -726,30 +568,28 @@ public class FPlagueBasic extends Plugin {
 		Seq<mindustry.maps.Map> allmaps = mindustry.Vars.maps.customMaps();
 		int max = -1;
 		for(int i = 0; i < 10; i++){
-		  if(mapvotes[i]>(max == -1 ? 0 : mapvotes[max])){
-		    max=i;
-		  }
+			if(mapvotes[i]>(max == -1 ? 0 : mapvotes[max])){
+				max=i;
+			}
 		}
 		        
 		if(max != -1){
-		  mapvotes = new int[]{0,0,0,0,0,0,0,0,0,0};
-		  selectedMap = allmaps.get(max);
-		  return allmaps.get(max);
+			mapvotes = new int[]{0,0,0,0,0,0,0,0,0,0};
+			selectedMap = allmaps.get(max);
+			return allmaps.get(max);
 		} else {
-		  return null;
+			return null;
 		}
-		
-		
 	}
 	
 	public float closestCore(int playerx, int playery, Team team) {
 		CoreBlock.CoreBuild nearestCoreTeam0 = Vars.state.teams.closestCore(playerx / 8, playery / 8, team);
-		if(nearestCoreTeam0 != null){
-			
-    	float nearestCoreCartTeam0 = cartesianDistance(floatToShort(playerx / 8), floatToShort(playery / 8), nearestCoreTeam0.tileX(), nearestCoreTeam0.tileY());
-    	return nearestCoreCartTeam0;
-		} else return 1000;
-		
+		if(nearestCoreTeam0 != null) {
+			float nearestCoreCartTeam0 = cartesianDistance(floatToShort(playerx / 8), floatToShort(playery / 8), nearestCoreTeam0.tileX(), nearestCoreTeam0.tileY());
+			return nearestCoreCartTeam0;
+		} else {
+			return 1000;
+		}
 	}
 	
 	public static short floatToShort(float x) {
@@ -765,7 +605,4 @@ public class FPlagueBasic extends Plugin {
 	public float cartesianDistance(float x, float y, float cx, float cy){
         return (float) Math.sqrt(Math.pow(x - cx, 2) + Math.pow(y - cy, 2) );
     }
-	
-	
-	
 }
