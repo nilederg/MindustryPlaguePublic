@@ -10,10 +10,5 @@ public class TeamNPass {
 	public TeamNPass(int teamid, String password) {
 		this.teamid = teamid;
 		this.password = password;
-		
 	}
-	
-	
-	
-	
 }
