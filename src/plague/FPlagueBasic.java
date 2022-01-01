@@ -177,7 +177,7 @@ public class FPlagueBasic extends Plugin {
 		// Make core from vault using 1k thorium 
 		Events.on(TapEvent.class, event -> {
 			if(event.tile.block() == Blocks.vault) {
-				if(event.tile.build.items().has(Items.thorium, 1000) && event.player.team() != Team.purple) {
+				if(event.tile.build.items().has(Items.thorium, 1000) && event.player.team() != Team.purple && event.tile.build.team == event.player.team()) {
 					Vars.world.tile(event.tile.build.tileX(), event.tile.build.tileY()).setNet(Blocks.coreShard, event.player.team(), 0);
 				}
 			}
@@ -263,9 +263,9 @@ public class FPlagueBasic extends Plugin {
             		 
                 			 
                 	playerCores.forEach((p, core) -> {
-                		System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));		
+                		//System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));		
                 	if(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y) < distanceaway + 80) {
-                		System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));
+                		//System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));
                 		teamProximityCore = Vars.world.tile(core.x, core.y).build.team;       				
                     }
                 					
