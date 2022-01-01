@@ -224,56 +224,42 @@ public class FPlagueBasic extends Plugin {
 					}
             	
             
-          if(closestcores.isEmpty() == true) {
-              playerCores.forEach((p, core) -> {
-                  //System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));		
-                  if(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y) < distanceaway + 80) {
-                      //System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));
-                      teamProximityCore = Vars.world.tile(core.x, core.y).build.team;       				
-                  }					
-              });
-                				
-                				
-                				
-                			
-            				
-                		
-            			
-            		
-            		
-            		
-            		
-            		
-            		if(teamProximityCore != null) {
-            			event.builder.getPlayer().team(teamProximityCore);
-                		Call.setRules(event.builder.getPlayer().con, survivorBanned);
-                		event.tile.setNet(Blocks.coreFoundation, Team.all[teamProximityCore.id], 0);
-                		for(ItemStack stack : rules.loadout) {
-            				Call.setItem(event.tile.build, stack.item, stack.amount);    			
-            			}
-                		playerCores.put(event.builder.getPlayer().uuid(), event.tile);
-                		
-            		} else {
-            			event.builder.getPlayer().team(chosenteam);
-                		Call.setRules(event.builder.getPlayer().con, survivorBanned);
-                		event.tile.setNet(Blocks.coreFoundation, Team.all[randomTeamNumber], 0);
-                		for(ItemStack stack : rules.loadout) {
-            				Call.setItem(event.tile.build, stack.item, stack.amount);    			
-            			}
-                		playerCores.put(event.builder.getPlayer().uuid(), event.tile);
-                		leaders.add(event.builder.getPlayer().uuid());
-            		}
+					if(closestcores.isEmpty() == true) {
+						playerCores.forEach((p, core) -> {
+							//System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));
+							if(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y) < distanceaway + 80) {
+								//System.out.println(cartesianDistance(event.tile.x, event.tile.y, core.x, core.y));
+								teamProximityCore = Vars.world.tile(core.x, core.y).build.team;
+							}
+						});
+
+						if(teamProximityCore != null) {
+							event.builder.getPlayer().team(teamProximityCore);
+							Call.setRules(event.builder.getPlayer().con, survivorBanned);
+							event.tile.setNet(Blocks.coreFoundation, Team.all[teamProximityCore.id], 0);
+							for(ItemStack stack : rules.loadout) {
+								Call.setItem(event.tile.build, stack.item, stack.amount);
+							}
+								playerCores.put(event.builder.getPlayer().uuid(), event.tile);
+
+						} else {
+							event.builder.getPlayer().team(chosenteam);
+							Call.setRules(event.builder.getPlayer().con, survivorBanned);
+							event.tile.setNet(Blocks.coreFoundation, Team.all[randomTeamNumber], 0);
+							for(ItemStack stack : rules.loadout) {
+								Call.setItem(event.tile.build, stack.item, stack.amount);
+							}
+							playerCores.put(event.builder.getPlayer().uuid(), event.tile);
+							leaders.add(event.builder.getPlayer().uuid());
+						}
+					}
 				}
-			}
-        	teamcores.clear();
-        	closestcores.clear();
-        	teamProximityCore = null;
+				teamcores.clear();
+				closestcores.clear();
+				teamProximityCore = null;
         	}
         });
-		
-		
-		
-		
+
 		// Some maps have power infs outside of no build oh well invincibility time
 		Events.on(BlockDestroyEvent.class, event -> {
 	          if(event.tile.block() == Blocks.powerSource) {
