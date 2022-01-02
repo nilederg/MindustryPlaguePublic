@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import arc.Events;
 import mindustry.Vars;
 import mindustry.content.Blocks;
+import mindustry.content.Items;
 import mindustry.content.UnitTypes;
 import mindustry.game.Team;
 import mindustry.game.EventType.GameOverEvent;
@@ -134,7 +135,7 @@ public class PlagueTime {
     	    UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * (float) modifier;
     	   
     	    UnitTypes.crawler.weapons.get(0).bullet.splashDamage = defaultcrawlerdamage0 * (float) modifier;
-      	    UnitTypes.crawler.weapons.get(0).bullet.splashDamageRadius = defaultcrawlerdamageradius0 * (float) modifier;
+      	    UnitTypes.crawler.weapons.get(0).bullet.splashDamageRadius = defaultcrawlerdamageradius0 * (float) modifier * 10;
     	   
     	    UnitTypes.dagger.weapons.get(0).bullet.damage = defaultdaggerdamage0 * (float) modifier;
     	    UnitTypes.dagger.weapons.get(1).bullet.damage = defaultdaggerdamage1 * (float) modifier;
@@ -258,6 +259,13 @@ public class PlagueTime {
 				w.bullet.damage = 0;
 				w.bullet.splashDamage = 0;
 			 }
+			 Groups.unit.each(u -> {
+				 if(u.type == UnitTypes.mono) {
+					 u.team.items().add(Items.copper, 750);
+					 u.team.items().add(Items.lead, 750);
+					 u.kill();
+				 }
+			 });
             this.cancel();
         }
         // Below will be disabled damage but weapons aren't deleted like on other units

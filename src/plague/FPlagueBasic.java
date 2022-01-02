@@ -67,6 +67,7 @@ public class FPlagueBasic extends Plugin {
     public void init(){
 		// Start all plague unit multipliers in x seconds and time before all teamless are turned to plague
 		new PlagueTime(120);
+		
 		rules.canGameOver = false; //I have my own way to game over
 		rules.reactorExplosions = false; // I wonder,nah plague op
 		rules.buildSpeedMultiplier = 5; // game goes faster brr
@@ -79,7 +80,7 @@ public class FPlagueBasic extends Plugin {
 		init_rules();
 		//load events
 		Events.on(EventType.ServerLoadEvent.class, event -> System.out.println("events loaded!"));
-
+		
 		// Prevents destroying of power source 
 		netServer.admins.addActionFilter((action) ->{
 			if(action.block != null && action.block == Blocks.powerSource && action.type == ActionType.breakBlock){
@@ -516,12 +517,14 @@ public class FPlagueBasic extends Plugin {
 	//this thing has more than rules as you can see lmao
 	void init_rules(){
 		
-		rules.canGameOver = false; //I have my own way to game over
-		rules.reactorExplosions = false; // I wonder,nah plague op
-		rules.buildSpeedMultiplier = 4; // game goes faster brr
-		rules.fire = false; // Obvious
-		rules.logicUnitBuild = false; // You know why
-		rules.damageExplosions = false; // NO NO NO
+		Vars.state.rules.canGameOver = false; //I have my own way to game over
+		Vars.state.rules.reactorExplosions = false; // I wonder,nah plague op
+		Vars.state.rules.buildSpeedMultiplier = 5; // game goes faster brr
+		Vars.state.rules.fire = false; // Obvious
+		Vars.state.rules.logicUnitBuild = false; // You know why
+		Vars.state.rules.damageExplosions = false; // NO NO NO
+		Vars.state.rules.unitCap = 100; // lag prevention
+		Vars.state.rules.unitCapVariable = false; // so cap wont change if core is upgraded
 		
 				
         survivorBanned = rules.copy();
