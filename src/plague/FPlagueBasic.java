@@ -537,6 +537,10 @@ public class FPlagueBasic extends Plugin {
         UnitTypes.beta.weapons.clear();
         UnitTypes.gamma.weapons.clear();
         UnitTypes.flare.weapons.clear();
+        UnitTypes.horizon.weapons.clear();
+        UnitTypes.zenith.weapons.clear();
+        UnitTypes.antumbra.weapons.clear();
+        UnitTypes.eclipse.weapons.clear();
         UnitTypes.horizon.abilities.clear();
         UnitTypes.alpha.health = 1;
         UnitTypes.beta.health = 1;
