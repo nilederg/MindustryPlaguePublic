@@ -19,6 +19,7 @@ import mindustry.content.Blocks;
 
 import mindustry.content.Items;
 import mindustry.content.UnitTypes;
+import mindustry.game.EventType;
 import mindustry.game.EventType.BlockDestroyEvent;
 import mindustry.game.EventType.BuildSelectEvent;
 import mindustry.game.EventType.GameOverEvent;
@@ -68,12 +69,16 @@ public class FPlagueBasic extends Plugin {
 		new PlagueTime(120);
 		rules.canGameOver = false; //I have my own way to game over
 		rules.reactorExplosions = false; // I wonder,nah plague op
-		rules.buildSpeedMultiplier = 4; // game goes faster brr
+		rules.buildSpeedMultiplier = 5; // game goes faster brr
 		rules.fire = false; // Obvious
 		rules.logicUnitBuild = false; // You know why
 		rules.damageExplosions = false; // NO NO NO
+		rules.unitCap = 100; // lag prevention
+		rules.unitCapVariable = false; // so cap wont change if core is upgraded
 		mapvotes = new int[]{0,0,0,0,0,0,0,0,0,0};
 		init_rules();
+		//load events
+		Events.on(EventType.ServerLoadEvent.class, event -> System.out.println("events loaded!"));
 
 		// Prevents destroying of power source 
 		netServer.admins.addActionFilter((action) ->{
@@ -145,7 +150,7 @@ public class FPlagueBasic extends Plugin {
 		// Make core from vault using 1k thorium 
 		Events.on(TapEvent.class, event -> {
 			if(event.tile.block() == Blocks.vault) {
-				if(event.tile.build.items().has(Items.thorium, 1000) && event.player.team() != Team.purple && event.tile.build.team == event.player.team()) {
+				if(event.tile.build.items().has(Items.thorium, 1000) && event.tile.build.team() != Team.purple && event.tile.build.team == event.player.team()) {
 					Vars.world.tile(event.tile.build.tileX(), event.tile.build.tileY()).setNet(Blocks.coreShard, event.player.team(), 0);
 				}
 			}
@@ -295,7 +300,9 @@ public class FPlagueBasic extends Plugin {
 		});
 		
 		Events.on(UnitCreateEvent.class, event -> {
-			if(event.unit.type == UnitTypes.flare || event.unit.type == UnitTypes.horizon || event.unit.type == UnitTypes.zenith || event.unit.type == UnitTypes.antumbra || event.unit.type == UnitTypes.eclipse) {
+			if(event.unit.type == UnitTypes.mono) {
+				event.unit.team.items().add(Items.lead, 800);
+				event.unit.team.items().add(Items.copper, 750);
 				event.unit.kill();
 			}
 		});
