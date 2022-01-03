@@ -109,13 +109,8 @@ public class PlagueTime {
     	   	UnitTypes.vela.health = defaultvelahealth * (float) modifier;
     	   	UnitTypes.zenith.health = defaultzenithhealth * (float) modifier;
 
-    	   	UnitTypes.antumbra.weapons.get(0).bullet.damage = defaultantumbradamage0 * (float) modifier;
-    	   	UnitTypes.antumbra.weapons.get(1).bullet.damage = defaultantumbradamage1 * (float) modifier;
-    	   	UnitTypes.antumbra.weapons.get(2).bullet.damage = defaultantumbradamage2 * (float) modifier;
-    	   	UnitTypes.antumbra.weapons.get(3).bullet.damage = defaultantumbradamage3 * (float) modifier;
-    	   	UnitTypes.antumbra.weapons.get(4).bullet.damage = defaultantumbradamage4 * (float) modifier;
-    	   	UnitTypes.antumbra.weapons.get(5).bullet.damage = defaultantumbradamage5 * (float) modifier;
-
+    	   	UnitTypes.antumbra.weapons.clear();
+    	   	
     	    UnitTypes.arkyid.weapons.get(0).bullet.damage = defaultarkyiddamage0 * (float) modifier;
     	    UnitTypes.arkyid.weapons.get(1).bullet.damage = defaultarkyiddamage1 * (float) modifier;
     	    UnitTypes.arkyid.weapons.get(2).bullet.damage = defaultarkyiddamage2 * (float) modifier;
@@ -140,13 +135,8 @@ public class PlagueTime {
     	    UnitTypes.dagger.weapons.get(0).bullet.damage = defaultdaggerdamage0 * (float) modifier;
     	    UnitTypes.dagger.weapons.get(1).bullet.damage = defaultdaggerdamage1 * (float) modifier;
     	   
-    	    UnitTypes.eclipse.weapons.get(0).bullet.damage = defaulteclipsedamage0 * (float) modifier;
-    	    UnitTypes.eclipse.weapons.get(1).bullet.damage = defaulteclipsedamage1 * (float) modifier;
-    	    UnitTypes.eclipse.weapons.get(2).bullet.damage = defaulteclipsedamage2 * (float) modifier;
-    	    UnitTypes.eclipse.weapons.get(3).bullet.damage = defaulteclipsedamage3 * (float) modifier;
-    	    UnitTypes.eclipse.weapons.get(4).bullet.damage = defaulteclipsedamage4 * (float) modifier;
-    	    UnitTypes.eclipse.weapons.get(5).bullet.damage = defaulteclipsedamage5 * (float) modifier;
-    	   
+    	    UnitTypes.eclipse.weapons.clear();
+    	    
     	    UnitTypes.fortress.weapons.get(0).bullet.damage = defaultfortressdamage0 * (float) modifier;
     	    UnitTypes.fortress.weapons.get(1).bullet.damage = defaultfortressdamage1 * (float) modifier;
     	   
@@ -156,11 +146,8 @@ public class PlagueTime {
     	    UnitTypes.mace.weapons.get(1).bullet.damage = defaultmacedamage1 * (float) modifier;
     	   
     	   
-    	    UnitTypes.mega.weapons.get(0).bullet.damage = defaultmegadamage0 * (float) modifier;
-    	    UnitTypes.mega.weapons.get(1).bullet.damage = defaultmegadamage1 * (float) modifier;
-    	    UnitTypes.mega.weapons.get(2).bullet.damage = defaultmegadamage2 * (float) modifier;
-    	    UnitTypes.mega.weapons.get(3).bullet.damage = defaultmegadamage3 * (float) modifier;
-    	   
+    	    UnitTypes.mega.weapons.clear();
+    	    
     	    UnitTypes.minke.weapons.get(0).bullet.damage = defaultminkedamage0 * (float) modifier;
     	    UnitTypes.minke.weapons.get(1).bullet.damage = defaultminkedamage1 * (float) modifier;
     	    UnitTypes.minke.weapons.get(2).bullet.damage = defaultminkedamage2 * (float) modifier;
@@ -173,14 +160,13 @@ public class PlagueTime {
     	   
     	    UnitTypes.omura.weapons.get(0).bullet.damage = defaultomuradamage0 * (float) modifier;
 
-    	    UnitTypes.poly.weapons.get(0).bullet.damage = defaultpolydamage0 * (float) modifier;
-    	    UnitTypes.poly.weapons.get(1).bullet.damage = defaultpolydamage1 * (float) modifier;
-    	   
+    	    UnitTypes.poly.weapons.clear();
+    	    
     	    UnitTypes.pulsar.weapons.get(0).bullet.damage = defaultpulsardamage0 * (float) modifier;
     	    UnitTypes.pulsar.weapons.get(1).bullet.damage = defaultpulsardamage1 * (float) modifier;
     	   
-    	    UnitTypes.quad.weapons.get(0).bullet.damage = defaultquaddamage0 * (float) modifier;
-
+    	    UnitTypes.quad.weapons.clear();
+    	    
     	    UnitTypes.quasar.weapons.get(0).bullet.damage = defaultquasardamage0 * (float) modifier;
     	    UnitTypes.quasar.weapons.get(1).bullet.damage = defaultquasardamage1 * (float) modifier;
     	   
@@ -213,9 +199,7 @@ public class PlagueTime {
     	   
     	    UnitTypes.vela.weapons.get(0).bullet.damage = defaultveladamage0 * (float) modifier;
     	   
-    	    UnitTypes.zenith.weapons.get(0).bullet.damage =	defaultzenithdamage0 * (float) modifier;
-    	    UnitTypes.zenith.weapons.get(1).bullet.damage = defaultzenithdamage1 * (float) modifier;
-    	   
+    	    UnitTypes.zenith.weapons.clear();
     	    
     	    
      	    // ^^^ You read it you monster
@@ -227,38 +211,7 @@ public class PlagueTime {
       		});
      	 	multiplier1.schedule(new UnitMultiplier(), 600 * 1000);
      	 
-			 for(Weapon w : UnitTypes.mega.weapons) {
-				 w.bullet.damage = 0;
-				 w.bullet.splashDamage = 0;
-			 }
-			 for(Weapon w : UnitTypes.quad.weapons) {
-				 w.bullet.damage = 0;
-				 w.bullet.splashDamage = 0;
-			 }
-			 for(Weapon w : UnitTypes.poly.weapons) {
-				 w.bullet.damage = 0;
-				 w.bullet.splashDamage = 0;
-			 }
-			 for(Weapon w : UnitTypes.flare.weapons) {
-				w.bullet.damage = 0;
-				w.bullet.splashDamage = 0;
-			 }
-			 for(Weapon w : UnitTypes.horizon.weapons) {
-				w.bullet.damage = 0;
-				w.bullet.splashDamage = 0;
-			 }
-			 for(Weapon w : UnitTypes.zenith.weapons) {
-				w.bullet.damage = 0;
-				w.bullet.splashDamage = 0;
-			 }
-			 for(Weapon w : UnitTypes.antumbra.weapons) {
-				w.bullet.damage = 0;
-				w.bullet.splashDamage = 0;
-			 }
-			 for(Weapon w : UnitTypes.eclipse.weapons) {
-				w.bullet.damage = 0;
-				w.bullet.splashDamage = 0;
-			 }
+			 
 			 Groups.unit.each(u -> {
 				 if(u.type == UnitTypes.mono) {
 					 u.team.items().add(Items.copper, 750);
@@ -314,13 +267,8 @@ public class PlagueTime {
 
 	   
 	   
-	   	UnitTypes.antumbra.weapons.get(0).bullet.damage = defaultantumbradamage0;
-	   	UnitTypes.antumbra.weapons.get(1).bullet.damage = defaultantumbradamage1;
-	   	UnitTypes.antumbra.weapons.get(2).bullet.damage = defaultantumbradamage2;
-	   	UnitTypes.antumbra.weapons.get(3).bullet.damage = defaultantumbradamage3;
-	   	UnitTypes.antumbra.weapons.get(4).bullet.damage = defaultantumbradamage4;
-	   	UnitTypes.antumbra.weapons.get(5).bullet.damage = defaultantumbradamage5;
-   
+	   	UnitTypes.antumbra.weapons.clear();
+	   	
 	    UnitTypes.arkyid.weapons.get(0).bullet.damage = defaultarkyiddamage0;
 	    UnitTypes.arkyid.weapons.get(1).bullet.damage = defaultarkyiddamage1;
 	    UnitTypes.arkyid.weapons.get(2).bullet.damage = defaultarkyiddamage2;
@@ -345,13 +293,8 @@ public class PlagueTime {
 	    UnitTypes.dagger.weapons.get(0).bullet.damage = defaultdaggerdamage0;
 	    UnitTypes.dagger.weapons.get(1).bullet.damage = defaultdaggerdamage1;
 	   
-	    UnitTypes.eclipse.weapons.get(0).bullet.damage = defaulteclipsedamage0;
-	    UnitTypes.eclipse.weapons.get(1).bullet.damage = defaulteclipsedamage1;
-	    UnitTypes.eclipse.weapons.get(2).bullet.damage = defaulteclipsedamage2;
-	    UnitTypes.eclipse.weapons.get(3).bullet.damage = defaulteclipsedamage3;
-	    UnitTypes.eclipse.weapons.get(4).bullet.damage = defaulteclipsedamage4;
-	    UnitTypes.eclipse.weapons.get(5).bullet.damage = defaulteclipsedamage5;
-	   
+	    UnitTypes.eclipse.weapons.clear();
+	    
 	    UnitTypes.fortress.weapons.get(0).bullet.damage = defaultfortressdamage0;
 	    UnitTypes.fortress.weapons.get(1).bullet.damage = defaultfortressdamage1;
 	   
@@ -361,11 +304,8 @@ public class PlagueTime {
 	    UnitTypes.mace.weapons.get(1).bullet.damage = defaultmacedamage1;
 	   
 	   
-	    UnitTypes.mega.weapons.get(0).bullet.damage = defaultmegadamage0;
-	    UnitTypes.mega.weapons.get(1).bullet.damage = defaultmegadamage1;
-	    UnitTypes.mega.weapons.get(2).bullet.damage = defaultmegadamage2;
-	    UnitTypes.mega.weapons.get(3).bullet.damage = defaultmegadamage3;
-	   
+	    UnitTypes.mega.weapons.clear();
+	    
 	    UnitTypes.minke.weapons.get(0).bullet.damage = defaultminkedamage0;
 	    UnitTypes.minke.weapons.get(1).bullet.damage = defaultminkedamage1;
 	    UnitTypes.minke.weapons.get(2).bullet.damage = defaultminkedamage2;
@@ -378,14 +318,13 @@ public class PlagueTime {
 	   
 	    UnitTypes.omura.weapons.get(0).bullet.damage = defaultomuradamage0;
 
-	    UnitTypes.poly.weapons.get(0).bullet.damage = defaultpolydamage0;
-	    UnitTypes.poly.weapons.get(1).bullet.damage = defaultpolydamage1;
-	   
+	    UnitTypes.poly.weapons.clear();
+	    
 	    UnitTypes.pulsar.weapons.get(0).bullet.damage = defaultpulsardamage0;
 	    UnitTypes.pulsar.weapons.get(1).bullet.damage = defaultpulsardamage1;
 	   
-	    UnitTypes.quad.weapons.get(0).bullet.damage = defaultquaddamage0;
-
+	    UnitTypes.quad.weapons.clear();
+	    
 	    UnitTypes.quasar.weapons.get(0).bullet.damage = defaultquasardamage0;
 	    UnitTypes.quasar.weapons.get(1).bullet.damage = defaultquasardamage1;
 	   
@@ -418,8 +357,7 @@ public class PlagueTime {
 	   
 	    UnitTypes.vela.weapons.get(0).bullet.damage = defaultveladamage0;
 	   
-	    UnitTypes.zenith.weapons.get(0).bullet.damage =	defaultzenithdamage0;
-	    UnitTypes.zenith.weapons.get(1).bullet.damage = defaultzenithdamage1;
+	    UnitTypes.zenith.weapons.clear();
    	}
 
 	// Default units cause trouble SMH
