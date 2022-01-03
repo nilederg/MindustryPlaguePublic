@@ -223,7 +223,7 @@ public class FPlagueBasic extends Plugin {
 							CoreBlock.CoreBuild nearestEnemyCore = Vars.state.teams.closestCore(event.builder.getPlayer().x / 8, event.builder.getPlayer().y / 8, t);
 							if(nearestEnemyCore != null) {
 								if(cartesianDistance(event.builder.getPlayer().x / 8, event.builder.getPlayer().y / 8, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()) < distanceaway) {
-									closestcores.add(cartesianDistance(event.builder.getPlayer().x, event.builder.getPlayer().y, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()));
+									//closestcores.add(cartesianDistance(event.builder.getPlayer().x, event.builder.getPlayer().y, nearestEnemyCore.tileX(), nearestEnemyCore.tileY()));
 								}
 							}
 						}
@@ -525,7 +525,6 @@ public class FPlagueBasic extends Plugin {
 		Vars.state.rules.damageExplosions = false; // NO NO NO
 		Vars.state.rules.unitCap = 100; // lag prevention
 		Vars.state.rules.unitCapVariable = false; // so cap wont change if core is upgraded
-		
 				
         survivorBanned = rules.copy();
         survivorBanned.bannedBlocks.addAll(Blocks.groundFactory, Blocks.navalFactory, Blocks.commandCenter, Blocks.multiplicativeReconstructor);
