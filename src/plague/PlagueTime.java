@@ -130,7 +130,6 @@ public class PlagueTime {
     	    UnitTypes.corvus.weapons.get(0).bullet.damage = defaultcorvusdamage0 * (float) modifier;
     	   
     	    UnitTypes.crawler.weapons.get(0).bullet.splashDamage = defaultcrawlerdamage0 * (float) modifier;
-      	    UnitTypes.crawler.weapons.get(0).bullet.splashDamageRadius = defaultcrawlerdamageradius0 * (float) modifier * 10;
     	   
     	    UnitTypes.dagger.weapons.get(0).bullet.damage = defaultdaggerdamage0 * (float) modifier;
     	    UnitTypes.dagger.weapons.get(1).bullet.damage = defaultdaggerdamage1 * (float) modifier;
