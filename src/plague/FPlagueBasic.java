@@ -58,8 +58,10 @@ public class FPlagueBasic extends Plugin {
 	ArrayList<Tile> plagueCores = new ArrayList<Tile>();
 	HashMap<String, Tile> playerCores = new HashMap<String, Tile>();
 	ArrayList<String> leaders = new ArrayList<String>();
+	HashMap<Integer, ArrayList<String>> invitedPlayers = new HashMap<Integer, ArrayList<String>>();
 	// I need this here cus java
 	Player kickedPlayer = null;
+	Player invitedPlayer = null;
 	Team teamProximityCore = null;
 	PlayerList players = new PlayerList();
 
@@ -384,6 +386,56 @@ public class FPlagueBasic extends Plugin {
         	}
         	kickedPlayer = null;	
         });
+        
+        // Invites a player to a team
+        handler.<Player>register("teaminvite", "<Player>", "Invite a player to your team", (args, player) -> {	
+        	if(leaders.contains(player.uuid())) {
+        		if(player.team() != Team.sharded && player.team() != Team.purple) {
+        			ArrayList<String> emptylist = new ArrayList<String>();
+        			Groups.player.each(p ->{
+        				if(Strings.stripColors(p.name).equalsIgnoreCase(args[0])) {
+        					invitedPlayer = p;
+        				}
+        			});
+        	
+        			if(invitedPlayer != null) {
+        				if(!invitedPlayers.containsKey(player.team().id)) {
+        					emptylist.add(invitedPlayer.name);
+        					invitedPlayers.put(player.team().id, emptylist);
+        					invitedPlayer.sendMessage("[yellow]You have been invited to team " + player.team().id);
+        				} else {
+        					emptylist = invitedPlayers.get(player.team().id);
+        					emptylist.add(invitedPlayer.name);
+        					invitedPlayers.put(player.team().id, emptylist);
+        					invitedPlayer.sendMessage("[yellow]You have been invited to team " + player.team().id);
+        				}
+        		
+        			} else {
+        				player.sendMessage("Player not found");
+        			}
+        	
+        	
+        			invitedPlayer = null;
+        		}
+        	}
+		});
+        
+        // Join a team that you have been invited to
+        handler.<Player>register("teamjoin", "<TeamID>", "Join a team you've been invited to", (args, player) -> {
+        	if(args[0].matches("[0-9]+")) {
+        		int teamid = Integer.parseInt(args[0]);
+        		if(invitedPlayers.containsKey(teamid)) {
+        			if(invitedPlayers.get(teamid).contains(player.name)) {
+        				player.team(Team.all[teamid]);
+        				player.sendMessage("[green]You have successfully joined a team");
+        			}
+        		} else {
+        			player.sendMessage("[yellow]You haven't been invited to that team");
+        		}
+        	} else {
+        		player.sendMessage("[crimson]Input wasn't a number");
+        	}
+		});
 
         // It shows how long a round has lasted duh
         handler.<Player>register("time", "Check how long game has lasted", (args, player) -> {
@@ -500,6 +552,7 @@ public class FPlagueBasic extends Plugin {
         	
         });
 
+        
 		handler.<Player>register("playerlist", "Shows all players and their team", (args, player) -> {
 			Groups.player.each(p -> {
 				if(p.team() != Team.crux) {

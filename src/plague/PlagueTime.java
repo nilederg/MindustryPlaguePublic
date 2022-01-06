@@ -140,7 +140,7 @@ public class PlagueTime {
     	    UnitTypes.fortress.weapons.get(0).bullet.damage = defaultfortressdamage0 * (float) modifier;
     	    UnitTypes.fortress.weapons.get(1).bullet.damage = defaultfortressdamage1 * (float) modifier;
     	   
-    	   	// Horizon has uneditable ability
+    	   	UnitTypes.horizon.weapons.clear();
     	   
     	    UnitTypes.mace.weapons.get(0).bullet.damage = defaultmacedamage0 * (float) modifier;
     	    UnitTypes.mace.weapons.get(1).bullet.damage = defaultmacedamage1 * (float) modifier;
@@ -298,7 +298,7 @@ public class PlagueTime {
 	    UnitTypes.fortress.weapons.get(0).bullet.damage = defaultfortressdamage0;
 	    UnitTypes.fortress.weapons.get(1).bullet.damage = defaultfortressdamage1;
 	   
-	   	// Horizon has uneditable ability
+	   	UnitTypes.horizon.weapons.clear();
 	   
 	    UnitTypes.mace.weapons.get(0).bullet.damage = defaultmacedamage0;
 	    UnitTypes.mace.weapons.get(1).bullet.damage = defaultmacedamage1;
