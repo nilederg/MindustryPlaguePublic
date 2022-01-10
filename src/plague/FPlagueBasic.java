@@ -385,37 +385,6 @@ public class FPlagueBasic extends Plugin {
 			}
 		});
 
-		// How do I explain.. if 4/5th of players voted then game ends
-		handler.<Player>register("endgame", "[purple] Vote for the game to end", (args, player) -> {
-			if(Have120SecondsPassed) {
-				if(gameovervotes.contains(player.name)) {
-					gameovervotes.remove(player.name);
-				} else {
-					gameovervotes.add(player.name);
-				}
-				totalplayers = 0;
-				Groups.player.each(p -> {
-					totalplayers++;
-				});
-
-				Groups.player.each(p -> {
-					if(totalplayers <= 5) {
-						p.sendMessage("[yellow] There are currently [purple]" + gameovervotes.size() + "[yellow] of [purple]" + 2 + "[yellow] votes to end the game. Vote with /endgame");
-					} else {
-						p.sendMessage("[yellow] There are currently [purple]" + gameovervotes.size() + "[yellow] of [purple]" + (totalplayers / 5 * 4) + "[yellow] votes to end the game. Vote with /endgame");
-					}
-				});
-
-				if(totalplayers <= 5) {
-					if(gameovervotes.size() >= 2) {
-						Events.fire(new GameOverEvent(Team.purple));
-					}
-				} else if((totalplayers / 5 * 4) <= gameovervotes.size()) {
-					Events.fire(new GameOverEvent(Team.purple));
-				}
-			}
-		});
-
 		// Gameover command for admins
 		handler.<Player>register("gameover", "Ends round,Admin only", (args, player) -> {
 			if(player.admin() == true) {
